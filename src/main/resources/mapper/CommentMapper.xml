@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.youngmok.myboard.dao.CommentMapper">
+    <insert id="commentInsert" parameterType="Comment" >
+        insert into board_comment(bno,pcno,writer,content,image_file) values (#{bno},#{pcno},#{writer},#{content},#{image_file})
+    </insert>
+
+    <select id="commentSelectList" parameterType="int" resultType="Comment">
+        SELECT cno, bno, IF(pcno = 0, cno, pcno) as pcno, content, writer, reg_date,image_file
+        FROM board_comment
+        WHERE bno = #{bno}
+        ORDER BY pcno asc, cno asc
+    </select>
+
+    <delete id="deleteComment" parameterType="map">
+        delete from board_comment where cno = #{cno} and bno = #{bno}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from board_comment
+    </delete>
+
+    <select id="commentCount" resultType="int">
+        select count(*) from board_comment where bno = #{bno}
+    </select>
+
+</mapper>

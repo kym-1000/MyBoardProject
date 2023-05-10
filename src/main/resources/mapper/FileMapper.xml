@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.youngmok.myboard.dao.FileMapper">
+
+
+    <insert id="insertFile" parameterType="ProjectFile">
+        insert into board_file(uuid,save_dir,file_name,file_type,bno,user,file_size)
+        values(#{uuid},#{save_dir},#{file_name},#{file_type},#{bno},#{user},#{file_size})
+    </insert>
+
+    <update id="profileFileModify" parameterType="ProjectFile">
+        update board_file set uuid = #{uuid}, save_dir = #{save_dir} , file_name = #{file_name} , file_type = #{file_type}, file_size = #{file_size}
+        where user = #{user}
+    </update>
+
+    <update id="boardFileModify" parameterType="ProjectFile">
+        update board_file set uuid = #{uuid}, save_dir = #{save_dir} , file_name = #{file_name} , file_type = #{file_type}, file_size = #{file_size}
+        where bno = #{bno}
+    </update>
+
+<!--    <insert id="insertProfileFile" parameterType="ProjectFile">-->
+<!--        insert into board_file(uuid,save_dir,file_name,file_type,user,file_size)-->
+<!--        values(#{uuid},#{save_dir},#{file_name},#{file_type},#{user},#{file_size})-->
+<!--    </insert>-->
+
+    <select id="selectFileList" resultType="ProjectFile">
+        select * from board_file where bno = #{bno}
+    </select>
+
+    <delete id="deleteimg" >
+
+        delete from board_file where uuid = #{uuid}
+
+    </delete>
+
+    <select id="selectFileImage" parameterType="String" resultType="ProjectFile">
+
+        select * from board_file where user = #{writer}
+
+    </select>
+
+
+</mapper>

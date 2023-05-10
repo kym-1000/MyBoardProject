@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.youngmok.myboard.dao.UserMapper">
+    <insert id="insert" parameterType="User">
+        insert into board_user(id,pwd,name,email,birth)
+        values(#{id},#{pwd},#{name},#{email},#{birth})
+    </insert>
+
+    <select id="selectLoginUser" parameterType="String" resultType="User">
+        select * from board_user where id = #{id}
+    </select>
+
+    <select id="idCheck" parameterType="String" resultType="int">
+        select count(*) from board_user where id =#{id}
+    </select>
+
+    <delete id="deleteAll">
+        delete from board_user;
+    </delete>
+
+    <select id="userCount" resultType="int">
+        select count(*) from board_user
+    </select>
+
+    <delete id="deleteUser" parameterType="String">
+        delete from board_user where id = #{id}
+    </delete>
+
+    <update id="modifyUser" parameterType="User">
+        update board_user
+        set pwd = #{pwd}, name = #{name}, email = #{email}, birth = #{birth, jdbcType=TIMESTAMP}
+        where id = #{id}
+    </update>
+
+    <select id="searchUser" parameterType="User" resultType="int">
+        select * from board_user where id = #{id} and name = #{name} and email = #{email}
+    </select>
+
+    <update id="modifyUserPwd" parameterType="User">
+        update board_user
+        set pwd = #{pwd} where id = #{id}
+    </update>
+
+</mapper>
