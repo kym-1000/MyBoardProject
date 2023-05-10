@@ -8,7 +8,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Home</title>
 	<base href="/" />
-<%--	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/main.css">--%>
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/main.css'/>">
 </head>
 <body>
