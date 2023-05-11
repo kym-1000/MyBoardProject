@@ -1,6 +1,7 @@
 package com.youngmok.myboard.service;
 
 import com.youngmok.myboard.dao.BoardDAO;
+import com.youngmok.myboard.dao.CommentDAO;
 import com.youngmok.myboard.dao.FileDAO;
 import com.youngmok.myboard.domain.BoardDTO;
 import com.youngmok.myboard.domain.BoardVO;
@@ -8,6 +9,7 @@ import com.youngmok.myboard.domain.ProjectFileVO;
 import com.youngmok.myboard.domain.SearchCondition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,10 +17,13 @@ import java.util.List;
 public class BoardServiceImpl implements BoardService{
 
     @Autowired
-    BoardDAO BDAO;
+    private BoardDAO BDAO;
 
     @Autowired
     private FileDAO FDAO;
+
+    @Autowired
+    private CommentDAO CDAO;
 
 
     @Override
@@ -87,8 +92,15 @@ public class BoardServiceImpl implements BoardService{
         return new BoardDTO(BDAO.selectBoardOne(bno),FDAO.selectFileList(bno));
     }
 
+
     @Override
     public int deleteOne(Integer bno, String writer) {
+        if(FDAO.fileCount(bno)>0){
+            FDAO.deleteFile(bno);
+        } else if(CDAO.commentCount(bno)>0){
+            CDAO.boardDeleteComment(bno);
+        }
+
         return BDAO.boardDelete(bno,writer);
     }
 

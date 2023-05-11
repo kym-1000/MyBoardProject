@@ -41,5 +41,13 @@
 
     </select>
 
+    <delete id="deleteFile" parameterType="int">
+        delete from board_file where bno = #{bno}
+    </delete>
+
+    <select id="fileCount" parameterType="int">
+        select count(*) from board_file where bno = #{bno}
+    </select>
+
 
 </mapper>

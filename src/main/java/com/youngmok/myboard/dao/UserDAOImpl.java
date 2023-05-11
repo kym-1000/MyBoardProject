@@ -49,7 +49,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public int searchUser(UserVO user) {
+    public UserVO searchUser(UserVO user) {
         return session.selectOne(namespace+"searchUser",user);
     }
 

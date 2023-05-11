@@ -18,6 +18,10 @@ public interface FileDAO {
 
     int boardFileModify(ProjectFileVO file);
 
+    int deleteFile(Integer bno);
+
+    int fileCount(Integer bno);
+
 //
 //    int deleteimg(String uuid);
 

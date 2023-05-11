@@ -57,7 +57,6 @@
         <th class="writer">이름</th>
         <th class="regdate">등록일</th>
         <th class="viewcnt">조회수</th>
-        <th class="like">추천수</th>
       </tr>
       <c:forEach var="board" items="${list}">
         <tr>
@@ -76,7 +75,6 @@
             </c:otherwise>
           </c:choose>
           <td class="viewcnt">${board.cnt}</td>
-          <td class="like">${board.like}</td>
         </tr>
       </c:forEach>
     </table>

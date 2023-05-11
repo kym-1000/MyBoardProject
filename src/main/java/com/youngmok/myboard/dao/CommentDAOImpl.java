@@ -44,5 +44,10 @@ public class CommentDAOImpl implements CommentDAO{
         return session.selectOne(namespace+"commentCount",bno);
     }
 
+    @Override
+    public int boardDeleteComment(Integer bno) {
+        return session.delete(namespace+"boardDeleteComment",bno);
+    }
+
 
 }

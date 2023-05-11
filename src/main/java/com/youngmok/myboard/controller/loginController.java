@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/login")
@@ -37,16 +39,22 @@ public class loginController {
 
     @ResponseBody
     @PostMapping("/pwd")
-    public ResponseEntity<String> pwdSearch(@RequestBody UserVO user) {
+    public ResponseEntity<Map<String, Object>> pwdSearch(@RequestBody UserVO user) {
 
         System.out.println(user);
 
+        HashMap<String, Object> response = new HashMap<>();
+
         try {
-            int isOK = US.pwdSearch(user);
-            return new ResponseEntity<String>("OK", HttpStatus.OK);
+            UserVO user1 = US.pwdSearch(user);
+            response.put("id", user1.getId());
+            response.put("status", "OK");
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<String>("ERR", HttpStatus.BAD_REQUEST);
+            response.put("status", "ERR");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
     }

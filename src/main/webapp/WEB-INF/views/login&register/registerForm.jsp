@@ -59,7 +59,7 @@
     <img id="preview-image" style="height: 50px; width: 50px" src="/fileUpload/${fn:replace(file.save_dir,'\\','/')}/${file.uuid}_${file.file_name}" alt="미리보기">
 <%--   여기도 나중에 고쳐야함 Azure에 올려서 배포할 경우 애져 스토리지에서 가져오도록! --%>
     <input style="height: 40px" class="input-field" type="file" id="file" name="file" accept="image/png, image/jpg, image/jpeg, image/gif" onchange="previewImage(event)">
-    <button>${mode=="new" ? "회원가입" : "회원정보수정"}</button>
+    <button class="formButton">${mode=="new" ? "회원가입" : "회원정보수정"}</button>
 </form>
 <jsp:include page="../layout/footer.jsp"/>
 

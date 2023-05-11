@@ -9,13 +9,13 @@ form {
     top:50%;
     left:50%;
     transform: translate(-50%, -50%) ;
-    border: 1px solid rgb(89,117,196);
+    border: 1px solid black;
     border-radius: 10px;
 }
 .input-field {
     width: 250px;
     height: 40px;
-    border: 1px solid rgb(89, 117, 196);
+    border: 1px solid black;
     border-radius: 5px;
     padding: 0 10px;
     margin-bottom: 10px;
@@ -28,7 +28,7 @@ label {
 }
 
 button {
-    background-color: rgb(89, 117, 196);
+    background-color: black;
     color: white;
     width: 100px;
     height: 40px;
@@ -77,4 +77,8 @@ button {
 
 #userpwd-check {
     margin-left: 7px;
+}
+
+.formButton:hover{
+    background-color: blue;
 }

@@ -19,7 +19,7 @@ public interface UserService {
 
     boolean modify(UserVO user, List<ProjectFileVO> fileList);
 
-    int pwdSearch(UserVO user);
+    UserVO pwdSearch(UserVO user);
 
     int pwdChange(UserVO user);
 }

@@ -34,7 +34,7 @@
         where id = #{id}
     </update>
 
-    <select id="searchUser" parameterType="User" resultType="int">
+    <select id="searchUser" parameterType="User" resultType="User">
         select * from board_user where id = #{id} and name = #{name} and email = #{email}
     </select>
 

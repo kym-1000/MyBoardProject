@@ -13,4 +13,5 @@ public interface CommentService {
     List<CommentDTO> getList(int bno);
 
     int remove(Integer cno, Integer bno);
+
 }

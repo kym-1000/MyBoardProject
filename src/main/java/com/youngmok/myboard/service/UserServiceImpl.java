@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public int pwdSearch(UserVO user) {
+    public UserVO pwdSearch(UserVO user) {
         return UDAO.searchUser(user);
     }
 

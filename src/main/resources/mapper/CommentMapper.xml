@@ -26,4 +26,8 @@
         select count(*) from board_comment where bno = #{bno}
     </select>
 
+    <delete id="boardDeleteComment" parameterType="int" >
+        delete from board_comment where bno = #{bno}
+    </delete>
+
 </mapper>

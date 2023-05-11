@@ -14,4 +14,6 @@ public interface CommentDAO {
     void deleteAll();
 
     int commentCount(Integer bno);
+
+    int boardDeleteComment(Integer bno);
 }

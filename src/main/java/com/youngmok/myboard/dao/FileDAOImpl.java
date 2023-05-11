@@ -47,5 +47,15 @@ public class FileDAOImpl implements FileDAO {
         return session.update(namespace + "boardFileModify", file);
     }
 
+    @Override
+    public int deleteFile(Integer bno) {
+        return session.delete(namespace + "deleteFile", bno);
+    }
+
+    @Override
+    public int fileCount(Integer bno) {
+        return session.selectOne(namespace+"fileCount",bno);
+    }
+
 
 }

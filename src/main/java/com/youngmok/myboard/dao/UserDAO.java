@@ -17,7 +17,7 @@ public interface UserDAO {
 
     int modifyUser(UserVO user);
 
-    int searchUser(UserVO user);
+    UserVO searchUser(UserVO user);
 
     int modifyUserPwd(UserVO user);
 }

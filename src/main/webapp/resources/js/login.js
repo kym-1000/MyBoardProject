@@ -82,10 +82,17 @@ $("#pwdSer").click(function(){
         data : JSON.stringify(userInfo),  // 서버로 전송할 데이터. stringify()로 직렬화 필요.
         success : function(result){
             alert(result);
+            let id = $(result).find('id').text();
+            console.log(id);
+            $("#reId").val(id);
             modal.style.display = "block";
             $("#rePwdDiv").show();
         },
-        error   : function(){ alert("해당되는 계정이 존재하지 않습니다.") } // 에러가 발생했을 때, 호출될 함수
+        error   : function(){
+            alert("해당되는 계정이 존재하지 않습니다.")
+            init();
+            $("#rePwdDiv").hide();
+        } // 에러가 발생했을 때, 호출될 함수
     }); // $.ajax()
 
 });
@@ -112,7 +119,7 @@ $("#rePwdSubmit").click(function (){
 
     let userInfo = {
         pwd : $("#rePwd").val(),
-        id : $("#userId").val()
+        id : $("#reId").val()
     };
 
     console.log(userInfo);
@@ -120,6 +127,13 @@ $("#rePwdSubmit").click(function (){
     let ID_RE = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,12}$/;
     if(!(ID_RE.test(userInfo.pwd))) {
         alert("비밀번호는 6~12자리 특수문자와 영문자 그리고 숫자 조합이어야합니다.")
+        return false;
+    }
+
+    let pwdChk = $("#pwdChk").val();
+    console.log(pwdChk);
+    if(pwdChk!=="Y") {
+        alert("비밀번호 확인이 필요합니다.")
         return false;
     }
 
@@ -132,11 +146,16 @@ $("#rePwdSubmit").click(function (){
             alert("비밀번호 변경에 성공했습니다!");
             $("#rePwdDiv").hide();
             modal.style.display = "none";
-            $('input').each(function() {
-                $(this).val('');
-            });
+            init();
         },
         error   : function(){ alert("비밀번호 변경에 실패하였습니다.") } // 에러가 발생했을 때, 호출될 함수
     }); // $.ajax()
 
 });
+
+
+function init(){
+    $('input').each(function() {
+        $(this).val('');
+    });
+}

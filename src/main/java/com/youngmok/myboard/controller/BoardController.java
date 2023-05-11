@@ -8,6 +8,7 @@ import com.youngmok.myboard.domain.SearchCondition;
 import com.youngmok.myboard.handler.FileHandler;
 import com.youngmok.myboard.handler.PageHandler;
 import com.youngmok.myboard.service.BoardService;
+import com.youngmok.myboard.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +31,11 @@ public class BoardController {
     BoardService BS;
 
     @Autowired
+    CommentService CS;
+
+    @Autowired
     private FileHandler FH;
+
 
 //    @Autowired
 //    private AzureFileHandler FH;
@@ -139,10 +144,8 @@ public class BoardController {
 
         try {
             int isOk = BS.deleteOne(bno,writer);
-            if(isOk>0){
-                System.out.println("\"게시글 삭제 여부\" = " + "게시글 삭제 성공!");
-            } else{
-                System.out.println("\"게시글 삭제 여부\" = " + "게시글 삭제 실패!");
+            if(isOk>0) {
+                System.out.println("게시판 삭제 및 댓글 삭제 완료");
             }
             rattr.addFlashAttribute("msg", "DEL_OK");
             m.addAttribute("SearchCondition", sc);

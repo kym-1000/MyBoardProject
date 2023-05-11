@@ -8,7 +8,7 @@ function registerFormCheck(frm) {
         return false;
     }
     let pwdChk = $("#pwdChk").val();
-    console.log(chk);
+    console.log(pwdChk);
     if(pwdChk!=="Y") {
         setMessage('비밀번호 확인이 필요합니다', frm.pwd-confirm);
         return false;
@@ -90,9 +90,11 @@ function fn_idChk(){
             if(data === 1){
                 $("#idChk").attr("value", "N");
                 $("#username-check").addClass("hidden");
+                $("#idChk").css("background-color", "black");
                 alert("중복된 아이디입니다.");
             }else if(data === 0){
                 $("#idChk").attr("value", "Y");
+                $("#idChk").css("background-color", "blue");
                 $("#username-check").removeClass("hidden");
                 alert("사용가능한 아이디입니다.");
             }

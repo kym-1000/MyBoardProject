@@ -17,7 +17,6 @@ public class BoardVO {
     private String writer;
     private int cnt;
     private int comment_cnt;
-    private int like;
     private Date reg_date;
 
     public BoardVO(String title, String content, String writer) {
