@@ -22,6 +22,8 @@ public interface FileDAO {
 
     int fileCount(Integer bno);
 
+    int deleteUserFile(String id);
+
 //
 //    int deleteimg(String uuid);
 

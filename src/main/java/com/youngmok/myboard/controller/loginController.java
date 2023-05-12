@@ -31,9 +31,9 @@ public class loginController {
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        // 1. 세션을 종료
+
         session.invalidate();
-        // 2. 홈으로 이동
+
         return "redirect:/";
     }
 
@@ -43,12 +43,12 @@ public class loginController {
 
         System.out.println(user);
 
-        HashMap<String, Object> response = new HashMap<>();
+        HashMap<String, Object> response = new HashMap<>(); // 회원 아이디를 보내기 위해 맵 생성
 
         try {
-            UserVO user1 = US.pwdSearch(user);
-            response.put("id", user1.getId());
-            response.put("status", "OK");
+            UserVO user1 = US.pwdSearch(user); // 입력된 계정정보에 해당하는 회원을 가져옴
+            response.put("id", user1.getId()); // 회원 아이디를 맵에 저장
+            response.put("status", "OK");       // 상태코드도 같이...
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -66,7 +66,7 @@ public class loginController {
         System.out.println(user);
 
         try {
-            int isOK = US.pwdChange(user);
+            int isOK = US.pwdChange(user);  // 해당하는 유저의 비밀번호를 변경
             if(isOK > 0){
                 System.out.println("비밀번호 변경 성공!");
             } else{
@@ -85,34 +85,29 @@ public class loginController {
     public String login(String id, String pwd, String toURL, boolean rememberId,
                         HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        // 1. id와 pwd를 확인
         if(!loginCheck(id, pwd)) {
-            // 2-1   일치하지 않으면, loginForm으로 이동
             String msg = URLEncoder.encode("id 또는 pwd가 일치하지 않습니다.", "utf-8");
 
             return "redirect:/login/login?msg="+msg;
         }
 
-        // 2-2. id와 pwd가 일치하면,
-        //  세션 객체를 얻어오기
-        HttpSession session = request.getSession();
-        //  세션 객체에 id를 저장
+
+        HttpSession session = request.getSession();  // 세션 생성
         session.setAttribute("id", id);
 
         if(rememberId) {
-            //     1. 쿠키를 생성
-            Cookie cookie = new Cookie("id", id); // ctrl+shift+o 자동 import
-//		       2. 응답에 저장
+
+            Cookie cookie = new Cookie("id", id);
             response.addCookie(cookie);
         } else {
-            // 1. 쿠키를 삭제
-            Cookie cookie = new Cookie("id", id); // ctrl+shift+o 자동 import
-            cookie.setMaxAge(0); // 쿠키를 삭제
-//		       2. 응답에 저장
+ 
+            Cookie cookie = new Cookie("id", id);
+            cookie.setMaxAge(0);
+
             response.addCookie(cookie);
         }
-//		       3. 홈으로 이동
-        toURL = (toURL==null || toURL.equals("")) ? "/" : toURL;
+
+        toURL = (toURL==null || toURL.equals("")) ? "/" : toURL;  // 로그인 페이지에서 바로 어디론가 보낼때 사용
 
         return "redirect:"+toURL;
     }
@@ -122,12 +117,12 @@ public class loginController {
         UserVO user = null;
 
         try {
-            user = US.login(id,pwd);
+            user = US.login(id,pwd);  // 서비스단에서 유효성 검사 실행
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
 
-        return user!=null;
+        return user!=null;  // 널이 아니라면 유효성 검사를 통과 했다는것
     }
 }

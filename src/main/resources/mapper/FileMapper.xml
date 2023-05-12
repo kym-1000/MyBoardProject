@@ -45,9 +45,13 @@
         delete from board_file where bno = #{bno}
     </delete>
 
-    <select id="fileCount" parameterType="int">
+    <select id="fileCount" parameterType="int" resultType="int">
         select count(*) from board_file where bno = #{bno}
     </select>
+
+    <delete id="deleteUserFile" parameterType="String" >
+        delete from board_file where user = #{id}
+    </delete>
 
 
 </mapper>

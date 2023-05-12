@@ -65,7 +65,7 @@
             <c:if test="${board.comment_cnt ne 0}">
               [${board.comment_cnt}]</a></td>
             </c:if>
-          <td class="writer">${board.writer}</td>
+          <td class="writer" style="text-align: center;">${board.writer}</td>
           <c:choose>
             <c:when test="${board.reg_date.time >= startOfToday}">
               <td class="regdate"><fmt:formatDate value="${board.reg_date}" pattern="HH:mm" type="time"/></td>
@@ -74,7 +74,7 @@
               <td class="regdate"><fmt:formatDate value="${board.reg_date}" pattern="yyyy-MM-dd" type="date"/></td>
             </c:otherwise>
           </c:choose>
-          <td class="viewcnt">${board.cnt}</td>
+          <td class="viewcnt" style="text-align: center;">${board.cnt}</td>
         </tr>
       </c:forEach>
     </table>

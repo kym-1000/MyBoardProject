@@ -68,6 +68,11 @@ $("#file").change(function() {
         $("#file").val("");
         return false;
     }
+    if (file.size > 2 * 1024 * 1024) {
+        alert("파일 크기는 최대 2MB까지 업로드 가능합니다.");
+        $("#file").val("");
+        return false;
+    }
 });
 
 function fn_idChk(){

@@ -28,8 +28,7 @@
                 <a href="<c:url value='/register/uesrModify'/>" >회원정보수정</a>
                 <a href="<c:url value='/register/unregister'/>" onclick="return unregister()">회원탈퇴</a>
             </c:if>
-            <a href="<c:url value='/register/error400'/>">400번 에러로</a>
-            <a href="<c:url value='/register/error500'/>">500번 에러로</a>
+
         </div>
         <span id="openBtn" onclick="openNav()">&#9776; menu</span>
     </nav>
@@ -44,11 +43,7 @@
     }
 
     function unregister() {
-        if(confirm("회원탈퇴 하시겠습니까?")){
-            return true;
-        } else {
-            return false;
-        }
+        return confirm("회원탈퇴 하시겠습니까?");
     }
 </script>
 

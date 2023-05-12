@@ -76,6 +76,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public int userUnregister(String id) {
+
+        if(FDAO.selectFileImage(id)!=null){
+            FDAO.deleteUserFile(id);
+        }
+
         return UDAO.deleteUser(id);
     }
 
@@ -101,7 +106,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean modify(UserVO user, List<ProjectFileVO> fileList) {
         
-        if(user.getPwd() == null || user.getPwd().length() == 0) {
+        if(user.getPwd() == null || user.getPwd().length() == 0) { // 기초적인 유효성 검사
             return false;
         }
 
@@ -114,7 +119,7 @@ public class UserServiceImpl implements UserService{
         user.setPwd(encodePw);
         //회원 수정
 
-        if(FDAO.selectFileImage(user.getId())==null){ // 기존에 프로필이 존재하지 않다면...
+        if(FDAO.selectFileImage(user.getId())==null){ // 기존에 프로필사진이 존재하지 않다면...
             for (ProjectFileVO file : fileList) {
                 file.setUser(user.getId()); // 파일 정보와 사용자 정보를 연결하기 위해 bno 설정
                 FDAO.insertFile(file);
@@ -142,7 +147,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public int pwdChange(UserVO user) {
 
-        if(user.getPwd() == null || user.getPwd().length() == 0) {
+        if(user.getPwd() == null || user.getPwd().length() == 0) { // 기초적인 유효성 검사
             return 0;
         }
 

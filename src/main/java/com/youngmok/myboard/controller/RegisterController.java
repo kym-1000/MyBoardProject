@@ -26,6 +26,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/register")
@@ -95,7 +96,7 @@ public class RegisterController {
     public String uesrModify(HttpSession session,Model m){
         String id = (String) session.getAttribute("id");
 
-        UserVO user = UDAO.selectUser(id);
+        UserVO user = UDAO.selectUser(id);  // 해당 유저를 가져옴
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String userBirth = sdf.format(user.getBirth());
@@ -113,7 +114,7 @@ public class RegisterController {
     // 수정된 회원정보를 처리하는 메서드
     @PostMapping("/userModify")
     public String userModify(@Valid UserVO user,BindingResult result, Model m,
-                             @RequestParam(name="file",required = false) MultipartFile file,HttpSession session){
+                             @RequestParam(name="file",required = false) MultipartFile file,HttpSession session,RedirectAttributes rattr){
         String id = (String)session.getAttribute("id");
         user.setId(id);
 
@@ -127,8 +128,10 @@ public class RegisterController {
             } else {
                 System.out.println("\"회원정보수정여부\" = " + "회원수정실패!");
             }
+            rattr.addFlashAttribute("msg", "USER_MOD_OK");
         } catch (Exception e) {
             e.printStackTrace();
+            rattr.addFlashAttribute("msg", "USER_MOD_ERR");
         }
 
         if (result.hasErrors()) {
@@ -145,7 +148,7 @@ public class RegisterController {
         System.out.println("user=" + user);
 
         List<ProjectFileVO> fileList = new ArrayList<>();
-        if (file != null && !file.isEmpty()) {
+        if (file != null && !file.isEmpty()) {  // 파일이 있다면
             FileHandler fileHandler = new FileHandler();
             fileList = fileHandler.uploadFiles(new MultipartFile[]{file});
         }
@@ -172,7 +175,7 @@ public class RegisterController {
 //
     // 회원탈퇴 메서드
     @GetMapping("/unregister")
-    public String userUnregister(HttpSession session) {
+    public String userUnregister(HttpSession session, RedirectAttributes rattr) {
         String id = (String) session.getAttribute("id");
 
         try {
@@ -183,36 +186,16 @@ public class RegisterController {
             } else{
                 System.out.println("\"회원탈퇴 실패!\" = " + "회원탈퇴 실패!");
             }
+            rattr.addFlashAttribute("msg", "USER_DEL_OK");
         } catch (Exception e) {
             e.printStackTrace();
+            rattr.addFlashAttribute("msg", "USER_DEL_ERR");
         }
 
-        session.invalidate();
+        session.invalidate();  // 탈퇴 후 세션 정지
 
         return "redirect:/";
     }
 
-    @GetMapping("/error400")
-    public String error400() throws Exception {
-
-        error4001();
-
-        return "error/error400";
-    }
-
-    @GetMapping("/error500")
-    public String error500() throws Exception {
-
-        error4001();
-
-        return "error/error500";
-    }
-
-
-    @ExceptionHandler
-    public String error4001() throws Exception {
-
-        throw new Exception();
-    }
 
 }

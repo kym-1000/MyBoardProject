@@ -16,12 +16,12 @@ $(document).ready(function(){
 
     $(document).ready(function() {
         let imgSrc = $("#image").attr("src");
-        if(imgSrc) { // 이미지가 있는 경우
-            $("#image").show(); // 이미지 보이기
-            $("#mainText").css("width", "49%"); // 텍스트 에어리어 너비 조정
-        } else { // 이미지가 없는 경우
-            $("#image").hide(); // 이미지 숨기기
-            $("#mainText").css("width", "100%"); // 텍스트 에어리어 너비 조정
+        if(imgSrc) {
+            $("#image").show();
+            $("#mainText").css("width", "49%");
+        } else {
+            $("#image").hide();
+            $("#mainText").css("width", "100%");
         }
     });
 

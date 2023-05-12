@@ -12,6 +12,9 @@
 </head>
 <body>
 
+<script> let msg = "${msg}";</script>
+<script src="<c:url value='/resources/js/msg.js'/>"></script>
+
 <jsp:include page="layout/header.jsp"/>
 
 	<main>

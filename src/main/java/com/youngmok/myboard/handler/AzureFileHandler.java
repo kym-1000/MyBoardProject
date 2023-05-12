@@ -27,7 +27,7 @@
 //public class AzureFileHandler {
 //    private final String
 //            AZURE_STORAGE_CONNECTION_STRING
-//            = "DefaultEndpointsProtocol=https;AccountName=youngmokfile;AccountKey=QDcZnBsJ0Wc045LWaGzRieDRmY3hUoziANYFVABMcti35zP75IHQKiFHuO47BIWzXpGBzmF+Jbio+AStI8FXbA==;EndpointSuffix=core.windows.net";
+//            = "";
 //
 //    private static final String CONTAINER_NAME = "youngmokboard";
 //

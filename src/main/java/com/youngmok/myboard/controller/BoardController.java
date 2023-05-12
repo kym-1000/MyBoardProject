@@ -46,20 +46,19 @@ public class BoardController {
     public String board(SearchCondition sc, Model m, HttpServletRequest request){
 
         try {
-            int totalCnt = BS.getSearchResultCnt(sc);
+            int totalCnt = BS.getSearchResultCnt(sc);  // 총 게시글 수를 가져온다.
             m.addAttribute("totalCnt", totalCnt);
 
-            PageHandler pageHandler = new PageHandler(totalCnt, sc);
-
-            List<BoardVO> list = BS.getSearchResultPage(sc);
+            PageHandler pageHandler = new PageHandler(totalCnt, sc); // 총게시글과 검색어를(있다면) 이용하여 파일 핸들러 세팅
+            List<BoardVO> list = BS.getSearchResultPage(sc);  // 검색어에 맞는 페이지 리스트를 가져온다.
             m.addAttribute("list", list);
             m.addAttribute("ph", pageHandler);
 
-            Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
+            Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant(); // 시간 세팅
             m.addAttribute("startOfToday", startOfToday.toEpochMilli());
         } catch (Exception e) {
             e.printStackTrace();
-            m.addAttribute("msg", "LIST_ERR");
+            m.addAttribute("msg", "BOARD_LIST_ERR");
             m.addAttribute("totalCnt", 0);
         }
 
@@ -71,11 +70,10 @@ public class BoardController {
     public String read(Integer bno, Model m, Integer page, Integer pageSize, SearchCondition sc){
 
         try {
-            BoardDTO board = BS.boardread(bno);
+            BoardDTO board = BS.boardread(bno);   // 해당 bno에 해당하는 게시글을 가져온다.
             System.out.println("board = " + board);
-            if(board.getFList().size() != 0) {
-//                System.out.println("\"flist : \"+bdto.getFList().get(0).toString() = " + "flist : " + board.getFList().get(0).toString());
-                m.addAttribute("fList",board.getFList());
+            if(board.getFList().size() != 0) {  // 게시글에 파일이 있다면
+                m.addAttribute("fList",board.getFList());  // 파일을 보내준다.
             }
             m.addAttribute("Board",board);
             m.addAttribute("page",page);
@@ -92,7 +90,7 @@ public class BoardController {
     @GetMapping("/write")
     public String boardwrite(Model model) {
 
-        model.addAttribute("mode","new");
+        model.addAttribute("mode","new");  // 새로운 글쓰기 상태
 
         return "board/boardDetail";
     }
@@ -106,13 +104,13 @@ public class BoardController {
         int isOk = 0;
 
         try {
-            List<ProjectFileVO> fList = null;
+            List<ProjectFileVO> fList = null; 
             if(files[0].getSize() >0) { // 값이 있는지 체크
                 System.out.println("files.toString() = " + files.toString());
                 fList = FH.uploadFiles(files); // 핸들러에 있는 메서드로 실제 파일들의 정보를 fList에 담아줌
-                isOk = BS.boardadd(new BoardDTO(board,fList));
+                isOk = BS.boardadd(new BoardDTO(board,fList));  
             } else{
-                isOk = BS.boardadd(new BoardDTO(board));
+                isOk = BS.boardadd(new BoardDTO(board));  // 파일이 존재하지 않을 경우 게시글만 등록
             }
 
             if(isOk>0){
@@ -120,12 +118,12 @@ public class BoardController {
             } else{
                 System.out.println("\"게시글 등록 여부\" = " + "게시글 등록 실패!");
             }
-            rattr.addFlashAttribute("msg", "WRT_OK");
+            rattr.addFlashAttribute("msg", "BOARD_WRT_OK");
         } catch (Exception e) {
             e.printStackTrace();
             m.addAttribute(board);
             m.addAttribute("mode", "new");
-            m.addAttribute("msg", "WRT_ERR");
+            m.addAttribute("msg", "BOARD_WRT_ERR");
         }
 
         return "redirect:/board/list";
@@ -143,15 +141,15 @@ public class BoardController {
         String writer = (String)session.getAttribute("id");
 
         try {
-            int isOk = BS.deleteOne(bno,writer);
+            int isOk = BS.deleteOne(bno,writer); // 해당 bno와 작성자가 맞는 게시글을 삭제  삭제 시 서비스단에서 댓글과 파일도 삭제
             if(isOk>0) {
                 System.out.println("게시판 삭제 및 댓글 삭제 완료");
             }
-            rattr.addFlashAttribute("msg", "DEL_OK");
+            rattr.addFlashAttribute("msg", "BOARD_DEL_OK");
             m.addAttribute("SearchCondition", sc);
         } catch (Exception e) {
             e.printStackTrace();
-            rattr.addFlashAttribute("msg", "DEL_ERR");
+            rattr.addFlashAttribute("msg", "BOARD_DEL_ERR");
         }
 
         return "redirect:/board/list?page="+sc.getPage()+"&pageSize="+sc.getPageSize();
@@ -176,7 +174,7 @@ public class BoardController {
                 fList = FH.uploadFiles(files); // 핸들러에 있는 메서드로 실제 파일들의 정보를 fList에 담아줌
                 isOk = BS.modifyBoard(new BoardDTO(board,fList));
             } else{
-                isOk = BS.modifyOne(board);
+                isOk = BS.modifyOne(board); // 게시글만 존재 할 경우 게시글만 수정
             }
 
             if(isOk>0){
@@ -184,12 +182,12 @@ public class BoardController {
             } else{
                 System.out.println("\"게시글 수정 여부\" = " + "게시글 수정 실패!");
             }
-            rattr.addFlashAttribute("msg", "MOD_OK");
+            rattr.addFlashAttribute("msg", "BOARD_MOD_OK");
         } catch (Exception e) {
             e.printStackTrace();
             m.addAttribute(board);
             m.addAttribute("mode", "new");
-            m.addAttribute("msg", "WRT_ERR");
+            m.addAttribute("msg", "BOARD_WRT_ERR");
         }
 
 

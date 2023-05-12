@@ -82,7 +82,7 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public BoardDTO boardread(Integer bno) {
-        int isOk = BDAO.increaseViewCntUp(bno);
+        int isOk = BDAO.increaseViewCntUp(bno);  // 게시글 조회수 상승
         if(isOk>0){
             System.out.println("\"조회수 상승 여부\" = " + "조회수 상승 성공");
         } else {
@@ -95,10 +95,13 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public int deleteOne(Integer bno, String writer) {
-        if(FDAO.fileCount(bno)>0){
-            FDAO.deleteFile(bno);
-        } else if(CDAO.commentCount(bno)>0){
-            CDAO.boardDeleteComment(bno);
+
+        if(FDAO.fileCount(bno)>0){  // 파일이 존재한다면
+            FDAO.deleteFile(bno);  // 파일 삭제
+        }
+
+        if(CDAO.commentCount(bno)>0){       // 댓글이 존재한다면
+            CDAO.boardDeleteComment(bno);   // 댓글 삭제
         }
 
         return BDAO.boardDelete(bno,writer);

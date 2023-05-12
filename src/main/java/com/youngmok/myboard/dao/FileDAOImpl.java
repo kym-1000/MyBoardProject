@@ -57,5 +57,10 @@ public class FileDAOImpl implements FileDAO {
         return session.selectOne(namespace+"fileCount",bno);
     }
 
+    @Override
+    public int deleteUserFile(String id) {
+        return session.delete(namespace + "deleteUserFile", id);
+    }
+
 
 }

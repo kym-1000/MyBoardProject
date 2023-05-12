@@ -81,9 +81,8 @@ $("#pwdSer").click(function(){
         headers : { "content-type": "application/json"}, // 요청 헤더
         data : JSON.stringify(userInfo),  // 서버로 전송할 데이터. stringify()로 직렬화 필요.
         success : function(result){
-            alert(result);
+            alert("계정정보 확인완료");
             let id = $(result).find('id').text();
-            console.log(id);
             $("#reId").val(id);
             modal.style.display = "block";
             $("#rePwdDiv").show();

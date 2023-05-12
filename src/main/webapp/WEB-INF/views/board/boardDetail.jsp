@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page session="true"%>
-<c:set var="loginId" value="${sessionScope.id}"/>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,10 +15,20 @@
   <!-- JavaScript Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="<c:url value='/resources/css/boardDetail.css'/>">
+  <style>
+    footer {
+      background-color: black;
+    }
+
+    #openBtn {
+      background-color: black;
+    }
+    </style>
 </head>
 <body>
 <jsp:include page="../layout/header.jsp"/>
 
+<c:set var="loginId" value="${sessionScope.id}"/>
 <c:set var="modifyUrl" value="/board/modify${searchCondition.queryString}" />
 <c:set var="deleteUrl" value="/board/boardDelete${searchCondition.queryString}"/>
 <c:set var="listUrl" value="/board/list${searchCondition.queryString}" />
@@ -28,6 +38,7 @@ let msg = "${msg}";
 let modifyUrl = "${modifyUrl}";
 let deleteUrl = "${deleteUrl}";
 let listUrl = "${listUrl}";
+let sessionId = "${loginId}";
 </script>
 
 <script src="<c:url value='/resources/js/msg.js'/>"></script>
@@ -59,7 +70,7 @@ let listUrl = "${listUrl}";
       <button type="button" id="modifyBtn" class="btn btn-modify"><i class="fa fa-edit"></i> 수정</button>
       <button type="button" id="deleteBtn" class="btn btn-delete"><i class="fa fa-trash"></i> 삭제</button>
     </c:if>
-    <button type="button" id="listBtn" class="btn btn-list"><i class="fa fa-bars"></i> 목록</button>
+    <button type="button" id="listBtn" class="btn btn-list" ${mode ne 'new' ? '' : 'style="display: none;"'}><i class="fa fa-bars"></i> 목록</button>
   </form>
 </div>
 
@@ -78,7 +89,7 @@ let listUrl = "${listUrl}";
           <input type="hidden" id="cmtimage" value="이미지파일">
       </div>
       </c:if>
-      <!-- Comment with nested comments-->
+
         <div class="d-flex" id="Comment">
         </div>
     </div>

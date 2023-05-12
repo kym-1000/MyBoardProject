@@ -40,12 +40,12 @@ textarea {
     width:100%;
 }
 .btn {
-    background-color: rgb(236, 236, 236); /* Blue background */
-    border: none; /* Remove borders */
-    color: black; /* White text */
-    padding: 6px 12px; /* Some padding */
-    font-size: 16px; /* Set a font size */
-    cursor: pointer; /* Mouse pointer on hover */
+    background-color: rgb(236, 236, 236);
+    border: none;
+    color: black;
+    padding: 6px 12px;
+    font-size: 16px;
+    cursor: pointer;
     border-radius: 5px;
 }
 .btn:hover {

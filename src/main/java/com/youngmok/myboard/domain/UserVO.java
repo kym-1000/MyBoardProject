@@ -23,10 +23,8 @@ public class UserVO {
     private String pwd;
     @Pattern(regexp = "^[가-힣]{2,6}|[a-zA-Z]{2,10}\\s[a-zA-Z]{2,10}$", message = "이름은 2~6글자 한글이름 혹은 영문이름이어야합니다.")
     private String name;
-    @NotNull
     @Email(message = "이메일형식이 맞지 않습니다.")
     private String email;
-    @NotNull
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date birth;
     @DateTimeFormat(pattern = "yyyy/MM/dd")

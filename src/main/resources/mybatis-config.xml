@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+<!--  마이바티스 맵퍼 파일에 쓰이는 약어  -->
     <typeAliases>
         <typeAlias alias="User" type="com.youngmok.myboard.domain.UserVO"/>
         <typeAlias alias="Board" type="com.youngmok.myboard.domain.BoardVO"/>

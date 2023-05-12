@@ -28,7 +28,7 @@ public class CommentController {
         System.out.println("bno = " + bno);
         List<CommentDTO> list = null;
         try {
-            list = SC.getList(bno);
+            list = SC.getList(bno); // 댓글 리스트를 가져옴
             System.out.println("list = " + list);
             return new ResponseEntity<List<CommentDTO>>(list, HttpStatus.OK); // 200
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class CommentController {
         System.out.println("bno = " + bno);
 
         try {
-            int rowCnt = SC.remove(cno,bno);
+            int rowCnt = SC.remove(cno,bno);  // 해당하는 댓글을 삭제함
 
             if(rowCnt != 1){
                 throw new Exception("Delete Failed");
@@ -73,7 +73,7 @@ public class CommentController {
 
         if(file != null){
             // azure 스토리지는 앞에 날짜 파일이 불필요..
-            String fileName = file.getSave_dir()+"/"+file.getUuid()+"_th_"+file.getFile_name();
+            String fileName = file.getSave_dir()+"/"+file.getUuid()+"_th_"+file.getFile_name(); // 댓글의 이미지 경로
 
 //            String fileName = file.getUuid()+"_"+file.getFile_name();
 
@@ -88,11 +88,11 @@ public class CommentController {
             if (SC.register(comment)!=1){
                 throw new Exception("Write failed");
             }
-            return new ResponseEntity<String>("C_WRT_OK", HttpStatus.OK);
+            return new ResponseEntity<String>("WRT_OK", HttpStatus.OK);
         } catch (Exception e) {
             System.out.println("등록실패!");
             e.printStackTrace();
-            return new ResponseEntity<String>("C_WRT_ERR", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>("WRT_ERR", HttpStatus.BAD_REQUEST);
         }
     }
 
