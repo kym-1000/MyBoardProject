@@ -25,7 +25,7 @@
 <!--        values(#{uuid},#{save_dir},#{file_name},#{file_type},#{user},#{file_size})-->
 <!--    </insert>-->
 
-    <select id="selectFileList" resultType="ProjectFile">
+    <select id="selectFileList" parameterType="int" resultType="ProjectFile">
         select * from board_file where bno = #{bno}
     </select>
 
@@ -52,6 +52,7 @@
     <delete id="deleteUserFile" parameterType="String" >
         delete from board_file where user = #{id}
     </delete>
+
 
 
 </mapper>

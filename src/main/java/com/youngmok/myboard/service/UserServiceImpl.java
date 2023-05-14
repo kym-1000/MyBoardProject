@@ -62,12 +62,13 @@ public class UserServiceImpl implements UserService{
 
         System.out.println("user = " + user);
         int isOk = UDAO.insertUser(user);
+
+        ProjectFileVO file = fileList.get(0);
         
         // 파일정보를 저장
-        for (ProjectFileVO file : fileList) {
-            file.setUser(user.getId()); // 파일 정보와 사용자 정보를 연결하기 위해 bno 설정
-            FDAO.insertFile(file);
-        }
+        file.setUser(user.getId());
+        file.setFile_type(1);
+        FDAO.insertFile(file);
 
         System.out.println("fileList = " + fileList);
 
@@ -119,17 +120,17 @@ public class UserServiceImpl implements UserService{
         user.setPwd(encodePw);
         //회원 수정
 
+        ProjectFileVO file = fileList.get(0);
+
         if(FDAO.selectFileImage(user.getId())==null){ // 기존에 프로필사진이 존재하지 않다면...
-            for (ProjectFileVO file : fileList) {
-                file.setUser(user.getId()); // 파일 정보와 사용자 정보를 연결하기 위해 bno 설정
-                FDAO.insertFile(file);
-            }
+            file.setUser(user.getId()); // 유저 아이디 설정
+            file.setFile_type(1);
+            FDAO.insertFile(file);
         } else {
             // 수정된 파일 정보를 저장
-            for (ProjectFileVO file : fileList) {
-                file.setUser(user.getId()); // 파일 정보와 사용자 정보를 연결하기 위해 bno 설정
-                FDAO.profileFileModify(file);
-            }
+            file.setUser(user.getId()); // 유저 아이디 설정
+            file.setFile_type(1);
+            FDAO.profileFileModify(file);
         }
 
         int isOk = UDAO.modifyUser(user);

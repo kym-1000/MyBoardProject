@@ -33,11 +33,12 @@ public class BoardServiceImpl implements BoardService{
         // 기존 게시글에 대한 내용을 DB에 저장
 
         if(isOk > 0 && boardDTO.getFList().size() > 0) {
-            int bno = boardDTO.getBoard().getBno(); // 해당 bno
+            int bno = BDAO.selectOneBno(); // 해당 bno
 
             for(ProjectFileVO fvo : boardDTO.getFList()) {
                 fvo.setBno(bno);
-                System.out.println("\" insert file : \"+fvo.toString() = " + " insert file : " + fvo.toString());
+                fvo.setFile_type(1);
+                System.out.println("fvo new = " + fvo);
                 isOk *= FDAO.insertFile(fvo);
             }
         }
@@ -51,12 +52,27 @@ public class BoardServiceImpl implements BoardService{
         int isOk = BDAO.boardUpdate(boardDTO.getBoard());
 
         if(isOk > 0 && boardDTO.getFList().size() > 0) {
-            int bno = boardDTO.getBoard().getBno();
+            int bno = boardDTO.getBoard().getBno(); // 해당 bno
 
-            for(ProjectFileVO fvo : boardDTO.getFList()) {
-                fvo.setBno(bno);
-                isOk *= FDAO.boardFileModify(fvo);
+            System.out.println("bno = " + bno);
+
+
+            if(FDAO.fileCount(bno)==0){  // 기존 게시글에 파일이 존재하지 않다면...
+                for(ProjectFileVO fvo : boardDTO.getFList()) {
+                    fvo.setBno(bno);
+                    fvo.setFile_type(1);
+                    System.out.println("fvo new mod = " + fvo);
+                    isOk *= FDAO.insertFile(fvo);
+                }
+            } else{
+                for(ProjectFileVO fvo : boardDTO.getFList()) {
+                    fvo.setBno(bno);
+                    fvo.setFile_type(1);
+                    System.out.println("fvo mod = " + fvo);
+                    isOk *= FDAO.boardFileModify(fvo);
+                }
             }
+
         }
 
         return isOk;

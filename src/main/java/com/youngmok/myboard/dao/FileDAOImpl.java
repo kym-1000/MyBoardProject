@@ -44,6 +44,8 @@ public class FileDAOImpl implements FileDAO {
 
     @Override
     public int boardFileModify(ProjectFileVO file) {
+
+
         return session.update(namespace + "boardFileModify", file);
     }
 
@@ -61,6 +63,7 @@ public class FileDAOImpl implements FileDAO {
     public int deleteUserFile(String id) {
         return session.delete(namespace + "deleteUserFile", id);
     }
+
 
 
 }

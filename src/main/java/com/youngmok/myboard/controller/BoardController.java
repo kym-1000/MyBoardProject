@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.FileHandler;
 
@@ -177,9 +178,10 @@ public class BoardController {
 
         try {
             List<ProjectFileVO> fList = null;
-            if(files[0].getSize() >0) { // 값이 있는지 체크
-                System.out.println("files.toString() = " + files.toString());
+            if(files[0].getSize() > 0) { // 값이 있는지 체크
+
                 fList = FH.uploadFiles(files); // 핸들러에 있는 메서드로 실제 파일들의 정보를 fList에 담아줌
+                System.out.println("fList = " + fList);
                 isOk = BS.modifyBoard(new BoardDTO(board,fList));
             } else{
                 isOk = BS.modifyOne(board); // 게시글만 존재 할 경우 게시글만 수정
@@ -187,11 +189,12 @@ public class BoardController {
 
             if(isOk>0){
                 System.out.println("\"게시글 수정 여부\" = " + "게시글 수정 성공!");
-            } else{
+                rattr.addFlashAttribute("msg", "BOARD_MOD_OK");
+            } else {
                 System.out.println("\"게시글 수정 여부\" = " + "게시글 수정 실패!");
             }
-            rattr.addFlashAttribute("msg", "BOARD_MOD_OK");
         } catch (Exception e) {
+
             e.printStackTrace();
             m.addAttribute(board);
             m.addAttribute("mode", "new");

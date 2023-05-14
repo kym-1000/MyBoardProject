@@ -24,6 +24,7 @@ public interface FileDAO {
 
     int deleteUserFile(String id);
 
+
 //
 //    int deleteimg(String uuid);
 
