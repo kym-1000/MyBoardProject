@@ -42,10 +42,10 @@
     </div>
     </c:if>
     <label><b>비밀번호</b></label>
-    <input class="input-field" type="password" name="pwd" placeholder="6~12자리의 영대소문자와 숫자 조합" required>
+    <input class="input-field" type="password" name="pwd" placeholder="6~12자리 영대소문자와 숫자와 특문 조합" required>
     <label><b>비밀번호 확인</b></label>
     <div class="flex-container">
-    <input class="input-field" type="password" name="pwd-confirm" placeholder="6~12자리의 영대소문자와 숫자 조합" required>
+    <input class="input-field" type="password" name="pwd-confirm" placeholder="6~12자리 영대소문자와 숫자와 특문 조합" required>
     <button class="hidden"  type="button" id="pwdChk" value="N"  ></button>
     <span id="userpwd-check" class="hidden" ><i class="fas fa-check" ></i></span>
     </div>
@@ -56,9 +56,10 @@
     <label ><b>생일</b></label>
     <input style="height: 40px" class="input-field" type="date" name="birth" id="birth" placeholder="2020-12-31" value=${userBirth}>
     <label><b>프로필사진</b></label>
-    <img id="preview-image" style="height: 50px; width: 50px" src="/fileUpload/${fn:replace(file.save_dir,'\\','/')}/${file.uuid}_${file.file_name}" alt="미리보기">
-<%--   여기도 나중에 고쳐야함 Azure에 올려서 배포할 경우 애져 스토리지에서 가져오도록! --%>
-    <input style="height: 40px" class="input-field" type="file" id="file" name="file" accept="image/png, image/jpg, image/jpeg, image/gif" onchange="previewImage(event)">
+<%--    <img id="preview-image" style="height: 50px; width: 50px" src="/fileUpload/${fn:replace(file.save_dir,'\\','/')}/${file.uuid}_${file.file_name}" alt="미리보기">--%>
+    <img id="preview-image" style="height: 50px; width: 50px" src="https://myboard.blob.core.windows.net/youngmokboard/${file.uuid}_${file.file_name}" alt="미리보기">
+
+    <input style="height: 40px" class="input-field" type="file" id="file" name="file" accept="image/png, image/jpg, image/jpeg, image/gif" >
     <button class="formButton">${mode=="new" ? "회원가입" : "회원정보수정"}</button>
 </form>
 <jsp:include page="../layout/footer.jsp"/>

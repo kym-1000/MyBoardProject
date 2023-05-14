@@ -36,7 +36,7 @@ function formCheck(frm){
 
     let pwd_RE = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,12}$/;
     if(!(pwd_RE.test(frm.pwd.value))) {
-        setMessage('패스워드는 6~12자리 영대소문자 특수문자 및 숫자 조합이어야합니다.', frm.pwd);
+        setMessage('패스워드는 6~12자리 영대소문자와 숫자와 특수문자 조합이어야합니다.', frm.pwd);
         return false;
     }
 
@@ -73,7 +73,21 @@ $("#file").change(function() {
         $("#file").val("");
         return false;
     }
+
+    previewImage(event);
+
 });
+
+
+function previewImage(event) {
+    const input = event.target;
+    const reader = new FileReader();
+    reader.onload = function () {
+        const img = document.getElementById("preview-image");
+        img.src = reader.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+}
 
 function fn_idChk(){
     let id = $("#id").val();
@@ -114,15 +128,16 @@ function setMessage(msg, element){
     }
 }
 
-function previewImage(event) {
-    const input = event.target;
-    const reader = new FileReader();
-    reader.onload = function () {
-        const img = document.getElementById("preview-image");
-        img.src = reader.result;
-    };
-    reader.readAsDataURL(input.files[0]);
-}
+// function previewImage(event) {
+//     const input = event.target;
+//     const reader = new FileReader();
+//     reader.onload = function () {
+//         const img = document.getElementById("preview-image");
+//         img.src = reader.result;
+//     };
+//     reader.readAsDataURL(input.files[0]);
+// }
+
 
 const pwdField = $('input[name="pwd"]');
 const pwdConfirmField = $('input[name="pwd-confirm"]');

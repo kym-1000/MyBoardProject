@@ -78,3 +78,7 @@ ul {
     flex: 1;
     object-fit: cover;
 }
+
+ul{
+    width: 100%
+}

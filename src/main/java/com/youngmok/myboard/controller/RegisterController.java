@@ -15,8 +15,8 @@ import com.youngmok.myboard.dao.FileDAO;
 import com.youngmok.myboard.dao.UserDAO;
 import com.youngmok.myboard.domain.ProjectFileVO;
 import com.youngmok.myboard.domain.UserVO;
-//import com.youngmok.myboard.handler.AzureFileHandler;
-import com.youngmok.myboard.handler.FileHandler;
+import com.youngmok.myboard.handler.AzureFileHandler;
+//import com.youngmok.myboard.handler.FileHandler;
 import com.youngmok.myboard.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -66,7 +66,7 @@ public class RegisterController {
     // 회원가입 페이지에서 정보를 받아 처리하는 메서드
     @PostMapping("/join")
     public String join(@Valid UserVO user, BindingResult result, Model m,
-                       @RequestParam(name="file",required = false) MultipartFile file) throws Exception {
+                       @RequestParam(name="file",required = false) MultipartFile file,RedirectAttributes rattr) throws Exception {
         List<ProjectFileVO> fileList  = userFile(user, result, file);
         boolean isOk;
 
@@ -77,6 +77,7 @@ public class RegisterController {
             } else {
                 System.out.println("\"회원가입여부\" = " + "회원가입실패!");
             }
+            rattr.addFlashAttribute("msg", "USER_join_OK");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -143,36 +144,36 @@ public class RegisterController {
 
     //회원가입,수정시 파일처리 공통메서드
     // 로컬 파일관리
+//    private static List<ProjectFileVO> userFile(UserVO user, BindingResult result, MultipartFile file) {
+//        System.out.println("result=" + result);
+//        System.out.println("user=" + user);
+//
+//        List<ProjectFileVO> fileList = new ArrayList<>();
+//        if (file != null && !file.isEmpty()) {  // 파일이 있다면
+//            FileHandler fileHandler = new FileHandler();
+//            fileList = fileHandler.uploadFiles(new MultipartFile[]{file});
+//        }
+//
+//        return fileList;
+//    }
+
+    // azure 파일관리
     private static List<ProjectFileVO> userFile(UserVO user, BindingResult result, MultipartFile file) {
         System.out.println("result=" + result);
         System.out.println("user=" + user);
 
         List<ProjectFileVO> fileList = new ArrayList<>();
-        if (file != null && !file.isEmpty()) {  // 파일이 있다면
-            FileHandler fileHandler = new FileHandler();
+        if (file != null && !file.isEmpty()) {
+            // Azure Blob Storage를 사용하도록 수정된 FileHandler 객체 생성
+            AzureFileHandler fileHandler = new AzureFileHandler();
+
+            // 파일 업로드
             fileList = fileHandler.uploadFiles(new MultipartFile[]{file});
         }
 
         return fileList;
     }
 
-    // azure 파일관리
-//    private static List<ProjectFileVO> userFile(UserVO user, BindingResult result, MultipartFile file) {
-//        System.out.println("result=" + result);
-//        System.out.println("user=" + user);
-//
-//        List<ProjectFileVO> fileList = new ArrayList<>();
-//        if (file != null && !file.isEmpty()) {
-//            // Azure Blob Storage를 사용하도록 수정된 FileHandler 객체 생성
-//            AzureFileHandler fileHandler = new AzureFileHandler();
-//
-//            // 파일 업로드
-//            fileList = fileHandler.uploadFiles(new MultipartFile[]{file});
-//        }
-//
-//        return fileList;
-//    }
-//
     // 회원탈퇴 메서드
     @GetMapping("/unregister")
     public String userUnregister(HttpSession session, RedirectAttributes rattr) {

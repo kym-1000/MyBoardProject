@@ -52,17 +52,17 @@ let sessionId = "${loginId}";
       <textarea name="content" rows="20" id="mainText" placeholder="내용을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"} required>${Board.board.content}</textarea>
       <c:if test="${fList ne null}">
         <c:forEach items="${fList}" var="fvo">
-<%--      <img id="image" src="https://youngmokfile.blob.core.windows.net/youngmokboard/${fList[0].uuid}_${fList[0].file_name}" alt="" style="display:none; width: 300px; height: 250px;">--%>
-      <img id="image" src="/fileUpload/${fn:replace(fList[0].save_dir,'\\','/')}/${fList[0].uuid}_${fList[0].file_name}" alt="" style="display:none; width: 300px; height: 250px;">
+      <img id="image" src="https://myboard.blob.core.windows.net/youngmokboard/${fList[0].uuid}_${fList[0].file_name}" alt="" style="display:none; width: 300px; height: 250px;">
+<%--      <img id="image" src="/fileUpload/${fn:replace(fList[0].save_dir,'\\','/')}/${fList[0].uuid}_${fList[0].file_name}" alt="" style="display:none; width: 300px; height: 250px;">--%>
         </c:forEach>
       </c:if>
     </div>
 
       <div id="modeDiv" ${mode eq 'new' ? '' : 'style="display: none;"'}>
-<%--      <img id="preview-image" style="height: 50px; width: 50px" src="https://youngmokfile.blob.core.windows.net/youngmokboard/${fList[0].uuid}_${fList[0].file_name}" alt="미리보기">--%>
-      <img id="preview-image" style="height: 50px; width: 50px" src="/fileUpload/${fn:replace(fList[0].save_dir,'\\','/')}/${fList[0].uuid}_${fList[0].file_name}" alt="미리보기">
+      <img id="preview-image" style="height: 50px; width: 50px" src="https://myboard.blob.core.windows.net/youngmokboard/${fList[0].uuid}_${fList[0].file_name}" alt="미리보기">
+<%--      <img id="preview-image" style="height: 50px; width: 50px" src="/fileUpload/${fn:replace(fList[0].save_dir,'\\','/')}/${fList[0].uuid}_${fList[0].file_name}" alt="미리보기">--%>
     <label>이미지 첨부파일</label>
-    <input style="height: 100px"  type="file" id="files" name="files" accept="image/png, image/jpg, image/jpeg, image/gif" onchange="previewImage(event)"><br>
+    <input style="height: 100px"  type="file" id="files" name="files" accept="image/png, image/jpg, image/jpeg, image/gif" ><br>
         <button type="submit" id="writeBtn" class="btn btn-write"><i class="fa fa-pencil"></i>게시글등록</button>
       </div>
 

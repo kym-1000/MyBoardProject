@@ -125,7 +125,7 @@ $("#rePwdSubmit").click(function (){
 
     let ID_RE = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,12}$/;
     if(!(ID_RE.test(userInfo.pwd))) {
-        alert("비밀번호는 6~12자리 특수문자와 영문자 그리고 숫자 조합이어야합니다.")
+        alert("패스워드는 6~12자리 영대소문자와 숫자와 특수문자 조합이어야합니다.")
         return false;
     }
 

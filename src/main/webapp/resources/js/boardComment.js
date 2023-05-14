@@ -17,43 +17,6 @@ function spreadCommentFromServer(bno) {
 
 // 로컬 sql 댓글 작성 
 
-function getCommentList(bno,loginId) {
-    spreadCommentFromServer(bno)
-        .done(function(result) {
-            let $div = $("#Comment");
-            $div.empty();
-            let html = "<ul>";
-            for (let i = 0; i < result.length; i++) {
-                html += "<li>";
-                html += `<div class="d-flex" data-pcno="${result[i].pcno}" data-cno="${result[i].cno}" data-bno="${result[i].bno}">`;
-                if(result[i].cno !== result[i].pcno) {
-                    html += `<div style="font-size: 20px;">ㄴ</div>`;
-                }
-                const FilePath = result[i].image_file ? result[i].image_file.replace(/\\/g, "/") : "no-image.png";
-                html += `<div class="flex-shrink-0"><img class="rounded-circle" src="/fileUpload/${FilePath}" alt="프로필 이미지" /></div>`;
-                html += `<div class="ms-3" style="width: 700px">`;
-                html += `<div class="fw-bold" id="cmtWriter1" >${result[i].writer}</div>`;
-                html += `${result[i].content}`;
-                html += `<div STYLE="text-align: right">`;
-                if(sessionId!==""){
-                    html +=  `<button type="button" id="cmtReplyBtn" class="btn btn-sm btn-outline-primary ">답글</button>`;
-                }
-                if (result[i].writer === loginId) {
-                    html += `<button type="button" id="cmtDelBtn" class="btn btn-sm btn-outline-danger ">삭제</button>`;
-                }
-                html += `</div>`;
-                html += `</div></div><br></li><hr>`;
-            }
-            html += "</ul>";
-            $div.append(html);
-        })
-        .fail(function(jqXHR, textStatus, errorThrown) {
-            console.log(textStatus + ": " + errorThrown);
-        });
-}
-
-// azure 댓글 작성
-
 // function getCommentList(bno,loginId) {
 //     spreadCommentFromServer(bno)
 //         .done(function(result) {
@@ -66,9 +29,8 @@ function getCommentList(bno,loginId) {
 //                 if(result[i].cno !== result[i].pcno) {
 //                     html += `<div style="font-size: 20px;">ㄴ</div>`;
 //                 }
-//                 const FileName = result[i].image_file ? result[i].image_file.replace(/\\/g, "/") : "no-image.png";
-//                 const ImageUrl = `https://youngmokfile.blob.core.windows.net/youngmokboard/${FileName}`;
-//                 html += `<div class="flex-shrink-0"><img class="rounded-circle" STYLE="height: 75px; width: 75px;" src="${ImageUrl}" alt="프로필 이미지" /></div>`;
+//                 const FilePath = result[i].image_file ? result[i].image_file.replace(/\\/g, "/") : "no-image.png";
+//                 html += `<div class="flex-shrink-0"><img class="rounded-circle" src="/fileUpload/${FilePath}" alt="프로필 이미지" /></div>`;
 //                 html += `<div class="ms-3" style="width: 700px">`;
 //                 html += `<div class="fw-bold" id="cmtWriter1" >${result[i].writer}</div>`;
 //                 html += `${result[i].content}`;
@@ -89,6 +51,44 @@ function getCommentList(bno,loginId) {
 //             console.log(textStatus + ": " + errorThrown);
 //         });
 // }
+
+// azure 댓글 작성
+
+function getCommentList(bno,loginId) {
+    spreadCommentFromServer(bno)
+        .done(function(result) {
+            let $div = $("#Comment");
+            $div.empty();
+            let html = "<ul>";
+            for (let i = 0; i < result.length; i++) {
+                html += "<li>";
+                html += `<div class="d-flex" data-pcno="${result[i].pcno}" data-cno="${result[i].cno}" data-bno="${result[i].bno}">`;
+                if(result[i].cno !== result[i].pcno) {
+                    html += `<div style="font-size: 20px;">ㄴ</div>`;
+                }
+                const FileName = result[i].image_file ? result[i].image_file.replace(/\\/g, "/") : "no-image.png";
+                const ImageUrl = `https://myboard.blob.core.windows.net/youngmokboard/${FileName}`;
+                html += `<div class="flex-shrink-0"><img class="rounded-circle" STYLE="height: 75px; width: 75px;" src="${ImageUrl}" alt="프로필 이미지" /></div>`;
+                html += `<div class="ms-3" style="width: 700px">`;
+                html += `<div class="fw-bold" id="cmtWriter1" >${result[i].writer}</div>`;
+                html += `${result[i].content}`;
+                html += `<div STYLE="text-align: right">`;
+                if(sessionId!==""){
+                    html +=  `<button type="button" id="cmtReplyBtn" class="btn btn-sm btn-outline-primary ">답글</button>`;
+                }
+                if (result[i].writer === loginId) {
+                    html += `<button type="button" id="cmtDelBtn" class="btn btn-sm btn-outline-danger ">삭제</button>`;
+                }
+                html += `</div>`;
+                html += `</div></div><br></li><hr>`;
+            }
+            html += "</ul>";
+            $div.append(html);
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ": " + errorThrown);
+        });
+}
 
 
 
@@ -197,12 +197,3 @@ $("#cmtReplybtn").click(function(){
 
 });
 
-function previewImage(event) {
-    const input = event.target;
-    const reader = new FileReader();
-    reader.onload = function () {
-        const img = document.getElementById("preview-image");
-        img.src = reader.result;
-    };
-    reader.readAsDataURL(input.files[0]);
-}

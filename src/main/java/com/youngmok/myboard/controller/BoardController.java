@@ -4,8 +4,8 @@ import com.youngmok.myboard.domain.BoardDTO;
 import com.youngmok.myboard.domain.BoardVO;
 import com.youngmok.myboard.domain.ProjectFileVO;
 import com.youngmok.myboard.domain.SearchCondition;
-//import com.youngmok.myboard.handler.AzureFileHandler;
-import com.youngmok.myboard.handler.FileHandler;
+//import com.youngmok.myboard.handler.FileHandler;
+import com.youngmok.myboard.handler.AzureFileHandler;
 import com.youngmok.myboard.handler.PageHandler;
 import com.youngmok.myboard.service.BoardService;
 import com.youngmok.myboard.service.CommentService;
@@ -22,6 +22,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.logging.FileHandler;
 
 @Controller
 @RequestMapping("/board")
@@ -33,12 +34,12 @@ public class BoardController {
     @Autowired
     CommentService CS;
 
-    @Autowired
-    private FileHandler FH;
-
-
 //    @Autowired
-//    private AzureFileHandler FH;
+//    private FileHandler FH;
+
+
+    @Autowired
+    private AzureFileHandler FH;
 
 
     // 보드 리스트를 불러오는 메서드
@@ -99,6 +100,13 @@ public class BoardController {
     @PostMapping("/write")
     public String boardwrite(String title, String content, HttpSession session,Model m,RedirectAttributes rattr, @RequestParam(name="files",required = false) MultipartFile[] files) {
         String writer = (String)session.getAttribute("id");
+
+        if(writer.equals("")){
+
+            m.addAttribute("msg", "SESSION_ERR");
+            return "redirect:/";
+        }
+
         BoardVO board = new BoardVO(title,content,writer);
         System.out.println("board = " + board);
         int isOk = 0;

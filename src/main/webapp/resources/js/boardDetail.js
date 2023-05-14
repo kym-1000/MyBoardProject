@@ -61,6 +61,35 @@ $(document).ready(function(){
 });
 
 
+$("#files").change(function() {
+    let file = $("#files")[0].files[0];
+    let file_RE = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    if (!file_RE.exec(file.name)) {
+        alert("허용되지 않는 파일 형식입니다. (jpg, jpeg, png, gif 파일만 첨부 가능합니다.)");
+        $("#files").val("");
+        return false;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+        alert("파일 크기는 최대 2MB까지 업로드 가능합니다.");
+        $("#files").val("");
+        return false;
+    }
+
+    previewImage(event);
+
+});
+
+
+function previewImage(event) {
+    const input = event.target;
+    const reader = new FileReader();
+    reader.onload = function () {
+        const img = document.getElementById("preview-image");
+        img.src = reader.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+}
+
 // <%--    form.attr("action", "<c:url value='/board/modify${searchCondition.queryString}'/>");--%>
 // <%--    form.attr("method", "post");--%>
 // <%--    if(formCheck())--%>

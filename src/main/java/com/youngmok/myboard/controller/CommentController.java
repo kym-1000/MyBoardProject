@@ -8,6 +8,7 @@ import com.youngmok.myboard.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -62,8 +63,16 @@ public class CommentController {
     // 댓글을 등록하는 메서드
     @ResponseBody
     @PostMapping("/comments")
-    public ResponseEntity<String> write(@RequestBody CommentDTO comment, HttpSession session) {
+    public ResponseEntity<String> write(@RequestBody CommentDTO comment, HttpSession session, Model m) {
         String writer = (String) session.getAttribute("id");
+
+        if(writer.equals("")){
+
+            m.addAttribute("msg", "SESSION_ERR");
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .header("Location", "/")
+                    .build();
+        }
 
         // 댓글 작성자 세팅
         comment.setWriter(writer);
@@ -73,9 +82,9 @@ public class CommentController {
 
         if(file != null){
             // azure 스토리지는 앞에 날짜 파일이 불필요..
-            String fileName = file.getSave_dir()+"/"+file.getUuid()+"_th_"+file.getFile_name(); // 댓글의 이미지 경로
+//            String fileName = file.getSave_dir()+"/"+file.getUuid()+"_th_"+file.getFile_name(); // 댓글의 이미지 경로
 
-//            String fileName = file.getUuid()+"_"+file.getFile_name();
+            String fileName = file.getUuid()+"_"+file.getFile_name();
 
 
             comment.setImage_file(fileName);

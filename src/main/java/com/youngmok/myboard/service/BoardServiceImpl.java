@@ -33,8 +33,7 @@ public class BoardServiceImpl implements BoardService{
         // 기존 게시글에 대한 내용을 DB에 저장
 
         if(isOk > 0 && boardDTO.getFList().size() > 0) {
-            int bno = BDAO.selectOneBno(); // 방금 넣었던 board 객체가 db에 저장된 후
-            // 가장 큰 bno 가져오기
+            int bno = boardDTO.getBoard().getBno(); // 해당 bno
 
             for(ProjectFileVO fvo : boardDTO.getFList()) {
                 fvo.setBno(bno);
@@ -52,8 +51,7 @@ public class BoardServiceImpl implements BoardService{
         int isOk = BDAO.boardUpdate(boardDTO.getBoard());
 
         if(isOk > 0 && boardDTO.getFList().size() > 0) {
-            int bno = BDAO.selectOneBno(); // 방금 넣었던 board 객체가 db에 저장된 후
-            // 가장 큰 bno 가져오기
+            int bno = boardDTO.getBoard().getBno();
 
             for(ProjectFileVO fvo : boardDTO.getFList()) {
                 fvo.setBno(bno);

@@ -8,5 +8,16 @@
       <jdbc-url>jdbc:mysql://127.0.0.3:3306/boardproject</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="@mysql-20230514085801.mysql.database.azure.com" uuid="7970b303-341b-4349-a6f0-2e9c24737c5f">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://mysql-20230514085801.mysql.database.azure.com:3306?serverTimezone=UTC&amp;useSSL=true&amp;requireSSL=false</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="AZURE_SQL_DB_SERVER" value="/subscriptions/60db4aa3-05f3-46fe-adc8-aadb715928df/resourceGroups/rg-app-MyBoard-230512112617/providers/Microsoft.DBforMySQL/flexibleServers/mysql-20230514085801" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
