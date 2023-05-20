@@ -138,17 +138,15 @@ let sessionId = "${loginId}";
 
   likeCnt();
 
-
   // 중복 추천 여부를 확인하는 함수
   function hasLiked() {
     const liked = localStorage.getItem(localName); // 로컬 스토리지에서 해당 아이디의 추천 여부 가져오기
 
     if (liked === null) {
-      return false; // 혹은 다른 처리를 수행할 수 있습니다.
+      return false;
     }
-    console.log(liked);
-    let localObject = JSON.parse(liked);
-    return localObject.bnoVal === true && localObject.login === true;
+
+    return liked === "true" ;
   }
 
   // 좋아요 버튼 클릭 이벤트 핸들러
@@ -162,25 +160,19 @@ let sessionId = "${loginId}";
       url: "/board/like",
       type: "GET",
       data: {
-        like : bnoVal // 전송할 데이터 설정
+        like : bnoVal
       },
       success: function(response) {
-        console.log(response); // 응답 데이터 출력 또는 처리
+        console.log(response);
         likeCount++;
         likeCnt();
       },
       error: function(error) {
-        console.error(error); // 에러 메시지 출력 또는 처리
+        console.error(error);
       }
     });
 
-    let myObject = {
-      bnoVal: true,
-      login: true
-    };
-
-    let localObject = JSON.stringify(myObject);
-    localStorage.setItem(localName, localObject);
+    localStorage.setItem(localName, "true");
   }
 
 </script>
