@@ -38,6 +38,12 @@
           <option value="W" ${ph.sc.option=='W' ? "selected" : ""}>작성자</option>
         </select>
 
+        <select class="search-option" name="sortoption">
+          <option value="D" ${ph.sc.sortoption=='D' || ph.sc.sortoption=='' ? "selected" : ""}>날짜순</option>
+          <option value="C" ${ph.sc.sortoption=='C' ? "selected" : ""}>조회수순</option>
+          <option value="L" ${ph.sc.sortoption=='L' ? "selected" : ""}>추천순</option>
+        </select>
+
         <input type="text" name="keyword" class="search-input" type="text" value="${ph.sc.keyword}" placeholder="검색어를 입력해주세요">
         <input type="submit" class="search-button" value="검색">
       </form>
@@ -54,9 +60,10 @@
       <tr>
         <th class="no">번호</th>
         <th class="title">제목</th>
-        <th class="writer">이름</th>
+        <th class="writer">아이디</th>
         <th class="regdate">등록일</th>
         <th class="viewcnt">조회수</th>
+        <th class="like">추천수</th>
       </tr>
       <c:forEach var="board" items="${list}">
         <tr>
@@ -75,6 +82,7 @@
             </c:otherwise>
           </c:choose>
           <td class="viewcnt" style="text-align: center;">${board.cnt}</td>
+          <td class="like" style="text-align: center;">${board.board_like}</td>
         </tr>
       </c:forEach>
     </table>

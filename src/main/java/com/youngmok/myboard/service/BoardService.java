@@ -24,4 +24,6 @@ public interface BoardService  {
     int boardadd(BoardDTO boardDTO);
 
     int modifyBoard(BoardDTO boardDTO);
+
+    int boardlike(Integer bno);
 }

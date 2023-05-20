@@ -90,17 +90,4 @@ function previewImage(event) {
     reader.readAsDataURL(input.files[0]);
 }
 
-// <%--    form.attr("action", "<c:url value='/board/modify${searchCondition.queryString}'/>");--%>
-// <%--    form.attr("method", "post");--%>
-// <%--    if(formCheck())--%>
-// <%--      form.submit();--%>
-// <%--  });--%>
-// <%--  $("#deleteBtn").on("click", function(){--%>
-// <%--    if(!confirm("정말로 삭제하시겠습니까?")) return;--%>
-// <%--    let form = $("#form");--%>
-// <%--    form.attr("action", "<c:url value='/board/boardDelete${searchCondition.queryString}'/>");--%>
-// <%--    form.attr("method", "post");--%>
-// <%--    form.submit();--%>
-// <%--  });--%>
-// <%--  $("#listBtn").on("click", function(){--%>
-// <%--    location.href="<c:url value='/board/list${searchCondition.queryString}'/>";--%>
+

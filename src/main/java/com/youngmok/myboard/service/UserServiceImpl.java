@@ -120,20 +120,26 @@ public class UserServiceImpl implements UserService{
         user.setPwd(encodePw);
         //회원 수정
 
-        ProjectFileVO file = fileList.get(0);
+        int isOk;
 
-        if(FDAO.selectFileImage(user.getId())==null){ // 기존에 프로필사진이 존재하지 않다면...
+        System.out.println("fileList = " + fileList);
+
+        if(fileList.size()==0){
+            isOk = UDAO.modifyUser(user);
+        } else if(FDAO.selectFileImage(user.getId())==null){ // 기존에 프로필사진이 존재하지 않다면...
+            ProjectFileVO file = fileList.get(0);
             file.setUser(user.getId()); // 유저 아이디 설정
             file.setFile_type(1);
             FDAO.insertFile(file);
+            isOk = UDAO.modifyUser(user);
         } else {
             // 수정된 파일 정보를 저장
+            ProjectFileVO file = fileList.get(0);
             file.setUser(user.getId()); // 유저 아이디 설정
             file.setFile_type(1);
             FDAO.profileFileModify(file);
+            isOk = UDAO.modifyUser(user);
         }
-
-        int isOk = UDAO.modifyUser(user);
 
         System.out.println("fileList = " + fileList);
 

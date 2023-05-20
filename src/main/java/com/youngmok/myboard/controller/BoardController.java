@@ -1,15 +1,14 @@
 package com.youngmok.myboard.controller;
 
-import com.youngmok.myboard.domain.BoardDTO;
-import com.youngmok.myboard.domain.BoardVO;
-import com.youngmok.myboard.domain.ProjectFileVO;
-import com.youngmok.myboard.domain.SearchCondition;
+import com.youngmok.myboard.domain.*;
 //import com.youngmok.myboard.handler.FileHandler;
 import com.youngmok.myboard.handler.AzureFileHandler;
 import com.youngmok.myboard.handler.PageHandler;
 import com.youngmok.myboard.service.BoardService;
 import com.youngmok.myboard.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +45,8 @@ public class BoardController {
     // 보드 리스트를 불러오는 메서드
     @GetMapping("/list")
     public String board(SearchCondition sc, Model m, HttpServletRequest request){
+
+        System.out.println("sc = " + sc);
 
         try {
             int totalCnt = BS.getSearchResultCnt(sc);  // 총 게시글 수를 가져온다.
@@ -203,6 +204,25 @@ public class BoardController {
 
 
         return "redirect:/board/list";
+    }
+
+
+    @GetMapping("/like")
+    public ResponseEntity<String> like(@RequestParam("like") Integer like) {
+        try {
+            int isOk = BS.boardlike(like);
+
+            if(isOk > 0) {
+                System.out.println("\"게시글 추천 성공 여부\" = " + "게시글 추천 성공");
+            } else {
+                System.out.println("\"게시글 추천 성공 여부\" = " + "게시글 추천 실패");
+            }
+
+            return ResponseEntity.ok("Recommendation recorded for like: " + like);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to process the request");
+        }
     }
 
 

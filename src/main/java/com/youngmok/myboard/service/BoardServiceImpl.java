@@ -80,6 +80,11 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public int boardlike(Integer bno) {
+        return BDAO.boardLikeUp(bno);
+    }
+
+    @Override
     public BoardVO boardlist(int bno) {
         return BDAO.selectBoardOne(bno);
     }

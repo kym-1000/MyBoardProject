@@ -51,6 +51,11 @@ public class BoardDAOImpl implements BoardDAO{
     }
 
     @Override
+    public int boardLikeUp(Integer bno) {
+        return session.update(namespace+"boardLikeUp",bno);
+    }
+
+    @Override
     public int boardDelete(Integer bno, String writer) {
         HashMap map = new HashMap();
         map.put("bno", bno);

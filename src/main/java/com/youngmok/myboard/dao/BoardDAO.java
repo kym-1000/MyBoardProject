@@ -32,4 +32,6 @@ public interface BoardDAO {
     int selectCount();
 
     List<BoardVO> selectAll();
+
+    int boardLikeUp(Integer bno);
 }

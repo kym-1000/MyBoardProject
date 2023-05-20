@@ -12,13 +12,15 @@ public class SearchCondition {
     private Integer pageSize = 10;
     private String keyword="";
     private String option="";
+    private String sortoption="";
 
     public SearchCondition(){}
-    public SearchCondition(Integer page, Integer pageSize, String keyword, String option) {
+    public SearchCondition(Integer page, Integer pageSize, String keyword, String option,String sortoption) {
         this.page = page;
         this.pageSize = pageSize;
         this.keyword = keyword;
         this.option = option;
+        this.sortoption = sortoption;
     }
 
     public Integer getOffset() {
@@ -30,6 +32,7 @@ public class SearchCondition {
                 .queryParam("page", page)
                 .queryParam("pageSize",pageSize)
                 .queryParam("option",option)
+                .queryParam("sortoption",sortoption)
                 .queryParam("keyword",keyword)
                 .build().toString();
     }

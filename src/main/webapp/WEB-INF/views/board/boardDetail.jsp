@@ -72,9 +72,19 @@ let sessionId = "${loginId}";
     </c:if>
     <button type="button" id="listBtn" class="btn btn-list" ${mode ne 'new' ? '' : 'style="display: none;"'}><i class="fa fa-bars"></i> 목록</button>
   </form>
+
+  <c:if test="${loginId != null}">
+  <div id="recommned" style="text-align: center;">
+    <button type="button" class="btn"   onclick="Boardlike()">좋아요</button>
+    <span id="likeCount"></span>
+  </div>
+  </c:if>
+
 </div>
 
-<div id="space"></div>
+
+
+
 
 <section class="mb-5">
   <div class="card bg-light">
@@ -108,7 +118,7 @@ let sessionId = "${loginId}";
 
 <script type="text/javascript" src="<c:url value='/resources/js/boardDetail.js'/>"></script>
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/boardComment.js"></script>
+<script type="text/javascript" src="<c:url value='/resources/js/boardComment.js'/>"></script>
 
 <script>
   const bnoVal = '<c:out value="${Board.board.bno}" />';
@@ -116,6 +126,62 @@ let sessionId = "${loginId}";
   console.log(bnoVal+" : "+login);
 
   getCommentList(bnoVal,login);
+
+  let localName = bnoVal+login;
+
+  let likeCount = ${Board.board.board_like}; // 값 설정을 위한 변수
+
+  function likeCnt() {
+    let spanElement = document.getElementById("likeCount");
+    spanElement.textContent = likeCount.toString(); // 값을 문자열로 변환하여 설정
+  }
+
+  likeCnt();
+
+
+  // 중복 추천 여부를 확인하는 함수
+  function hasLiked() {
+    const liked = localStorage.getItem(localName); // 로컬 스토리지에서 해당 아이디의 추천 여부 가져오기
+
+    if (liked === null) {
+      return false; // 혹은 다른 처리를 수행할 수 있습니다.
+    }
+    console.log(liked);
+    let localObject = JSON.parse(liked);
+    return localObject.bnoVal === true && localObject.login === true;
+  }
+
+  // 좋아요 버튼 클릭 이벤트 핸들러
+  function Boardlike() {
+    if (hasLiked()) {
+      alert("이미 추천하셨습니다!");
+      return;
+    }
+
+    $.ajax({
+      url: "/board/like",
+      type: "GET",
+      data: {
+        like : bnoVal // 전송할 데이터 설정
+      },
+      success: function(response) {
+        console.log(response); // 응답 데이터 출력 또는 처리
+        likeCount++;
+        likeCnt();
+      },
+      error: function(error) {
+        console.error(error); // 에러 메시지 출력 또는 처리
+      }
+    });
+
+    let myObject = {
+      bnoVal: true,
+      login: true
+    };
+
+    let localObject = JSON.stringify(myObject);
+    localStorage.setItem(localName, localObject);
+  }
 
 </script>
 

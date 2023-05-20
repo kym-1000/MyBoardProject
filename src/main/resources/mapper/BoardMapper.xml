@@ -76,11 +76,11 @@
     </update>
 
     <select id="searchSelectPage" parameterType="SearchCondition" resultType="Board">
-        SELECT bno, title, content, writer, cnt, comment_cnt, reg_date
+        SELECT *
         FROM board
         where true
         <include refid="searchCondition"/>
-        ORDER BY REG_DATE DESC, bno desc
+        <include refid="ORDERBYCondition"/>
         Limit #{offset}, #{pageSize}
     </select>
 
@@ -104,6 +104,20 @@
         </choose>
     </sql>
 
+    <sql id="ORDERBYCondition">
+        <choose>
+            <when test='sortoption=="C"'>
+                ORDER BY cnt DESC, bno desc
+            </when>
+            <when test='sortoption=="L"'>
+                ORDER BY board_like DESC, bno desc
+            </when>
+            <otherwise>
+                ORDER BY REG_DATE DESC, bno desc
+            </otherwise>
+        </choose>
+    </sql>
+
     <update id="updateCommnetCnt">
         UPDATE board
         set comment_cnt = comment_cnt + #{cnt}
@@ -113,5 +127,11 @@
     <select id="selectOneBno" resultType="int">
         select max(bno) from board
     </select>
+
+    <update id="boardLikeUp" parameterType="int" >
+        update board set board_like = board_like + 1 where bno = #{bno}
+
+    </update>
+
 
 </mapper>

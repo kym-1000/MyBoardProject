@@ -18,6 +18,7 @@ public class BoardVO {
     private int cnt;
     private int comment_cnt;
     private Date reg_date;
+    private int board_like;
 
     public BoardVO(String title, String content, String writer) {
         this.title = title;
