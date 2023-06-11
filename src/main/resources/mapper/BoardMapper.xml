@@ -5,8 +5,8 @@
 <mapper namespace="com.youngmok.myboard.dao.BoardMapper">
     <insert id="insertBoard" parameterType="Board">
         insert into
-        board(title,writer,content)
-        values(#{title},#{writer},#{content})
+        board(title,writer,content,reg_date)
+        values(#{title},#{writer},#{content},DATE_ADD(NOW(), INTERVAL 9 HOUR))
     </insert>
 
     <select id="selectBoardOne" parameterType="int"  resultType="Board">

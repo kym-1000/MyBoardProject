@@ -16,4 +16,6 @@ public interface CommentDAO {
     int commentCount(Integer bno);
 
     int boardDeleteComment(Integer bno);
+
+    void updateProfile(String profile);
 }

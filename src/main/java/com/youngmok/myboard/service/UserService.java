@@ -22,4 +22,6 @@ public interface UserService {
     UserVO pwdSearch(UserVO user);
 
     int pwdChange(UserVO user);
+
+    UserVO getUser(String id);
 }

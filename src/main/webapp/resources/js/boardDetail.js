@@ -40,6 +40,7 @@ $(document).ready(function(){
             $("#modifyBtn").html("<i class='fa fa-pencil'></i> 등록");
             $("#writeBtn").hide();
             $(".mb-5").hide();
+            $("#recommned").hide();
             return;
         }
         // 2. 수정 상태이면, 수정된 내용을 서버로 전송

@@ -4,8 +4,8 @@
 
 <mapper namespace="com.youngmok.myboard.dao.UserMapper">
     <insert id="insert" parameterType="User">
-        insert into board_user(id,pwd,name,email,birth)
-        values(#{id},#{pwd},#{name},#{email},#{birth})
+        insert into board_user(id,pwd,name,email,birth,profile)
+        values(#{id},#{pwd},#{name},#{email},#{birth},#{profile})
     </insert>
 
     <select id="selectLoginUser" parameterType="String" resultType="User">
@@ -30,7 +30,7 @@
 
     <update id="modifyUser" parameterType="User">
         update board_user
-        set pwd = #{pwd}, name = #{name}, email = #{email}, birth = #{birth, jdbcType=TIMESTAMP}
+        set pwd = #{pwd}, name = #{name}, email = #{email}, birth = #{birth, jdbcType=TIMESTAMP}, profile = #{profile}
         where id = #{id}
     </update>
 

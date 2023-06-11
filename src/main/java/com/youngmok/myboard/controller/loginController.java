@@ -36,7 +36,9 @@ public class loginController {
 
         return "redirect:/";
     }
-
+    
+    
+    // 비밀번호 찾기에서 개인정보 입력시 해당 회원이 있는지 검사
     @ResponseBody
     @PostMapping("/pwd")
     public ResponseEntity<Map<String, Object>> pwdSearch(@RequestBody UserVO user) {
@@ -59,6 +61,7 @@ public class loginController {
 
     }
 
+    // 비밀번호 변경 메서드
     @ResponseBody
     @PostMapping("/change")
     public ResponseEntity<String> pwdChange(@RequestBody UserVO user) {
@@ -91,17 +94,18 @@ public class loginController {
             return "redirect:/login/login?msg="+msg;
         }
 
+        UserVO user = US.getUser(id);
 
         HttpSession session = request.getSession();  // 세션 생성
-        session.setAttribute("id", id);
+        session.setAttribute("user", user);
 
         if(rememberId) {
 
-            Cookie cookie = new Cookie("id", id);
+            Cookie cookie = new Cookie("user", id);
             response.addCookie(cookie);
         } else {
  
-            Cookie cookie = new Cookie("id", id);
+            Cookie cookie = new Cookie("user", id);
             cookie.setMaxAge(0);
 
             response.addCookie(cookie);

@@ -29,5 +29,6 @@ public class UserVO {
     private Date birth;
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date reg_date;
+    private String profile;
 
 }

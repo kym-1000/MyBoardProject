@@ -30,4 +30,8 @@
         delete from board_comment where bno = #{bno}
     </delete>
 
+    <update id="updateProfile" parameterType="String">
+        update board_comment set image_file = #{Profile}
+    </update>
+
 </mapper>

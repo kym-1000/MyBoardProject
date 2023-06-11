@@ -51,7 +51,7 @@ public class RegisterController {
     // 회원가입시 중복된 회원이 있는지 검사
     @ResponseBody
     @PostMapping("/idChk")
-    public int idChk(String id) {
+    public int idChk(@RequestBody String id) {
         System.out.println("id = " + id);
         return US.idChk(id);
     }
@@ -165,10 +165,10 @@ public class RegisterController {
         List<ProjectFileVO> fileList = new ArrayList<>();
         if (file != null && !file.isEmpty()) {
             // Azure Blob Storage를 사용하도록 수정된 FileHandler 객체 생성
-            AzureFileHandler fileHandler = new AzureFileHandler();
+            AzureFileHandler azurefileHandler = new AzureFileHandler();
 
             // 파일 업로드
-            fileList = fileHandler.uploadFiles(new MultipartFile[]{file});
+            fileList = azurefileHandler.uploadFiles(new MultipartFile[]{file});
         }
 
         return fileList;

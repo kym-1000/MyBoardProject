@@ -16,9 +16,6 @@
       background-color: black;
     }
 
-    #openBtn {
-      background-color: black;
-    }
   </style>
 </head>
 <body>
@@ -28,34 +25,8 @@
 <script> let msg = "${msg}";</script>
 <script src="<c:url value='/resources/js/msg.js'/>"></script>
 
-<div style="text-align:center">
+<div style="text-align:center; margin-top: 50px">
   <div class="board-container">
-    <div class="search-container">
-      <form action="<c:url value="/board/list"/>" class="search-form" method="get">
-        <select class="search-option" name="option">
-          <option value="A" ${ph.sc.option=='A' || ph.sc.option=='' ? "selected" : ""}>제목+내용</option>
-          <option value="T" ${ph.sc.option=='T' ? "selected" : ""}>제목만</option>
-          <option value="W" ${ph.sc.option=='W' ? "selected" : ""}>작성자</option>
-        </select>
-
-        <select class="search-option" name="sortoption">
-          <option value="D" ${ph.sc.sortoption=='D' || ph.sc.sortoption=='' ? "selected" : ""}>날짜순</option>
-          <option value="C" ${ph.sc.sortoption=='C' ? "selected" : ""}>조회수순</option>
-          <option value="L" ${ph.sc.sortoption=='L' ? "selected" : ""}>추천순</option>
-        </select>
-
-        <input type="text" name="keyword" class="search-input" type="text" value="${ph.sc.keyword}" placeholder="검색어를 입력해주세요">
-        <input type="submit" class="search-button" value="검색">
-      </form>
-      <c:if test="${sessionScope.id != null}">
-        <button id="writeBtn" class="btn-write" onclick="location.href='<c:url value="/board/write"/>'"><i class="fa fa-pencil"></i> 글쓰기</button>
-      </c:if>
-      <c:if test="${sessionScope.id == null}">
-        <button id="loginBtn" class="btn-write" ><i class="fa fa-pencil"></i> 글쓰기</button>
-      </c:if>
-
-    </div>
-
     <table>
       <tr>
         <th class="no">번호</th>
@@ -105,6 +76,34 @@
         </c:if>
       </div>
     </div>
+
+    <div class="search-container">
+      <form action="<c:url value="/board/list"/>" class="search-form" method="get">
+        <select class="search-option" name="option">
+          <option value="A" ${ph.sc.option=='A' || ph.sc.option=='' ? "selected" : ""}>제목+내용</option>
+          <option value="T" ${ph.sc.option=='T' ? "selected" : ""}>제목만</option>
+          <option value="W" ${ph.sc.option=='W' ? "selected" : ""}>작성자</option>
+        </select>
+
+        <select class="search-option" name="sortoption">
+          <option value="D" ${ph.sc.sortoption=='D' || ph.sc.sortoption=='' ? "selected" : ""}>날짜순</option>
+          <option value="C" ${ph.sc.sortoption=='C' ? "selected" : ""}>조회수순</option>
+          <option value="L" ${ph.sc.sortoption=='L' ? "selected" : ""}>추천순</option>
+        </select>
+
+        <input type="text" name="keyword" class="search-input" type="text" value="${ph.sc.keyword}" placeholder="검색어를 입력해주세요">
+        <input type="submit" class="search-button" value="검색">
+      </form>
+      <c:if test="${sessionScope.id != null}">
+        <button id="writeBtn" class="btn-write" onclick="location.href='<c:url value="/board/write"/>'"><i class="fa fa-pencil"></i> 글쓰기</button>
+      </c:if>
+      <c:if test="${sessionScope.id == null}">
+        <button id="loginBtn" class="btn-write" ><i class="fa fa-pencil"></i> 글쓰기</button>
+      </c:if>
+
+    </div>
+
+
   </div>
 </div>
 

@@ -4,7 +4,28 @@
 <html lang="en">
 <head>
     <title>footer</title>
-    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/footer.css'/>">
+<%--    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/footer.css'/>">--%>
+    <style>
+        body {
+            padding-bottom: 30px; /* footer의 높이와 같은 값 */
+            display: flex;
+            flex-direction: column;
+        }
+
+        footer {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            color: white;
+            background-color: #555;
+        }
+    </style>
 </head>
 <body>
 

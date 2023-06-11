@@ -73,7 +73,7 @@ let sessionId = "${loginId}";
     <button type="button" id="listBtn" class="btn btn-list" ${mode ne 'new' ? '' : 'style="display: none;"'}><i class="fa fa-bars"></i> 목록</button>
   </form>
 
-  <c:if test="${loginId != null}">
+  <c:if test="${loginId != null && mode ne 'new'}">
   <div id="recommned" style="text-align: center;">
     <button type="button" class="btn"   onclick="Boardlike()">좋아요</button>
     <span id="likeCount"></span>
@@ -127,7 +127,7 @@ let sessionId = "${loginId}";
 
   getCommentList(bnoVal,login);
 
-  let localName = bnoVal+login;
+  let localName = bnoVal+login;  // 로컬 스토리지 키 값 생성
 
   let likeCount = ${Board.board.board_like}; // 값 설정을 위한 변수
 

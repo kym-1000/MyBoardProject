@@ -37,7 +37,6 @@ public class BoardController {
 //    @Autowired
 //    private FileHandler FH;
 
-
     @Autowired
     private AzureFileHandler FH;
 
@@ -54,10 +53,12 @@ public class BoardController {
 
             PageHandler pageHandler = new PageHandler(totalCnt, sc); // 총게시글과 검색어를(있다면) 이용하여 파일 핸들러 세팅
             List<BoardVO> list = BS.getSearchResultPage(sc);  // 검색어에 맞는 페이지 리스트를 가져온다.
+            System.out.println("list = " + list);
             m.addAttribute("list", list);
             m.addAttribute("ph", pageHandler);
 
-            Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant(); // 시간 세팅
+            Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
+
             m.addAttribute("startOfToday", startOfToday.toEpochMilli());
         } catch (Exception e) {
             e.printStackTrace();

@@ -49,5 +49,10 @@ public class CommentDAOImpl implements CommentDAO{
         return session.delete(namespace+"boardDeleteComment",bno);
     }
 
+    @Override
+    public void updateProfile(String profile) {
+        session.update(namespace+"updateProfile",profile);
+    }
+
 
 }
