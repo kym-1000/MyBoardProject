@@ -79,6 +79,7 @@ public class RegisterController {
             }
             rattr.addFlashAttribute("msg", "USER_join_OK");
         } catch (Exception e) {
+            rattr.addFlashAttribute("msg", "USER_join_FAIL");
             e.printStackTrace();
         }
 
@@ -95,7 +96,7 @@ public class RegisterController {
     // 회원정보 수정 페이지로 가는 메서드
     @GetMapping("/uesrModify")
     public String uesrModify(HttpSession session,Model m){
-        String id = (String) session.getAttribute("id");
+        String id = (String)session.getAttribute("id");
 
         UserVO user = UDAO.selectUser(id);  // 해당 유저를 가져옴
 
@@ -177,7 +178,7 @@ public class RegisterController {
     // 회원탈퇴 메서드
     @GetMapping("/unregister")
     public String userUnregister(HttpSession session, RedirectAttributes rattr) {
-        String id = (String) session.getAttribute("id");
+        String id = (String)session.getAttribute("id");
 
         try {
             int isOk = US.userUnregister(id);

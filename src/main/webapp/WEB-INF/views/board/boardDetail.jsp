@@ -20,15 +20,16 @@
       background-color: black;
     }
 
-    #openBtn {
-      background-color: black;
+    header {
+      text-align: left;
     }
+
     </style>
 </head>
 <body>
 <jsp:include page="../layout/header.jsp"/>
 
-<c:set var="loginId" value="${sessionScope.id}"/>
+<c:set var="loginId" value="${id}"/>
 <c:set var="modifyUrl" value="/board/modify${searchCondition.queryString}" />
 <c:set var="deleteUrl" value="/board/boardDelete${searchCondition.queryString}"/>
 <c:set var="listUrl" value="/board/list${searchCondition.queryString}" />
@@ -43,6 +44,7 @@ let sessionId = "${loginId}";
 
 <script src="<c:url value='/resources/js/msg.js'/>"></script>
 
+<%-- 메인 글 쓰기 글 읽기 영역 --%>
 <div class="container">
   <h2 class="writing-header"> 게시판 ${mode=="new" ? "글쓰기" : "읽기"}</h2>
   <form id="form" class="frm" action="<c:url value="/board/write"/>" enctype="multipart/form-data" method="post">
@@ -71,20 +73,24 @@ let sessionId = "${loginId}";
       <button type="button" id="deleteBtn" class="btn btn-delete"><i class="fa fa-trash"></i> 삭제</button>
     </c:if>
     <button type="button" id="listBtn" class="btn btn-list" ${mode ne 'new' ? '' : 'style="display: none;"'}><i class="fa fa-bars"></i> 목록</button>
+<%--    <br>--%>
+<%--    <h4 id="likeCount" style="color: black; float: left"></h4> 만큼 추천 되었습니다!--%>
   </form>
 
+  <c:if test="${loginId == null || loginId == ''}">
+    <div style="text-align: center">
+      <span style="color:black;"> 좋아요 : ${Board.board.board_like} </span>
+    </div>
+  </c:if>
+
   <c:if test="${loginId != null && mode ne 'new'}">
-  <div id="recommned" style="text-align: center;">
-    <button type="button" class="btn"   onclick="Boardlike()">좋아요</button>
-    <span id="likeCount"></span>
-  </div>
+    <div id="recommned" style="text-align: center;">
+      <button type="button" class="btn"   onclick="Boardlike()">좋아요</button>
+      <span id="likeCount" style="color:black;"></span>
+    </div>
   </c:if>
 
 </div>
-
-
-
-
 
 <section class="mb-5">
   <div class="card bg-light">
@@ -122,7 +128,7 @@ let sessionId = "${loginId}";
 
 <script>
   const bnoVal = '<c:out value="${Board.board.bno}" />';
-  const login = "${sessionScope.id}";
+  const login = "${id}";
   console.log(bnoVal+" : "+login);
 
   getCommentList(bnoVal,login);

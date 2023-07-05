@@ -17,5 +17,5 @@ public interface CommentDAO {
 
     int boardDeleteComment(Integer bno);
 
-    void updateProfile(String profile);
+    void updateProfile(String profile,String id);
 }

@@ -1,4 +1,4 @@
-package com.youngmok.myboard.service;
+package com.youngmok.myboard.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

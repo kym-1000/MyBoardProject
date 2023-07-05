@@ -27,7 +27,7 @@
 <jsp:include page="../layout/header.jsp"/>
 
 <form id="inputForm" action="<c:url value="/login/login"/>" method="post" onsubmit="return formCheck(this);">
-    <h3 id="title">Login</h3>
+    <h3 id="title">Sign in</h3>
     <div id="msg">
         <c:if test="${not empty param.msg}">
             <i class="fa fa-exclamation-circle"> ${URLDecoder.decode(param.msg)}</i>
@@ -39,7 +39,7 @@
     <button class="formButton">로그인</button>
     <div>
         <label><input type="checkbox" name="rememberId" value="on" ${empty cookie.id.value ? "":"checked"}> 아이디 기억</label> |
-        <a id="myBtn">비밀번호찾기</a> |
+        <a id="myBtn">비밀번호찾기</a>
         <a href="<c:url value='/register/add'/>" >회원가입</a>
     </div>
 </form>

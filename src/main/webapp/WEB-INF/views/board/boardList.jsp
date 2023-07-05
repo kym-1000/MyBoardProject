@@ -16,6 +16,8 @@
       background-color: black;
     }
 
+
+
   </style>
 </head>
 <body>
@@ -94,11 +96,11 @@
         <input type="text" name="keyword" class="search-input" type="text" value="${ph.sc.keyword}" placeholder="검색어를 입력해주세요">
         <input type="submit" class="search-button" value="검색">
       </form>
-      <c:if test="${sessionScope.id != null}">
+      <c:if test="${id != null}">
         <button id="writeBtn" class="btn-write" onclick="location.href='<c:url value="/board/write"/>'"><i class="fa fa-pencil"></i> 글쓰기</button>
       </c:if>
-      <c:if test="${sessionScope.id == null}">
-        <button id="loginBtn" class="btn-write" ><i class="fa fa-pencil"></i> 글쓰기</button>
+      <c:if test="${id == null}">
+        <button id="loginBtn" class="btn-write" ><i class="fas fa-pen"></i> 글쓰기</button>
       </c:if>
 
     </div>

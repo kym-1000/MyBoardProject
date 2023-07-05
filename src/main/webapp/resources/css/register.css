@@ -1,5 +1,7 @@
 * { box-sizing:border-box; }
+
 form {
+    margin-top : 50px;
     width:400px;
     height:800px;
     display : flex;

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -30,10 +31,12 @@ public class loginController {
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session,RedirectAttributes rattr) {
 
+        String id = (String) session.getAttribute("id");
         session.invalidate();
 
+        rattr.addFlashAttribute("logout",id);
         return "redirect:/";
     }
     
@@ -87,6 +90,8 @@ public class loginController {
     @PostMapping("/login")
     public String login(String id, String pwd, String toURL, boolean rememberId,
                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.out.println("id = " + id);
+        System.out.println("pwd = " + pwd);
 
         if(!loginCheck(id, pwd)) {
             String msg = URLEncoder.encode("id 또는 pwd가 일치하지 않습니다.", "utf-8");
@@ -97,15 +102,15 @@ public class loginController {
         UserVO user = US.getUser(id);
 
         HttpSession session = request.getSession();  // 세션 생성
-        session.setAttribute("user", user);
+        session.setAttribute("profile", user.getProfile());
+        session.setAttribute("id", user.getId());
 
         if(rememberId) {
-
-            Cookie cookie = new Cookie("user", id);
+            Cookie cookie = new Cookie("id", user.getId());
             response.addCookie(cookie);
         } else {
  
-            Cookie cookie = new Cookie("user", id);
+            Cookie cookie = new Cookie("id", user.getId());
             cookie.setMaxAge(0);
 
             response.addCookie(cookie);
@@ -121,6 +126,7 @@ public class loginController {
         UserVO user = null;
 
         try {
+            System.out.println("\"loginCheck\" = " + "loginCheck");
             user = US.login(id,pwd);  // 서비스단에서 유효성 검사 실행
         } catch (Exception e) {
             e.printStackTrace();

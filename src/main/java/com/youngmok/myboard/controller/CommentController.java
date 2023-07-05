@@ -64,7 +64,7 @@ public class CommentController {
     @ResponseBody
     @PostMapping("/comments")
     public ResponseEntity<String> write(@RequestBody CommentDTO comment, HttpSession session, Model m) {
-        String writer = (String) session.getAttribute("id");
+        String writer = (String)session.getAttribute("id");
 
         if(writer.equals("")){
 

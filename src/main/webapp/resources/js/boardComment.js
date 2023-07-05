@@ -66,9 +66,15 @@ function getCommentList(bno,loginId) {
                 if(result[i].cno !== result[i].pcno) {
                     html += `<div style="font-size: 20px;">ㄴ</div>`;
                 }
-                const FileName = result[i].image_file ? result[i].image_file.replace(/\\/g, "/") : "no-image.png";
-                const ImageUrl = `https://myboard.blob.core.windows.net/youngmokboard/${FileName}`;
-                html += `<div class="flex-shrink-0"><img class="rounded-circle" STYLE="height: 75px; width: 75px;" src="${ImageUrl}" alt="프로필 이미지" /></div>`;
+                // 프로필 사진 등록 여부에 따라 기본 프로필 사진 혹은 등록된 프로필이 나온다
+                if (result[i].image_file != null) {
+                    const FileName = result[i].image_file ? result[i].image_file.replace(/\\/g, "/") : "no-image.png";
+                    const ImageUrl = `https://myboard.blob.core.windows.net/youngmokboard/${FileName}`;
+                    html += `<div class="flex-shrink-0"><img class="rounded-circle" style="height: 75px; width: 75px;" src="${ImageUrl}" alt="프로필 이미지" /></div>`;
+                } else {
+                    const DefaultImageUrl = "/resources/img/user.png";
+                    html += `<div class="flex-shrink-0"><img class="rounded-circle" style="height: 75px; width: 75px;" src="${DefaultImageUrl}" alt="프로필 이미지" /></div>`;
+                }
                 html += `<div class="ms-3" style="width: 700px">`;
                 html += `<div class="fw-bold" id="cmtWriter1" >${result[i].writer}</div>`;
                 html += `${result[i].content}`;
@@ -151,15 +157,15 @@ $("#Comment").on("click","#cmtDelBtn",function(){
     const cno = $(this).closest('.d-flex').data('cno');
 
     $.ajax({
-        type:'DELETE',       // 요청 메서드
-        url: '/comments/'+cno+'?bno='+bnoVal,  // 요청 URI
+        type:'DELETE',
+        url: '/comments/'+cno+'?bno='+bnoVal,
         //  생략시 자동으로 json
         success : function(result){
             alert("댓글이 삭제되었습니다.");
             getCommentList(bnoVal,login);
         },
-        error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수
-    }); // $.ajax()
+        error   : function(){ alert("error") }
+    });
 });
 
 
@@ -180,15 +186,15 @@ $("#cmtReplybtn").click(function(){
     }
 
     $.ajax({
-        type:'POST',       // 요청 메서드
-        url: '/comments', // 요청 URI ?bno='+bno
-        headers : { "content-type": "application/json"}, // 요청 헤더
-        data : JSON.stringify(Comment),  // 서버로 전송할 데이터. stringify()로 직렬화 필요.
+        type:'POST',
+        url: '/comments',
+        headers : { "content-type": "application/json"},
+        data : JSON.stringify(Comment),
         success : function(result){
             alert("댓글이 등록되었습니다.");
             getCommentList(bnoVal,login);
         },
-        error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수
+        error   : function(){ alert("error") }
     }); // $.ajax()
 
     $("#replyText").val('');

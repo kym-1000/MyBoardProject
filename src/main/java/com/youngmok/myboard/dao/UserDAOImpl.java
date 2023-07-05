@@ -20,6 +20,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public UserVO selectUser(String id) {
+        System.out.println("sql 직전 id = " + id);
         return session.selectOne(namespace+"selectLoginUser",id);
     }
 

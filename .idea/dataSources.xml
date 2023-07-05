@@ -8,5 +8,27 @@
       <jdbc-url>jdbc:mysql://127.0.0.3:3306/boardproject</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="@myboardsql.mysql.database.azure.com" uuid="08959b3b-3ce2-4527-a4f4-8242c45a4170">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://myboardsql.mysql.database.azure.com:3306?serverTimezone=UTC&amp;useSSL=true&amp;requireSSL=false</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="AZURE_SQL_DB_SERVER" value="/subscriptions/60db4aa3-05f3-46fe-adc8-aadb715928df/resourceGroups/myboard/providers/Microsoft.DBforMySQL/flexibleServers/myboardsql" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="@myboardsql.mysql.database.azure.com [2]" uuid="718ca3ee-2e6a-4525-a588-2ec8bf7a28db">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://myboardsql.mysql.database.azure.com:3306?serverTimezone=UTC&amp;useSSL=true&amp;requireSSL=false</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="AZURE_SQL_DB_SERVER" value="/subscriptions/60db4aa3-05f3-46fe-adc8-aadb715928df/resourceGroups/myboard/providers/Microsoft.DBforMySQL/flexibleServers/myboardsql" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

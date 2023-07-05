@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="<c:url value='/resources/css/register.css'/>">
 
     <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
@@ -24,9 +24,6 @@
             background-color: black;
         }
 
-        #openBtn {
-            background-color: black;
-        }
     </style>
 </head>
 <body>
@@ -36,13 +33,13 @@
 <c:url value="${mode == 'new' ? '/register/join' : '/register/userModify'}" var="url" />
 
 <form  action="${url}" enctype="multipart/form-data" method="POST" ${mode == "new" ? 'onsubmit="return registerFormCheck(this)"' : 'onsubmit="return modFormCheck(this)"'} >
-    <div class="title">${mode=="new" ? "회원가입" : "회원정보수정"}</div>
+    <div class="title" style="font-weight: bold">${mode=="new" ? "Sign up" : "Edit User"}</div>
     <div id="msg" class="msg"><form:errors path="id"/></div>
     <c:if test="${mode eq 'new'}">
         <label ><b>아이디</b></label>
     <div class="flex-container">
         <input class="input-field" type="text" name="id" id="id" placeholder="5~12자리의 영대소문자와 숫자 조합" value="${user.id}">
-        <span id="username-check" class="hidden"><i class="fas fa-check"></i></span>
+        <span id="username-check" class="hidden"><i class="fas fa-check" style="color: black;"></i></span>
         <button class="idChk"  type="button" id="idChk" value="N" onclick=fn_idChk()>check</button>
     </div>
     </c:if>
@@ -52,7 +49,7 @@
     <div class="flex-container">
     <input class="input-field" type="password" name="pwd-confirm" placeholder="6~12자리 영대소문자와 숫자와 특문 조합" required>
     <button class="hidden"  type="button" id="pwdChk" value="N"  ></button>
-    <span id="userpwd-check" class="hidden" ><i class="fas fa-check" ></i></span>
+    <span id="userpwd-check" class="hidden" ><i class="fas fa-check" style="color: black;" ></i></span>
     </div>
     <label ><b>이름</b></label>
     <input class="input-field" type="text" name="name" placeholder="홍길동" value="${user.name}">

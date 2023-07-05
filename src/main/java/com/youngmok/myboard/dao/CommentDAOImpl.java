@@ -50,8 +50,11 @@ public class CommentDAOImpl implements CommentDAO{
     }
 
     @Override
-    public void updateProfile(String profile) {
-        session.update(namespace+"updateProfile",profile);
+    public void updateProfile(String profile,String id) {
+        HashMap map = new HashMap();
+        map.put("profile",profile);
+        map.put("id",id);
+        session.update(namespace+"updateProfile",map);
     }
 
 

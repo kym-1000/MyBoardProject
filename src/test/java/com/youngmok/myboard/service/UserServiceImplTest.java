@@ -26,22 +26,27 @@
 //    private UserDAO UDAO;
 //
 //
-////    @Test
-////    public void modifyUser() throws Exception {
-////        UDAO.deleteAll();
-////        assertTrue(UDAO.userCount() == 0);
-////
-////        UserVO user = new UserVO("kym10001", "794256@@q", "김영목", "aaa@aaa.com", new Date(), new Date());
-////        assertTrue(UDAO.insertUser(user)==1);
-////        assertTrue(UDAO.userCount()==1);
-////
-////        UserVO user2 = new UserVO("kym10001", "123456@q", "홍길동", "bbb@bbb.com", new Date(), new Date());
-////
-////        List<ProjectFileVO> flist = new ArrayList<ProjectFileVO>();
-////
-////        assertTrue(BS.modify(user2,flist));
-////        assertTrue(UDAO.userCount()==1);
-////
-////    }
+//    @Test
+//    public void modifyUser() throws Exception {
+//
+//        UserVO user = new UserVO("11111","11111");
+//
+//        UDAO.insertUser(user);
+
+//        UDAO.deleteAll();
+//        assertTrue(UDAO.userCount() == 0);
+//
+//        UserVO user = new UserVO("kym10001", "794256@@q", "김영목", "aaa@aaa.com", new Date(), new Date());
+//        assertTrue(UDAO.insertUser(user)==1);
+//        assertTrue(UDAO.userCount()==1);
+//
+//        UserVO user2 = new UserVO("kym10001", "123456@q", "홍길동", "bbb@bbb.com", new Date(), new Date());
+//
+//        List<ProjectFileVO> flist = new ArrayList<ProjectFileVO>();
+//
+//        assertTrue(BS.modify(user2,flist));
+//        assertTrue(UDAO.userCount()==1);
+
+//    }
 //
 //}

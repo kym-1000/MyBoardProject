@@ -66,17 +66,22 @@ public class UserServiceImpl implements UserService{
 
         System.out.println("user = " + user);
 
-        ProjectFileVO file = fileList.get(0);
+        if (fileList != null && !fileList.isEmpty()){
+            ProjectFileVO file = fileList.get(0);
 
-        String profile = file.getUuid()+"_"+file.getFile_name();
+            String profile = file.getUuid()+"_"+file.getFile_name();
 
-        user.setProfile(profile);
+            user.setProfile(profile);
+
+            file.setUser(user.getId());
+            file.setFile_type(1);
+            FDAO.insertFile(file);
+        }
+
         int isOk = UDAO.insertUser(user);
 
         // 파일정보를 저장
-        file.setUser(user.getId());
-        file.setFile_type(1);
-        FDAO.insertFile(file);
+
 
         System.out.println("fileList = " + fileList);
         // uuid+파일이름만 세팅!
@@ -128,29 +133,30 @@ public class UserServiceImpl implements UserService{
         user.setPwd(encodePw);
         //회원 수정
 
+        // 이미지 얻기
+        ProjectFileVO file = fileList.get(0);
+        String profile = file.getUuid()+"_"+file.getFile_name();
+
         int isOk;
 
-        System.out.println("fileList = " + fileList);
+        System.out.println("fileList 입니다!!!! = " + fileList);
+        System.out.println("profile_____ = " + profile +"________"+ user.getId());
 
         if(fileList.size()==0){  // 프로필 파일 수정이 일어나지 않았다면
             isOk = UDAO.modifyUser(user);
         } else if(FDAO.selectFileImage(user.getId())==null){ // 기존에 프로필사진이 존재하지 않다면...
-            ProjectFileVO file = fileList.get(0);
             file.setUser(user.getId()); // 유저 아이디 설정
             file.setFile_type(1);
             FDAO.insertFile(file);                  // 새로운 파일 저장
-            CDAO.updateProfile(user.getProfile());  // 댓글 프로필 수정
-            String profile = file.getUuid()+"_"+file.getFile_name();
+            CDAO.updateProfile(profile,user.getId());  // 댓글 프로필 수정
             user.setProfile(profile);
             isOk = UDAO.modifyUser(user);
         } else {
             // 수정된 파일 정보를 저장
-            ProjectFileVO file = fileList.get(0);
             file.setUser(user.getId()); // 유저 아이디 설정
             file.setFile_type(1);
             FDAO.profileFileModify(file);           // 파일 데이터베이스 수정
-            CDAO.updateProfile(user.getProfile());  // 댓글 프로필 수정
-            String profile = file.getUuid()+"_"+file.getFile_name();
+            CDAO.updateProfile(profile,user.getId());  // 댓글 프로필 수정
             user.setProfile(profile);
             isOk = UDAO.modifyUser(user);
         }

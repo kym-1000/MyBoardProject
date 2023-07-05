@@ -31,7 +31,7 @@
     </delete>
 
     <update id="updateProfile" parameterType="String">
-        update board_comment set image_file = #{Profile}
+        update board_comment set image_file = #{profile} where writer = #{id}
     </update>
 
 </mapper>

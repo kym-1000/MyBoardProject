@@ -31,4 +31,6 @@ public class UserVO {
     private Date reg_date;
     private String profile;
 
+    public UserVO(String s, String s1) {
+    }
 }

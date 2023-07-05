@@ -21,7 +21,7 @@
     </delete>
 
     <select id="userCount" resultType="int">
-        select count(*) from board_user
+        select count(*) from board;
     </select>
 
     <delete id="deleteUser" parameterType="String">
