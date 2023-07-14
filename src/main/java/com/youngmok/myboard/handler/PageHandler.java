@@ -38,13 +38,13 @@ public class PageHandler {
         showNext = endPage != totalPage;
     }
 
-    void print() {
-        System.out.println("page = " + sc.getPage());
-        System.out.println(showPrev ? "[PREV]" : "");
-        for (int i = beginPage; i <= endPage; i++) {
-            System.out.print(i + " ");
-        }
-        System.out.print(showNext ? "[NEXT]" : "");
-    }
+//    void print() {
+//        System.out.println("page = " + sc.getPage());
+//        System.out.println(showPrev ? "[PREV]" : "");
+//        for (int i = beginPage; i <= endPage; i++) {
+//            System.out.print(i + " ");
+//        }
+//        System.out.print(showNext ? "[NEXT]" : "");
+//    }
 
 }

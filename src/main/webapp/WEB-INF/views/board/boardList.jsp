@@ -16,6 +16,21 @@
       background-color: black;
     }
 
+    #adBoardDeleteBtn {
+      padding: 8px 16px;
+      background-color: #f44336;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #adBoardDeleteBtn:hover {
+      background-color: #d32f2f;
+    }
+
 
 
   </style>
@@ -24,7 +39,14 @@
 
 <jsp:include page="../layout/header.jsp"/>
 
-<script> let msg = "${msg}";</script>
+<c:set var="listUrl" value="/board/list${ph.sc.queryString}" />
+
+<script>
+  let msg = "${msg}";
+  let listUrl = "${listUrl}";
+  console.log(listUrl);
+
+</script>
 <script src="<c:url value='/resources/js/msg.js'/>"></script>
 
 <div style="text-align:center; margin-top: 50px">
@@ -37,11 +59,14 @@
         <th class="regdate">등록일</th>
         <th class="viewcnt">조회수</th>
         <th class="like">추천수</th>
+        <c:if test="${authority eq 0}">
+        <th>삭제</th>
+        </c:if>
       </tr>
       <c:forEach var="board" items="${list}">
         <tr>
           <td class="no">${board.bno}</td>
-          <td class="title"><a href="<c:url value="/board/read${ph.sc.queryString}&bno=${board.bno}"/>">${board.title} &nbsp&nbsp
+          <td class="title"><a href="<c:url value="/board/read${ph.sc.queryString}&bno=${board.bno}"/>"><c:out value="${board.title}"/> &nbsp&nbsp
             <c:if test="${board.comment_cnt ne 0}">
               [${board.comment_cnt}]</a></td>
             </c:if>
@@ -56,6 +81,9 @@
           </c:choose>
           <td class="viewcnt" style="text-align: center;">${board.cnt}</td>
           <td class="like" style="text-align: center;">${board.board_like}</td>
+          <c:if test="${authority eq 0}">
+            <td><input type="checkbox" name="check" value="${board.bno}" style="width: 30px; height: 30px;" ></td>
+          </c:if>
         </tr>
       </c:forEach>
     </table>
@@ -79,7 +107,12 @@
       </div>
     </div>
 
+    <c:if test="${authority eq 0}">
+      <button  id="adBoardDeleteBtn">삭제</button>
+    </c:if>
+
     <div class="search-container">
+
       <form action="<c:url value="/board/list"/>" class="search-form" method="get">
         <select class="search-option" name="option">
           <option value="A" ${ph.sc.option=='A' || ph.sc.option=='' ? "selected" : ""}>제목+내용</option>
@@ -118,6 +151,40 @@
     alert("로그인이 필요합니다");
     location.href="<c:url value='/login/login?toURL=/board/write'/>";
   });
+
+  $("#adBoardDeleteBtn").on("click",function(){
+    if(confirm("해당 게시글들을 삭제하시겠습니까?")){
+
+      let deleteList = [];
+
+      $("input[name='check']:checked").each(function() {
+        deleteList.push($(this).val());
+      });
+
+      let DeleteListDTO = {
+        deleteList: deleteList
+      };
+
+      console.log(DeleteListDTO);
+
+      $.ajax({
+        type: "POST",
+        url: "/ad/boardDelete",
+        contentType: "application/json",
+        data: JSON.stringify(DeleteListDTO),
+        success: function(response) {
+          alert("해당 게시글들을 삭제하였습니다.");
+          window.location.href = listUrl;
+        },
+        error: function() {
+          alert("게시글 삭제를 실패하였습니다.");
+        }
+      });
+    } else {
+      alert("삭제가 취소되었습니다");
+    }
+  });
+
 </script>
 
 

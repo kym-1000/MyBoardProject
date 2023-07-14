@@ -3,6 +3,7 @@ package com.youngmok.myboard.dao;
 import com.youngmok.myboard.domain.BoardVO;
 import com.youngmok.myboard.domain.SearchCondition;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface BoardDAO {
@@ -34,4 +35,6 @@ public interface BoardDAO {
     List<BoardVO> selectAll();
 
     int boardLikeUp(Integer bno);
+
+    int boardListDelete(ArrayList<Integer> deleteList);
 }

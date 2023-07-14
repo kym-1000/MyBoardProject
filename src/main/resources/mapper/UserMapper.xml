@@ -43,4 +43,8 @@
         set pwd = #{pwd} where id = #{id}
     </update>
 
+    <select id="selectUserList" resultType="User" >
+        select * from board_user where authority = 1;
+    </select>
+
 </mapper>

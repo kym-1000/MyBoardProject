@@ -112,8 +112,6 @@ function checkPassword() {
 pwdField.on('input', checkPassword);
 pwdConfirmField.on('input', checkPassword);
 
-
-
 $("#rePwdSubmit").click(function (){
 
     let userInfo = {

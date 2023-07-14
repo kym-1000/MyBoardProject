@@ -196,6 +196,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public List<UserVO> getUserList() {
+        return UDAO.selectUserList();
+    }
+
+    @Override
     public int idChk(String id) {
         return UDAO.selectId(id);
     }

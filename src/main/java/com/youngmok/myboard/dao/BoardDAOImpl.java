@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -53,6 +54,11 @@ public class BoardDAOImpl implements BoardDAO{
     @Override
     public int boardLikeUp(Integer bno) {
         return session.update(namespace+"boardLikeUp",bno);
+    }
+
+    @Override
+    public int boardListDelete(ArrayList<Integer> deleteList) {
+        return session.delete(namespace+"boardListDelete",deleteList);
     }
 
     @Override

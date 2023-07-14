@@ -49,9 +49,9 @@ let sessionId = "${loginId}";
   <h2 class="writing-header"> 게시판 ${mode=="new" ? "글쓰기" : "읽기"}</h2>
   <form id="form" class="frm" action="<c:url value="/board/write"/>" enctype="multipart/form-data" method="post">
     <input type="hidden" name="bno" value=${Board.board.bno}>
-    <input name="title" type="text" value="${Board.board.title}" placeholder="  제목을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"} required><br>
+    <input name="title" type="text" value="<c:out value="${Board.board.title}"/>" placeholder="  제목을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"} required><br>
     <div id="mainContent">
-      <textarea name="content" rows="20" id="mainText" placeholder="내용을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"} required>${Board.board.content}</textarea>
+      <textarea name="content" rows="20" id="mainText" placeholder="내용을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"} required><c:out value="${Board.board.content}"/></textarea>
       <c:if test="${fList ne null}">
         <c:forEach items="${fList}" var="fvo">
       <img id="image" src="https://myboard.blob.core.windows.net/youngmokboard/${fList[0].uuid}_${fList[0].file_name}" alt="" style="display:none; width: 300px; height: 250px;">
@@ -68,13 +68,11 @@ let sessionId = "${loginId}";
         <button type="submit" id="writeBtn" class="btn btn-write"><i class="fa fa-pencil"></i>게시글등록</button>
       </div>
 
-    <c:if test="${Board.board.writer eq loginId}">
+    <c:if test="${Board.board.writer eq loginId || authority eq 0}">
       <button type="button" id="modifyBtn" class="btn btn-modify"><i class="fa fa-edit"></i> 수정</button>
       <button type="button" id="deleteBtn" class="btn btn-delete"><i class="fa fa-trash"></i> 삭제</button>
     </c:if>
     <button type="button" id="listBtn" class="btn btn-list" ${mode ne 'new' ? '' : 'style="display: none;"'}><i class="fa fa-bars"></i> 목록</button>
-<%--    <br>--%>
-<%--    <h4 id="likeCount" style="color: black; float: left"></h4> 만큼 추천 되었습니다!--%>
   </form>
 
   <c:if test="${loginId == null || loginId == ''}">

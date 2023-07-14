@@ -24,7 +24,7 @@
             </c:if>
             <a href="<c:url value='/register/add'/>"><i class="fas fa-user-pen"></i>회원가입</a>
             <a href="<c:url value='/board/list'/>"><i class="fas fa-clipboard-list"></i> 게시판</a>
-            <c:if test="${id != null}">
+            <c:if test="${id != null && authority eq 1}">
                 <a href="<c:url value='/register/uesrModify'/>" ><i class="fas fa-user-gear"></i>회원정보수정</a>
                 <a href="<c:url value='/register/unregister'/>" onclick="return unregister()"><i class="fas fa-user-slash"></i>회원탈퇴</a>
             </c:if>
@@ -41,6 +41,10 @@
                     </c:choose>
                         ${id}님 어서오세요!
                 </p>
+            </c:if>
+
+            <c:if test="${authority eq 0}">
+                <span style="color:white;"> 관리자 계정 </span>
             </c:if>
 
         </div>

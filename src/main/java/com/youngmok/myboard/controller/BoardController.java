@@ -20,9 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.List;
-import java.util.logging.FileHandler;
 
 @Controller
 @RequestMapping("/board")
@@ -92,9 +90,9 @@ public class BoardController {
 
     //새로운 글쓰기 메서드
     @GetMapping("/write")
-    public String boardwrite(Model model) {
+    public String boardwrite(Model m) {
 
-        model.addAttribute("mode","new");  // 새로운 글쓰기 상태
+        m.addAttribute("mode","new");  // 새로운 글쓰기 상태
 
         return "board/boardDetail";
     }
@@ -105,7 +103,6 @@ public class BoardController {
         String writer = (String)session.getAttribute("id");
 
         if(writer.equals("")){
-
             m.addAttribute("msg", "SESSION_ERR");
             return "redirect:/";
         }
@@ -149,10 +146,10 @@ public class BoardController {
     // 게시글을 삭제하는 메서드
     @PostMapping ("boardDelete")
     public  String boardDelete(SearchCondition sc, Integer bno, HttpSession session, RedirectAttributes rattr, Model m){
-        String writer = (String)session.getAttribute("id");
+        String id = (String)session.getAttribute("id");
 
         try {
-            int isOk = BS.deleteOne(bno,writer); // 해당 bno와 작성자가 맞는 게시글을 삭제  삭제 시 서비스단에서 댓글과 파일도 삭제
+            int isOk = BS.deleteOne(bno,id); // 해당 bno와 작성자가 맞는 게시글을 삭제  삭제 시 서비스단에서 댓글과 파일도 삭제
             if(isOk>0) {
                 System.out.println("게시판 삭제 및 댓글 삭제 완료");
             }

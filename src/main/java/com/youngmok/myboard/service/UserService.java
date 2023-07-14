@@ -24,4 +24,6 @@ public interface UserService {
     int pwdChange(UserVO user);
 
     UserVO getUser(String id);
+
+    List<UserVO> getUserList();
 }

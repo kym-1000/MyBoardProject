@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="false" %>
 <html>
 <head>
     <title>클라이언트 에러 발생</title>

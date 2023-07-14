@@ -104,6 +104,7 @@ public class loginController {
         HttpSession session = request.getSession();  // 세션 생성
         session.setAttribute("profile", user.getProfile());
         session.setAttribute("id", user.getId());
+        session.setAttribute("authority",user.getAuthority());
 
         if(rememberId) {
             Cookie cookie = new Cookie("id", user.getId());

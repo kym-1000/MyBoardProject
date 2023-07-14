@@ -4,6 +4,7 @@ import com.youngmok.myboard.domain.BoardDTO;
 import com.youngmok.myboard.domain.BoardVO;
 import com.youngmok.myboard.domain.SearchCondition;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface BoardService  {
@@ -26,4 +27,6 @@ public interface BoardService  {
     int modifyBoard(BoardDTO boardDTO);
 
     int boardlike(Integer bno);
+
+    int adBoardListDelete(ArrayList<Integer> deleteList);
 }

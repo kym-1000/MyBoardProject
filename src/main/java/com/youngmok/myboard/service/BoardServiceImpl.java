@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -85,6 +86,16 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public int adBoardListDelete(ArrayList<Integer> deleteList) {
+
+        for (Integer bno : deleteList) {
+            boardFileCommentDelete(bno);
+        }
+
+        return BDAO.boardListDelete(deleteList);
+    }
+
+    @Override
     public BoardVO boardlist(int bno) {
         return BDAO.selectBoardOne(bno);
     }
@@ -115,13 +126,7 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public int deleteOne(Integer bno, String writer) {
 
-        if(FDAO.fileCount(bno)>0){  // 파일이 존재한다면
-            FDAO.deleteFile(bno);  // 파일 삭제
-        }
-
-        if(CDAO.commentCount(bno)>0){       // 댓글이 존재한다면
-            CDAO.boardDeleteComment(bno);   // 댓글 삭제
-        }
+        boardFileCommentDelete(bno);
 
         return BDAO.boardDelete(bno,writer);
     }
@@ -129,5 +134,15 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public int modifyOne(BoardVO board) {
         return BDAO.boardUpdate(board);
+    }
+
+    private void boardFileCommentDelete(int bno){
+        if(FDAO.fileCount(bno)>0){  // 파일이 존재한다면
+            FDAO.deleteFile(bno);  // 파일 삭제
+        }
+
+        if(CDAO.commentCount(bno)>0){       // 댓글이 존재한다면
+            CDAO.boardDeleteComment(bno);   // 댓글 삭제
+        }
     }
 }

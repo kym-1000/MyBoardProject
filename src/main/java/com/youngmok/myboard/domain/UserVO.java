@@ -30,7 +30,6 @@ public class UserVO {
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date reg_date;
     private String profile;
+    private int authority;
 
-    public UserVO(String s, String s1) {
-    }
 }

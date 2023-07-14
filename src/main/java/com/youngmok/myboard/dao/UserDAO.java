@@ -2,6 +2,8 @@ package com.youngmok.myboard.dao;
 
 import com.youngmok.myboard.domain.UserVO;
 
+import java.util.List;
+
 public interface UserDAO {
     int insertUser(UserVO user);
 
@@ -20,4 +22,6 @@ public interface UserDAO {
     UserVO searchUser(UserVO user);
 
     int modifyUserPwd(UserVO user);
+
+    List<UserVO> selectUserList();
 }

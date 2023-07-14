@@ -133,5 +133,12 @@
 
     </update>
 
+    <delete id="boardListDelete" parameterType="java.util.List">
+        delete from board where bno IN 
+        <foreach collection="list" item="bno" open="(" close=")" separator=",">
+            #{bno}
+        </foreach>
+    </delete>
+
 
 </mapper>

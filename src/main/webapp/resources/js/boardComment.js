@@ -96,8 +96,6 @@ function getCommentList(bno,loginId) {
         });
 }
 
-
-
 async function postCommentToServer(Comment) {
     console.log(Comment);
     try {
