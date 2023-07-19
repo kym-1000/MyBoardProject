@@ -5,8 +5,8 @@
 <mapper namespace="com.youngmok.myboard.dao.BoardMapper">
     <insert id="insertBoard" parameterType="Board">
         insert into
-        board(title,writer,content,reg_date)
-        values(#{title},#{writer},#{content},DATE_ADD(NOW(), INTERVAL 9 HOUR))
+        board(title,writer,content,reg_date,notice)
+        values(#{title},#{writer},#{content},DATE_ADD(NOW(), INTERVAL 9 HOUR),#{notice})
     </insert>
 
     <select id="selectBoardOne" parameterType="int"  resultType="Board">
@@ -80,6 +80,7 @@
         FROM board
         where true
         <include refid="searchCondition"/>
+        and notice = 1
         <include refid="ORDERBYCondition"/>
         Limit #{offset}, #{pageSize}
     </select>
@@ -139,6 +140,10 @@
             #{bno}
         </foreach>
     </delete>
+
+    <select id="selectNotice" resultType="Board">
+        select * from board where notice = 0;
+    </select>
 
 
 </mapper>

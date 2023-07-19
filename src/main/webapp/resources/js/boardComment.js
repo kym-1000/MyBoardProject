@@ -114,7 +114,7 @@ async function postCommentToServer(Comment) {
 }
 
 
-$('#cmtPostBtn').on('click', async () => {
+$(document).on('click', '#cmtPostBtn', async () => {
     $('#replyForm').appendTo('body');
     const cmtText = $('#cmtText').val();
     console.log(cmtText);
@@ -137,7 +137,7 @@ $('#cmtPostBtn').on('click', async () => {
         $('#cmtText').val('');
     }
 });
-
+// $(document).on("click", "#cmtReplyBtn", function() {
 $("#Comment").on("click", "#cmtReplyBtn", function() {
     // 1 replyForm을 옮기고
     $(this).parent().append($("#replyForm"));
@@ -167,7 +167,7 @@ $("#Comment").on("click","#cmtDelBtn",function(){
 });
 
 
-$("#cmtReplybtn").click(function(){
+$(document).on("click", "#cmtReplybtn", function() {
 
     let Comment = {
         content : $("#replyText").val(),

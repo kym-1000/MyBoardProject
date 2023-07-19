@@ -62,6 +62,11 @@ public class BoardDAOImpl implements BoardDAO{
     }
 
     @Override
+    public List<BoardVO> selectNotice() {
+        return session.selectList(namespace+"selectNotice");
+    }
+
+    @Override
     public int boardDelete(Integer bno, String writer) {
         HashMap map = new HashMap();
         map.put("bno", bno);

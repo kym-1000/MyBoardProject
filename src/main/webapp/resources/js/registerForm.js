@@ -60,7 +60,7 @@ function formCheck(frm){
 }
 
 
-$("#file").change(function() {
+$(document).on('change', '#file', function() {
     let file = $("#file")[0].files[0];
     let file_RE = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
     if (!file_RE.exec(file.name)) {

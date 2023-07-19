@@ -10,7 +10,8 @@
 
   <link rel="stylesheet" href="<c:url value='/resources/css/boardList.css'/>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/jquery-migrate-3.3.2.js"></script>
   <style>
     footer {
       background-color: black;
@@ -63,6 +64,33 @@
         <th>삭제</th>
         </c:if>
       </tr>
+
+      <%-- 공지사항  --%>
+      <c:forEach var="noticeList" items="${noticeList}">
+        <tr style="font-weight: bold;">
+          <td class="no">공지사항</td>
+          <td class="title"><a href="<c:url value="/board/read${ph.sc.queryString}&bno=${noticeList.bno}"/>"><c:out value="${noticeList.title}"/> &nbsp&nbsp
+            <c:if test="${noticeList.comment_cnt ne 0}">
+            [${noticeList.comment_cnt}]</a></td>
+          </c:if>
+          <td class="writer" style="text-align: center;">${noticeList.writer}</td>
+          <c:choose>
+            <c:when test="${noticeList.reg_date.time >= startOfToday}">
+              <td class="regdate"><fmt:formatDate value="${noticeList.reg_date}" pattern="HH:mm" type="time"/></td>
+            </c:when>
+            <c:otherwise>
+              <td class="regdate"><fmt:formatDate value="${noticeList.reg_date}" pattern="yyyy-MM-dd" type="date"/></td>
+            </c:otherwise>
+          </c:choose>
+          <td class="viewcnt" style="text-align: center;">${noticeList.cnt}</td>
+          <td class="like" style="text-align: center;">${noticeList.board_like}</td>
+          <c:if test="${authority eq 0}">
+            <td><input type="checkbox" name="check" value="${noticeList.bno}" style="width: 30px; height: 30px;" ></td>
+          </c:if>
+        </tr>
+      </c:forEach>
+
+      <%-- 일반 게시글 --%>
       <c:forEach var="board" items="${list}">
         <tr>
           <td class="no">${board.bno}</td>

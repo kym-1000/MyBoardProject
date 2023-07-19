@@ -51,9 +51,11 @@ public class BoardController {
 
             PageHandler pageHandler = new PageHandler(totalCnt, sc); // 총게시글과 검색어를(있다면) 이용하여 파일 핸들러 세팅
             List<BoardVO> list = BS.getSearchResultPage(sc);  // 검색어에 맞는 페이지 리스트를 가져온다.
+            List<BoardVO> noticeList = BS.getNoticeList();
             System.out.println("list = " + list);
             m.addAttribute("list", list);
             m.addAttribute("ph", pageHandler);
+            m.addAttribute("noticeList",noticeList);
 
             Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
 
@@ -102,12 +104,17 @@ public class BoardController {
     public String boardwrite(String title, String content, HttpSession session,Model m,RedirectAttributes rattr, @RequestParam(name="files",required = false) MultipartFile[] files) {
         String writer = (String)session.getAttribute("id");
 
+        int authority = (int) session.getAttribute("authority");
+
+        System.out.println("authority = " + authority);
+
         if(writer.equals("")){
             m.addAttribute("msg", "SESSION_ERR");
             return "redirect:/";
         }
 
         BoardVO board = new BoardVO(title,content,writer);
+        board.setNotice(authority);   // 관리자가 쓴 공지사항인지 아닌지
         System.out.println("board = " + board);
         int isOk = 0;
 

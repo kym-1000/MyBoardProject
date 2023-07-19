@@ -9,7 +9,8 @@
 	<title>Home</title>
 	<base href="/" />
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/main.css'/>">
-	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-3.3.2.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 	<style>
 		#chat-container {
@@ -69,6 +70,13 @@
 	</c:if>
 </div>
 
+<div style="width: 250px;height: 50px; background-color: white; border-radius: 5px;">
+	<p style="color:black; font-size: 10px;">
+		관리자 ID : adad11 <br>
+		관리자 비밀번호 : 123456@@q
+	</p>
+</div>
+
 <jsp:include page="layout/footer.jsp"/>
 
 <script>
@@ -101,7 +109,7 @@
 				};
 			};
 
-			$('#chat-form').submit(function (event) {
+			$(document).on('submit', '#chat-form', function (event) {
 				if (id != null) {
 					event.preventDefault();
 					let message = id + ' : ' + $('#message-input').val();

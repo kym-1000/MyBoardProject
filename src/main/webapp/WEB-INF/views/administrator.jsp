@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>회원목록</title>
     <link rel="stylesheet" href="<c:url value='/resources/css/boardList.css'/>">
-    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.3.2.js"></script>
 
 </head>
 <style>
@@ -55,14 +57,13 @@
                     <th>ID</th>
                     <th>e-mail</th>
                     <th>가입날짜</th>
-<%--                    <th>게시글보기</th>--%>
                     <th>회원 탈퇴</th>
                 </tr>
                 <c:forEach var="user" items="${userList}">
                     <tr>
                         <td>${user.id}</td>
                         <td>${user.email}</td>
-                        <td>${user.reg_date}</td>
+                        <td><fmt:formatDate value="${user.reg_date}" pattern="yyyy-MM-dd" /></td>
                         <td><button type="button" class="userDelete" data-value="${user.id}" >탈퇴</button></td>
                     </tr>
                 </c:forEach>
@@ -75,7 +76,7 @@
 
 <script>
 
-    $('.userDelete').click(function(event) {
+    $('.userDelete').on('click', function(event) {
         let deleteId = $(this).data('value');
 
         console.log(deleteId);

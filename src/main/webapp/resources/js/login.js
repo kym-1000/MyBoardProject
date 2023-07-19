@@ -46,8 +46,7 @@ window.onclick = function(event) {
     }
 }
 
-
-$("#pwdSer").click(function(){
+$(document).on('click', '#pwdSer', function () {
 
     let userInfo = {
         id : $("#userId").val(),
@@ -112,7 +111,7 @@ function checkPassword() {
 pwdField.on('input', checkPassword);
 pwdConfirmField.on('input', checkPassword);
 
-$("#rePwdSubmit").click(function (){
+$(document).on('click', '#rePwdSubmit', function () {
 
     let userInfo = {
         pwd : $("#rePwd").val(),

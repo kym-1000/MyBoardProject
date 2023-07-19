@@ -3,7 +3,8 @@ $(document).ready(function(){
         let form = document.getElementById("form");
         if(form.title.value==="") {
             alert("제목을 입력해 주세요.");
-            form.title.focus();
+            form.trigger( "focus" );
+            // form.title.focus();
             return false;
         }
         if(form.content.value==="") {
@@ -25,11 +26,11 @@ $(document).ready(function(){
         }
     });
 
-    $("#writeNewBtn").on("click", function(){
+    $(document).on("click", "#writeNewBtn", function() {
         location.href="<c:url value='/board/write'/>";
     });
 
-    $("#modifyBtn").on("click", function(){
+    $(document).on("click", "#modifyBtn", function() {
         let form = $("#form");
         let isReadonly = $("input[name=title]").attr('readonly');
         if(isReadonly=='readonly') {
@@ -47,22 +48,23 @@ $(document).ready(function(){
         form.attr("action", modifyUrl);
         form.attr("method", "post");
         if(formCheck())
-            form.submit();
+            form.trigger( "submit" );
+            // form.submit();
     });
-    $("#deleteBtn").on("click", function(){
+    $(document).on("click", "#deleteBtn", function() {
         if(!confirm("정말로 삭제하시겠습니까?")) return;
         let form = $("#form");
         form.attr("action", deleteUrl);
         form.attr("method", "post");
-        form.submit();
+        form.trigger( "submit" );
     });
-    $("#listBtn").on("click", function(){
+    $(document).on("click", "#listBtn", function() {
         location.href=listUrl;
     });
 });
 
 
-$("#files").change(function() {
+$(document).on('change', '#files', function() {
     let file = $("#files")[0].files[0];
     let file_RE = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
     if (!file_RE.exec(file.name)) {

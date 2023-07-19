@@ -29,4 +29,6 @@ public interface BoardService  {
     int boardlike(Integer bno);
 
     int adBoardListDelete(ArrayList<Integer> deleteList);
+
+    List<BoardVO> getNoticeList();
 }

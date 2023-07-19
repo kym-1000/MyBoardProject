@@ -96,6 +96,11 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public List<BoardVO> getNoticeList() {
+        return BDAO.selectNotice();
+    }
+
+    @Override
     public BoardVO boardlist(int bno) {
         return BDAO.selectBoardOne(bno);
     }

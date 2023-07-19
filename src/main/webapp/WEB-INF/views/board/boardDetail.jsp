@@ -9,7 +9,8 @@
   <meta charset="UTF-8">
   <title>boardDetail</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/jquery-migrate-3.3.2.js"></script>
   <!-- CSS only -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <!-- JavaScript Bundle with Popper -->
@@ -68,7 +69,7 @@ let sessionId = "${loginId}";
         <button type="submit" id="writeBtn" class="btn btn-write"><i class="fa fa-pencil"></i>게시글등록</button>
       </div>
 
-    <c:if test="${Board.board.writer eq loginId || authority eq 0}">
+    <c:if test="${Board.board.writer eq loginId}">
       <button type="button" id="modifyBtn" class="btn btn-modify"><i class="fa fa-edit"></i> 수정</button>
       <button type="button" id="deleteBtn" class="btn btn-delete"><i class="fa fa-trash"></i> 삭제</button>
     </c:if>
@@ -87,6 +88,7 @@ let sessionId = "${loginId}";
       <span id="likeCount" style="color:black;"></span>
     </div>
   </c:if>
+
 
 </div>
 
