@@ -47,7 +47,14 @@ let sessionId = "${loginId}";
 
 <%-- 메인 글 쓰기 글 읽기 영역 --%>
 <div class="container">
-  <h2 class="writing-header"> 게시판 ${mode=="new" ? "글쓰기" : "읽기"}</h2>
+  <c:choose>
+    <c:when test="${notice eq true}">
+      <h2 class="writing-header" style="font-weight: bold;">공지사항</h2>
+    </c:when>
+    <c:otherwise>
+      <h2 class="writing-header"> 게시판 ${mode=="new" ? "글쓰기" : "읽기"}</h2>
+    </c:otherwise>
+  </c:choose>
   <form id="form" class="frm" action="<c:url value="/board/write"/>" enctype="multipart/form-data" method="post">
     <input type="hidden" name="bno" value=${Board.board.bno}>
     <input name="title" type="text" value="<c:out value="${Board.board.title}"/>" placeholder="  제목을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"} required><br>

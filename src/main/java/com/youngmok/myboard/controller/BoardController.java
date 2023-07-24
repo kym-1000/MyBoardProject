@@ -83,6 +83,11 @@ public class BoardController {
             m.addAttribute("page",page);
             m.addAttribute("pageSize", pageSize);
             m.addAttribute("searchCondition",sc);
+
+            if(board.getBoard().getNotice()==0){ // 공지사항일 경우
+                m.addAttribute("notice",true);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
