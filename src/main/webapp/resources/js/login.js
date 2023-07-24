@@ -1,5 +1,4 @@
 function formCheck(frm) {
-    let msg ='';
     if(frm.id.value.length===0) {
         setMessage('id를 입력해주세요.', frm.id);
         return false;
@@ -12,7 +11,8 @@ function formCheck(frm) {
 }
 
 function setMessage(msg, element){
-    document.getElementById("msg").innerHTML = `${'${msg}'}`;
+    // document.getElementById("msg").innerHTML = msg;
+    $("#msg").html(msg);
     if(element) {
         element.select();
     }
@@ -138,7 +138,7 @@ $(document).on('click', '#rePwdSubmit', function () {
         url: '/login/change',
         headers : { "content-type": "application/json"}, // 요청 헤더
         data : JSON.stringify(userInfo),  // 서버로 전송할 데이터. stringify()로 직렬화 필요.
-        success : function(result){
+        success : function(){
             alert("비밀번호 변경에 성공했습니다!");
             $("#rePwdDiv").hide();
             modal.style.display = "none";
