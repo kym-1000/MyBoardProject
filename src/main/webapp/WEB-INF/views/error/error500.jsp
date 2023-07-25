@@ -20,10 +20,7 @@
 </head>
 <body>
 <h1>서버 에러가 발생하였습니다.</h1>
-<p>
-    발생한 예외: ${pageContext.exception}<br>
-    예외 메시지: ${pageContext.exception.message}
-</p>
+
 <p>
     5초 뒤에 <a href="${pageContext.request.contextPath}/">메인 페이지</a>로 이동합니다.
 </p>
