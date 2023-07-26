@@ -44,7 +44,7 @@
     </update>
 
     <select id="selectUserList" resultType="User" >
-        select * from board_user where authority = 1;
+        select * from board_user where authority = 1 order by reg_date desc;
     </select>
 
 </mapper>

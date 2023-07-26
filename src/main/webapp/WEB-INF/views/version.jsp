@@ -33,6 +33,7 @@
   mybatis 3.5.9 <br>
   jQuery 3.6.0<br>
   Intellij 2022-02<br>
+  코드 주소 : https://github.com/kym-1000/MyBoardProject
 </p>
 
 
