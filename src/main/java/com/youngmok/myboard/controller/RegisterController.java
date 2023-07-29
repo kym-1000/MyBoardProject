@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -62,9 +63,9 @@ public class RegisterController {
     // 회원가입시 중복된 회원이 있는지 검사
     @ResponseBody
     @PostMapping("/idChk")
-    public int idChk(@RequestBody String id) {
-        logger.info("id : "+id);
-        return US.idChk(id);
+    public int idChk(@RequestBody UserVO user) {
+        logger.info("아이디임 : "+user.getId());
+        return  US.idChk(user.getId());
     }
 
     // 회원가입 페이지로 가는 메서드

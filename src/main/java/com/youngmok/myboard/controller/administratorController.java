@@ -49,8 +49,9 @@ public class administratorController {
     public ResponseEntity<String> userDelete(@PathVariable String id, HttpSession session) {
         try {
             int authority = (int) session.getAttribute("authority");
+            String sessionId = (String) session.getAttribute("id");
             logger.info("authority : "+authority);
-            if (authority == 1) { // 세션이 풀렸거나 일반회원일경우
+            if (sessionId==null || authority == 1) { // 세션이 풀렸거나 일반회원일경우
                 throw new Exception("session Failed");
             }
             int isOk = US.userUnregister(id); // 관리자 회원 삭제
@@ -71,8 +72,9 @@ public class administratorController {
         
         try {
             int authority = (int) session.getAttribute("authority");
+            String sessionId = (String) session.getAttribute("id");
             logger.info("authority : "+authority);
-            if (authority == 1) { // 세션이 풀렸거나 일반회원일경우
+            if (sessionId==null || authority == 1) { // 세션이 풀렸거나 일반회원일경우
                 throw new Exception("session Failed");
             }
             int isOk = BS.adBoardListDelete(deleteList); // 게시물(들) 삭제

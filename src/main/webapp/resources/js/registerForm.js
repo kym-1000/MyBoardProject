@@ -103,9 +103,11 @@ function fn_idChk(){
     $.ajax({
         url : "/register/idChk",
         type : "post",
-        dataType : "json",
-        data : {"id" : id},
+        contentType: "application/json",
+        data : JSON.stringify({ "id" : id }),
+        dataType: "json",   // json으로 데이터 받으려면 꼭 써줘야한다!!!!!
         success : function(data){
+            console.log(data);
             if(data === 1){
                 $("#idChk").attr("value", "N");
                 $("#username-check").addClass("hidden");
@@ -122,7 +124,7 @@ function fn_idChk(){
 }
 
 function setMessage(msg, element){
-    document.getElementById("msg").innerHTML = `<i class="fa fa-exclamation-circle"> ${msg}</i>`;
+    $("#msg").html(`<i class="fa fa-exclamation-circle"> ${msg}</i>`);
     if(element) {
         element.select();
     }

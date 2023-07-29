@@ -57,7 +57,7 @@
     <label ><b>이메일</b></label>
     <input class="input-field" type="text" name="email" placeholder="example@naver.com" value="${user.email}">
     <label ><b>생일</b></label>
-    <input style="height: 40px" class="input-field" type="date" name="birth" id="birth" placeholder="2020-12-31" value=${userBirth}>
+    <input style="height: 40px" class="input-field" type="date" name="birth" id="birth"  placeholder="2020-12-31" value=${userBirth}>
     <label><b>프로필사진</b></label>
 <%--    <img id="preview-image" style="height: 50px; width: 50px" src="/fileUpload/${fn:replace(file.save_dir,'\\','/')}/${file.uuid}_${file.file_name}" alt="미리보기">--%>
     <img id="preview-image" style="height: 50px; width: 50px" src="https://myboard.blob.core.windows.net/youngmokboard/${file.uuid}_${file.file_name}" alt="미리보기">
@@ -68,6 +68,23 @@
 <jsp:include page="../layout/footer.jsp"/>
 
 <script type="text/javascript" src="<c:url value='/resources/js/registerForm.js'/>"></script>
+
+<script>
+        function getTodayDate() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        console.log(year+'-'+month+'-'+day)
+        return year+'-'+month+'-'+day;
+    }
+
+        $(document).ready(function() {
+        const dateInput = $('#birth');
+        dateInput.attr('max', getTodayDate());
+    });
+</script>
+
 
 </body>
 </html>
