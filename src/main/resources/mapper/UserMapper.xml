@@ -13,7 +13,7 @@
     </select>
 
     <select id="idCheck" parameterType="String" resultType="int">
-        select count(*) from board_user where id =#{id}
+        select count(*) from board_user where id = #{id}
     </select>
 
     <delete id="deleteAll">

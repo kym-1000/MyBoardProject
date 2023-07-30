@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean join(UserVO user, List<ProjectFileVO> fileList) {
 
+        logger.info(user.getId());
         // 아이디가 중복되면 회원가입 실패
         // 아이디와 일치하는 정보를 db에서 가져옴
         UserVO tmpUser = UDAO.selectUser(user.getId());
@@ -195,7 +196,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int idChk(String id) {
-        return UDAO.selectId(id);
+        logger.info("id : "+id);
+        int idChk = UDAO.selectId(id);
+        logger.info("idchk "+idChk);
+        return idChk;
     }
 
 }

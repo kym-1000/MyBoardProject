@@ -88,6 +88,7 @@
     <select id="searchResultCnt" parameterType="SearchCondition" resultType="int">
         SELECT count(*) FROM board where true
         <include refid="searchCondition"/>
+        and notice = 1
     </select>
 
     <sql id="searchCondition">
