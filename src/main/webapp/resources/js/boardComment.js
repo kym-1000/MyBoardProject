@@ -125,11 +125,6 @@ $(document).on('click', '#cmtPostBtn', async () => {
             writer: $('#cmtWriter').text(),
             content: cmtText
         };
-        if (Comment.writer === '' || Comment.writer === null) {
-            alert("세션오류 로그아웃이 되었습니다.");
-            window.location.href = "/";
-            return false;
-        }
         console.log(Comment);
         const result = await postCommentToServer(Comment);
         if (result > 0) {
