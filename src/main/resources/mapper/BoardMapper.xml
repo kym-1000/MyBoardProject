@@ -72,7 +72,12 @@
     </update>
 
     <update id="boardCommentCntDown">
-        UPDATE board set comment_cnt = comment_cnt - 1 where bno = #{bno}
+        UPDATE board set comment_cnt =
+            case
+                when comment_cnt > 0 then comment_cnt - 1
+                else 0
+            end
+        where bno = #{bno}
     </update>
 
     <select id="searchSelectPage" parameterType="SearchCondition" resultType="Board">
@@ -144,6 +149,10 @@
 
     <select id="selectNotice" resultType="Board">
         select * from board where notice = 0;
+    </select>
+
+    <select id="getCommentCnt" resultType="int">
+        select comment_cnt from board where bno = #{bno}
     </select>
 
 

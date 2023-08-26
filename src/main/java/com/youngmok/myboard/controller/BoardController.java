@@ -56,7 +56,7 @@ public class BoardController {
 
             PageHandler pageHandler = new PageHandler(totalCnt, sc); // 총게시글과 검색어를(있다면) 이용하여 파일 핸들러 세팅
             List<BoardVO> list = BS.getSearchResultPage(sc);  // 검색어에 맞는 페이지 리스트를 가져온다.
-            List<BoardVO> noticeList = BS.getNoticeList();
+            List<BoardVO> noticeList = BS.getNoticeList();  // 공지사항 리스트
             logger.info("list : "+list);
             m.addAttribute("list", list);
             m.addAttribute("ph", pageHandler);
@@ -131,12 +131,11 @@ public class BoardController {
                 isOk = BS.boardadd(new BoardDTO(board));  // 파일이 존재하지 않을 경우 게시글만 등록
             }
 
-            logger.info("isOk : "+isOk);
-
             if (isOk > 0) {
                 logger.info("isOk : "+isOk);
                 logger.info("게시글 등록 성공!");
             } else {
+                logger.warn("isOk : "+isOk);
                 throw new Exception();
             }
             rattr.addFlashAttribute("msg", "BOARD_WRT_OK");

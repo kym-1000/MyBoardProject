@@ -40,7 +40,6 @@ let msg = "${msg}";
 let modifyUrl = "${modifyUrl}";
 let deleteUrl = "${deleteUrl}";
 let listUrl = "${listUrl}";
-let sessionId = "${loginId}";
 </script>
 
 <script src="<c:url value='/resources/js/msg.js'/>"></script>
@@ -137,6 +136,11 @@ let sessionId = "${loginId}";
   const bnoVal = '<c:out value="${Board.board.bno}" />';
   const login = "${id}";
   console.log(bnoVal+" : "+login);
+  let cnt = "${Board.board.comment_cnt}";
+
+  if(parseInt(cnt) === 0 && login === ''){  // 댓글이 없을경우
+    $(".mb-5").css("display", "none");
+  }
 
   getCommentList(bnoVal,login);
 

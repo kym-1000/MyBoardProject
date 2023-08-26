@@ -81,7 +81,6 @@ public class BoardDAOImpl implements BoardDAO{
 
     @Override
     public int boardUpdate(BoardVO board) {
-        System.out.println("\"sql 실행직전까지 옴\" = " + "sql 실행직전까지 옴");
         return session.update(namespace+"update",board);
     }
 

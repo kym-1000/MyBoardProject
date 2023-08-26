@@ -79,6 +79,7 @@ public class BoardServiceImpl implements BoardService {
         return isOk;
     }
 
+    // 게시글 좋아요 상승
     @Override
     public int boardlike(Integer bno) {
         return BDAO.boardLikeUp(bno);

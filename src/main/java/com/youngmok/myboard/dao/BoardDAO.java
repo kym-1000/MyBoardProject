@@ -39,4 +39,6 @@ public interface BoardDAO {
     int boardListDelete(ArrayList<Integer> deleteList);
 
     List<BoardVO> selectNotice();
+
+
 }

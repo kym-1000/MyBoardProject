@@ -3,12 +3,10 @@ package com.youngmok.myboard.service;
 
 import com.youngmok.myboard.dao.BoardDAO;
 import com.youngmok.myboard.dao.CommentDAO;
-import com.youngmok.myboard.domain.BoardDTO;
 import com.youngmok.myboard.domain.CommentDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,10 +22,11 @@ public class CommentServiceImpl implements CommentService{
     @Autowired
     BoardDAO BDAO;
 
+    
+    // 댓글 등록
     @Override
     public int register(CommentDTO comment) {
         int bno = comment.getBno();  // 댓글이 생긴 게시글 번호를 가져온다.
-
         // 게시글에 comment cnt 업!
         int isOk = BDAO.boardCommentCntUp(bno);
 
@@ -40,11 +39,14 @@ public class CommentServiceImpl implements CommentService{
         return CDAO.commentInsert(comment);
     }
 
+    // 댓글 리스트
     @Override
     public List<CommentDTO> getList(int bno) {
         return CDAO.commentSelectList(bno);
     }
 
+    
+    // 댓글 삭제
     @Override
     public int remove(Integer cno, Integer bno) {
 

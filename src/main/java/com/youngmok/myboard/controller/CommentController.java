@@ -34,7 +34,7 @@ public class CommentController {
         List<CommentDTO> list = null;
         try {
             list = SC.getList(bno); // 댓글 리스트를 가져옴
-            System.out.println("list = " + list);
+            logger.info("list : "+ list);
             return new ResponseEntity<List<CommentDTO>>(list, HttpStatus.OK); // 200
         } catch (Exception e) {
             logger.error("댓글을 불러오지 못하였습니다. : {}", e.getMessage(), e);
