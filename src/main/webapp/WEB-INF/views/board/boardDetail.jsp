@@ -55,10 +55,10 @@ let listUrl = "${listUrl}";
     </c:otherwise>
   </c:choose>
   <form id="form" class="frm" action="<c:url value="/board/write"/>" enctype="multipart/form-data" method="post">
-    <input type="hidden" name="bno" value=${Board.board.bno}>
-    <input name="title" type="text" value="<c:out value="${Board.board.title}"/>" placeholder="  제목을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"} required><br>
+    <input type="hidden" name="bno" value=${Board.bno}>
+    <input name="title" type="text" value="<c:out value="${Board.title}"/>" placeholder="  제목을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"} required><br>
     <div id="mainContent">
-      <textarea name="content" rows="20" id="mainText" placeholder="내용을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"} required><c:out value="${Board.board.content}"/></textarea>
+      <textarea name="content" rows="20" id="mainText" placeholder="내용을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"} required><c:out value="${Board.content}"/></textarea>
       <c:if test="${fList ne null}">
         <c:forEach items="${fList}" var="fvo">
       <img id="image" src="https://myboard.blob.core.windows.net/youngmokboard/${fList[0].uuid}_${fList[0].file_name}" alt="" style="display:none; width: 300px; height: 250px;">
@@ -75,7 +75,7 @@ let listUrl = "${listUrl}";
         <button type="submit" id="writeBtn" class="btn btn-write"><i class="fa fa-pencil"></i>게시글등록</button>
       </div>
 
-    <c:if test="${Board.board.writer eq loginId}">
+    <c:if test="${Board.writer eq loginId}">
       <button type="button" id="modifyBtn" class="btn btn-modify"><i class="fa fa-edit"></i> 수정</button>
       <button type="button" id="deleteBtn" class="btn btn-delete"><i class="fa fa-trash"></i> 삭제</button>
     </c:if>
@@ -84,7 +84,7 @@ let listUrl = "${listUrl}";
 
   <c:if test="${loginId == null || loginId == ''}">
     <div style="text-align: center">
-      <span style="color:black;"> 좋아요 : ${Board.board.board_like} </span>
+      <span style="color:black;"> 좋아요 : ${Board.board_like} </span>
     </div>
   </c:if>
 
@@ -133,10 +133,10 @@ let listUrl = "${listUrl}";
 <script type="text/javascript" src="<c:url value='/resources/js/boardComment.js'/>"></script>
 
 <script>
-  const bnoVal = '<c:out value="${Board.board.bno}" />';
+  const bnoVal = '<c:out value="${Board.bno}" />';
   const login = "${id}";
   console.log(bnoVal+" : "+login);
-  let cnt = "${Board.board.comment_cnt}";
+  let cnt = "${Board.comment_cnt}";
 
   if(parseInt(cnt) === 0 && login === ''){  // 댓글이 없을경우
     $(".mb-5").css("display", "none");
@@ -146,7 +146,7 @@ let listUrl = "${listUrl}";
 
   let localName = bnoVal+login;  // 로컬 스토리지 키 값 생성
 
-  let likeCount = ${Board.board.board_like}; // 값 설정을 위한 변수
+  let likeCount = ${Board.board_like}; // 값 설정을 위한 변수
 
   function likeCnt() {
     let spanElement = document.getElementById("likeCount");

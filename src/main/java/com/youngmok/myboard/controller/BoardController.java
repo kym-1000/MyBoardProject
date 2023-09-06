@@ -84,7 +84,7 @@ public class BoardController {
             if (board.getFList().size() != 0) {  // 게시글에 파일이 있다면
                 m.addAttribute("fList", board.getFList());  // 파일을 보내준다.
             }
-            m.addAttribute("Board", board);
+            m.addAttribute("Board", board.getBoard());
             m.addAttribute("page", page);
             m.addAttribute("pageSize", pageSize);
             m.addAttribute("searchCondition", sc);

@@ -78,7 +78,7 @@ function getCommentList(bno, loginId) {
                 html += `<div class="fw-bold" id="cmtWriter1" >${result[i].writer}</div>`;
                 html += `${result[i].content}`;
                 html += `<div STYLE="text-align: right">`;
-                if (sessionId !== "") {
+                if (loginId !== "") {
                     html += `<button type="button" id="cmtReplyBtn" class="btn btn-sm btn-outline-primary ">답글</button>`;
                 }
                 if (result[i].writer === loginId) {
