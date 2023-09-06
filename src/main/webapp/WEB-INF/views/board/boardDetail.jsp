@@ -129,7 +129,6 @@ let listUrl = "${listUrl}";
 <jsp:include page="../layout/footer.jsp"/>
 
 <script type="text/javascript" src="<c:url value='/resources/js/boardDetail.js'/>"></script>
-
 <script type="text/javascript" src="<c:url value='/resources/js/boardComment.js'/>"></script>
 
 <script>
