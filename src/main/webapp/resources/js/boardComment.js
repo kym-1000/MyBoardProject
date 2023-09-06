@@ -53,6 +53,7 @@ function spreadCommentFromServer(bno) {
 
 // azure 댓글 작성
 
+
 function getCommentList(bno, loginId) {
     spreadCommentFromServer(bno)
         .done(function (result) {
