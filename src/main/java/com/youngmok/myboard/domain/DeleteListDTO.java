@@ -11,6 +11,6 @@ import java.util.ArrayList;
 @Getter
 @Setter
 public class DeleteListDTO  {
-    private ArrayList<Integer> deleteList;
+    private ArrayList<Integer> deleteList; // 삭제할 게시글들의 bno
 
 }

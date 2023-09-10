@@ -5,6 +5,8 @@ import com.youngmok.myboard.domain.DeleteListDTO;
 import com.youngmok.myboard.domain.UserVO;
 import com.youngmok.myboard.service.BoardService;
 import com.youngmok.myboard.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Controller
 @RequestMapping("ad")
@@ -24,11 +24,15 @@ public class administratorController {
 
     private static final Logger logger = LoggerFactory.getLogger(administratorController.class);
 
-    @Autowired
-    UserService US;
+    private final UserService US;
 
-    @Autowired
-    BoardService BS;
+    private final BoardService BS;
+
+    @Autowired  // 생성자를 통하여 필드주입
+    public administratorController(UserService userService, BoardService boardService) {
+        this.US = userService;
+        this.BS = boardService;
+    }
 
     // 회원목록을 불러오는 메서드
     @GetMapping("/userList")

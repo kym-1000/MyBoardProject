@@ -25,8 +25,13 @@ public class loginController {
 
     private static final Logger logger = LoggerFactory.getLogger(loginController.class);
 
-    @Autowired
-    UserService US;
+
+    private final UserService US;
+
+    @Autowired // 생성자를 통하여 필드주입
+    public loginController(UserService userService){
+        this.US = userService;
+    }
 
     // 로그인 페이지로 이동하는 메서드
     @GetMapping("/login")
@@ -64,7 +69,7 @@ public class loginController {
         }
     }
 
-    // 비밀번호 변경 메서드
+    // 비밀번호 찾기후  변경 메서드
     @ResponseBody
     @PostMapping("/change")
     public ResponseEntity<String> pwdChange(@RequestBody UserVO user) {
@@ -101,7 +106,7 @@ public class loginController {
             HttpSession session = request.getSession();  // 세션 생성
             session.setAttribute("profile", user.getProfile());  // 프로필파일 세션
             session.setAttribute("id", user.getId());           // id 세션
-            session.setAttribute("authority", user.getAuthority()); // 유저권환 세션
+            session.setAttribute("authority", user.getAuthority()); // 유저권한 세션
 
             if (rememberId) { // 쿠키에 아이디저장 되어있을 경우
                 Cookie cookie = new Cookie("id", user.getId());

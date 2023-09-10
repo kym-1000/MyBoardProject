@@ -20,11 +20,16 @@ import java.util.List;
 public class CommentController {
 
     private static final Logger logger = LoggerFactory.getLogger(CommentController.class);
-    @Autowired
-    CommentService SC;
 
-    @Autowired
-    FileDAO FDAO;
+    private final CommentService CS;
+
+    private final FileDAO FDAO;
+
+    @Autowired // 생성자를 통하여 필드주입
+    public CommentController(CommentService commentService, FileDAO FDAO) {
+        this.CS = commentService;
+        this.FDAO = FDAO;
+    }
 
     // 지정된 게시물의 모든 댓글을 가져오는 메서드
     @ResponseBody
@@ -33,7 +38,7 @@ public class CommentController {
         logger.info("bno : " + bno);
         List<CommentDTO> list = null;
         try {
-            list = SC.getList(bno); // 댓글 리스트를 가져옴
+            list = CS.getList(bno); // 댓글 리스트를 가져옴
             logger.info("list : "+ list);
             return new ResponseEntity<List<CommentDTO>>(list, HttpStatus.OK); // 200
         } catch (Exception e) {
@@ -47,7 +52,7 @@ public class CommentController {
     public ResponseEntity<String> remove(@PathVariable Integer cno, Integer bno) {
         logger.info("bno : " + bno+"  "+"cno = " + cno);
         try {
-            int rowCnt = SC.remove(cno, bno);  // 해당하는 댓글을 삭제함
+            int rowCnt = CS.remove(cno, bno);  // 해당하는 댓글을 삭제함
             if (rowCnt > 0) {
                 logger.info("댓글삭제 성공!");
             } else {
@@ -90,7 +95,7 @@ public class CommentController {
         }
 
         try {
-            if (SC.register(comment) > 0) {
+            if (CS.register(comment) > 0) {
                 logger.info("댓글 등록 성공!");
             } else {
                 throw new Exception();

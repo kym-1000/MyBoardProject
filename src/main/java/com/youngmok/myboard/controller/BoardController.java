@@ -35,17 +35,21 @@ import java.util.List;
 public class BoardController {
     private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
-    @Autowired
-    BoardService BS;
+    private final BoardService BS;
 
-    @Autowired
-    CommentService CS;
+//    private final CommentService CS;
+
+    private final AzureFileHandler FH;
 
 //    @Autowired
-//    private FileHandler FH;
+//    private final FileHandler FH;
 
-    @Autowired
-    private AzureFileHandler FH;
+    @Autowired // 생성자를 통하여 필드주입
+    public BoardController(BoardService boardService,CommentService commentService,AzureFileHandler azureFileHandler) {
+        this.BS = boardService;
+        this.FH = azureFileHandler;
+//        this.CS = commentService;
+    }
 
     // 보드 리스트를 불러오는 메서드
     @GetMapping("/list")

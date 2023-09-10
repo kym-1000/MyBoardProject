@@ -49,6 +49,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>5.3.9</version> <!-- 최신 버전으로 변경 가능 -->
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.integration</groupId>
 			<artifactId>spring-integration-core</artifactId>
 			<version>5.5.2</version>
