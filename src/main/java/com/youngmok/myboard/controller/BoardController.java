@@ -59,8 +59,10 @@ public class BoardController {
             m.addAttribute("totalCnt", totalCnt);
 
             PageHandler pageHandler = new PageHandler(totalCnt, sc); // 총게시글과 검색어를(있다면) 이용하여 파일 핸들러 세팅
-            List<BoardVO> list = BS.getSearchResultPage(sc);  // 검색어에 맞는 페이지 리스트를 가져온다.
+            List<BoardDTO> list = BS.getSearchResultPage(sc);  // 검색어에 맞는 페이지 리스트를 가져온다.
+            logger.info(" : "+list);
             List<BoardVO> noticeList = BS.getNoticeList();  // 공지사항 리스트
+
             logger.info("list : "+list);
             m.addAttribute("list", list);
             m.addAttribute("ph", pageHandler);
@@ -85,8 +87,9 @@ public class BoardController {
         try {
             BoardDTO board = BS.boardread(bno);   // 해당 bno에 해당하는 게시글을 가져온다.
             logger.info("board : "+board);
-            if (board.getFList().size() != 0) {  // 게시글에 파일이 있다면
-                m.addAttribute("fList", board.getFList());  // 파일을 보내준다.
+            logger.info("getFile "+board.getFile());
+            if (board.getFile() != null ) {  // 게시글에 파일이 있다면
+                m.addAttribute("imgFile", board.getFile());  // 파일을 보내준다.
             }
 
             m.addAttribute("Board", board.getBoard());
@@ -127,11 +130,11 @@ public class BoardController {
         int isOk = 0;
 
         try {
-            List<ProjectFileVO> fList = null;
+            ProjectFileVO imgFile = null;
             if (files[0].getSize() > 0) { // 값이 있는지 체크
                 logger.info( "files : "+Arrays.toString(files));
-                fList = FH.uploadFiles(files); // 핸들러에 있는 메서드로 실제 파일들의 정보를 fList에 담아줌
-                isOk = BS.boardadd(new BoardDTO(board, fList));
+                imgFile = FH.uploadFiles(files); // 핸들러에 있는 메서드로 실제 파일들의 정보를 imgFile에 담아줌
+                isOk = BS.boardadd(new BoardDTO(board, imgFile));
             } else {
                 isOk = BS.boardadd(new BoardDTO(board));  // 파일이 존재하지 않을 경우 게시글만 등록
             }
@@ -185,16 +188,16 @@ public class BoardController {
         String id = (String) session.getAttribute("id"); 
         board.setWriter(id); // 세션에 있는 id를 글쓴이로 등록
 
-//        ProjectFileVO file = FDAO.selectFileImage(id);
+//        ProjectFileVO imgFile = FDAO.selectFileImage(id);
 
         logger.info("board : "+board);
         int isOk;
         try {
-            List<ProjectFileVO> fList = null;
+            ProjectFileVO imgFile = null;
             if (files[0].getSize() > 0) { // 값이 있는지 체크
-                fList = FH.uploadFiles(files); // 핸들러에 있는 메서드로 실제 파일들의 정보를 fList에 담아줌
-                logger.info("fList :"+fList);
-                isOk = BS.modifyBoard(new BoardDTO(board, fList));
+                imgFile = FH.uploadFiles(files); // 핸들러에 있는 메서드로 실제 파일들의 정보를 imgFile에 담아줌
+                logger.info("imgFile :"+imgFile);
+                isOk = BS.modifyBoard(new BoardDTO(board, imgFile));
             } else {
                 isOk = BS.modifyOne(board); // 게시글만 존재 할 경우 게시글만 수정
             }

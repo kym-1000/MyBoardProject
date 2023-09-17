@@ -1,5 +1,6 @@
 package com.youngmok.myboard.dao;
 
+import com.youngmok.myboard.domain.BoardDTO;
 import com.youngmok.myboard.domain.BoardVO;
 import com.youngmok.myboard.domain.SearchCondition;
 import org.apache.ibatis.session.SqlSession;
@@ -32,7 +33,7 @@ public class BoardDAOImpl implements BoardDAO{
     }
 
     @Override
-    public List<BoardVO> searchSelectPage(SearchCondition sc) {
+    public List<BoardDTO> searchSelectPage(SearchCondition sc) {
         return session.selectList(namespace+"searchSelectPage",sc);
     }
 
@@ -65,6 +66,7 @@ public class BoardDAOImpl implements BoardDAO{
     public List<BoardVO> selectNotice() {
         return session.selectList(namespace+"selectNotice");
     }
+
 
     @Override
     public int boardDelete(Integer bno, String writer) {

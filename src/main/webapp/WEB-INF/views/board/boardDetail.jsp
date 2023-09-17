@@ -59,16 +59,14 @@ let listUrl = "${listUrl}";
     <input name="title" type="text" value="<c:out value="${Board.title}"/>" placeholder="  제목을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"} required><br>
     <div id="mainContent">
       <textarea name="content" rows="20" id="mainText" placeholder="내용을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"} required><c:out value="${Board.content}"/></textarea>
-      <c:if test="${fList ne null}">
-        <c:forEach items="${fList}" var="fvo">
-      <img id="image" src="https://myboard.blob.core.windows.net/youngmokboard/${fList[0].uuid}_${fList[0].file_name}" alt="" style="display:none; width: 300px; height: 250px;">
+      <c:if test="${imgFile ne null}">
+      <img id="image" src="https://myboard.blob.core.windows.net/youngmokboard/${imgFile.uuid}_${imgFile.file_name}" alt="" style="display:none; width: 300px; height: 250px;">
 <%--      <img id="image" src="/fileUpload/${fn:replace(fList[0].save_dir,'\\','/')}/${fList[0].uuid}_${fList[0].file_name}" alt="" style="display:none; width: 300px; height: 250px;">--%>
-        </c:forEach>
       </c:if>
     </div>
 
       <div id="modeDiv" ${mode eq 'new' ? '' : 'style="display: none;"'}>
-      <img id="preview-image" style="height: 50px; width: 50px" src="https://myboard.blob.core.windows.net/youngmokboard/${fList[0].uuid}_${fList[0].file_name}" alt="미리보기">
+      <img id="preview-image" style="height: 50px; width: 50px" src="https://myboard.blob.core.windows.net/youngmokboard/${imgFile.uuid}_${imgFile.file_name}" alt="미리보기">
 <%--      <img id="preview-image" style="height: 50px; width: 50px" src="/fileUpload/${fn:replace(fList[0].save_dir,'\\','/')}/${fList[0].uuid}_${fList[0].file_name}" alt="미리보기">--%>
     <label>이미지 첨부파일</label>
     <input style="height: 100px"  type="file" id="files" name="files" accept="image/png, image/jpg, image/jpeg, image/gif" ><br>
@@ -83,15 +81,15 @@ let listUrl = "${listUrl}";
   </form>
 
   <c:if test="${loginId == null || loginId == ''}">
-    <div style="text-align: center">
-      <span style="color:black;"> 좋아요 : ${Board.board_like} </span>
+    <div class="like-info">
+      <span class="like-count">좋아요: ${Board.board_like}</span>
     </div>
   </c:if>
 
   <c:if test="${loginId != null && mode ne 'new'}">
-    <div id="recommned" style="text-align: center;">
-      <button type="button" class="btn"   onclick="Boardlike()">좋아요</button>
-      <span id="likeCount" style="color:black;"></span>
+    <div id="recommend" class="like-button">
+      <button type="button" class="btn" onclick="Boardlike()">좋아요</button>
+      <span id="likeCount" class="like-count"></span>
     </div>
   </c:if>
 

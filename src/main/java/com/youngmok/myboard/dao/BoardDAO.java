@@ -1,5 +1,6 @@
 package com.youngmok.myboard.dao;
 
+import com.youngmok.myboard.domain.BoardDTO;
 import com.youngmok.myboard.domain.BoardVO;
 import com.youngmok.myboard.domain.SearchCondition;
 
@@ -13,7 +14,7 @@ public interface BoardDAO {
 
     int searchResultCnt(SearchCondition sc);
 
-    List<BoardVO> searchSelectPage(SearchCondition sc);
+    List<BoardDTO> searchSelectPage(SearchCondition sc);
 
     int boardDelete(Integer bno, String writer);
 
@@ -39,6 +40,5 @@ public interface BoardDAO {
     int boardListDelete(ArrayList<Integer> deleteList);
 
     List<BoardVO> selectNotice();
-
 
 }
