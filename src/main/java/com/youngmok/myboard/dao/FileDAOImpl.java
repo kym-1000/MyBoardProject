@@ -5,25 +5,25 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public class FileDAOImpl implements FileDAO {
 
+    private final SqlSession session;
+
     @Autowired
-    private SqlSession session;
+    public FileDAOImpl(SqlSession session) {
+        this.session = session;
+    }
 
     private static final String namespace = "com.youngmok.myboard.dao.FileMapper.";
 
     @Override
     public int insertFile(ProjectFileVO file) {
-        System.out.println("\"프로필파일 sql 진입직전!\" = " + "프로필파일 sql 진입직전!");
         return session.insert(namespace+"insertFile", file);
     }
 
 //    @Override
 //    public int insertProfileFile(ProjectFileVO file) {
-//        System.out.println("\"프로필파일 sql 진입직전!\" = " + "프로필파일 sql 진입직전!");
 //        return session.insert(namespace+"insertProfileFile", file);
 //    }
 
@@ -33,8 +33,8 @@ public class FileDAOImpl implements FileDAO {
     }
 
     @Override
-    public List<ProjectFileVO> selectFileList(Integer bno) {
-        return session.selectList(namespace+"selectFileList",bno);
+    public ProjectFileVO selectFileList(Integer bno) {
+        return session.selectOne(namespace+"selectFileList",bno);
     }
 
     @Override
@@ -44,8 +44,6 @@ public class FileDAOImpl implements FileDAO {
 
     @Override
     public int boardFileModify(ProjectFileVO file) {
-
-
         return session.update(namespace + "boardFileModify", file);
     }
 
@@ -63,7 +61,5 @@ public class FileDAOImpl implements FileDAO {
     public int deleteUserFile(String id) {
         return session.delete(namespace + "deleteUserFile", id);
     }
-
-
 
 }

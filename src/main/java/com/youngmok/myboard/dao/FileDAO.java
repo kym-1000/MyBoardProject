@@ -2,8 +2,6 @@ package com.youngmok.myboard.dao;
 
 import com.youngmok.myboard.domain.ProjectFileVO;
 
-import java.util.List;
-
 public interface FileDAO {
 
     int insertFile(ProjectFileVO file);
@@ -12,7 +10,7 @@ public interface FileDAO {
 
     ProjectFileVO selectFileImage(String writer);
 
-    List<ProjectFileVO> selectFileList(Integer bno);
+    ProjectFileVO selectFileList(Integer bno);
 
     int profileFileModify(ProjectFileVO file);
 

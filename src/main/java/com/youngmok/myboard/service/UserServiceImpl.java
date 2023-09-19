@@ -19,24 +19,26 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    @Autowired
-    private UserDAO UDAO;
-
-    @Autowired
-    private FileDAO FDAO;
+    private final UserDAO UDAO;
+    private final FileDAO FDAO;
 
 //    @Autowired
 //    private AzureFileHandler FH;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final CommentDAO CDAO;
 
-    @Autowired
-    private CommentDAO CDAO;
+    @Autowired  // 생성자를 통하여 필드주입
+    public UserServiceImpl(UserDAO UDAO, CommentDAO CDAO,BCryptPasswordEncoder passwordEncoder,FileDAO FDAO) {
+        this.UDAO = UDAO;
+        this.FDAO = FDAO;
+        this.passwordEncoder = passwordEncoder;
+        this.CDAO = CDAO;
+    }
 
     // 회원가입 메서드
     @Override
-    public boolean join(UserVO user, List<ProjectFileVO> fileList) {
+    public boolean join(UserVO user, ProjectFileVO imgFile) {
 
         logger.info(user.getId());
         // 아이디가 중복되면 회원가입 실패
@@ -71,8 +73,8 @@ public class UserServiceImpl implements UserService {
         user.setPwd(encodePw);
         //회원가입 => insert
 
-        if (fileList != null && !fileList.isEmpty()) {  // 등록된 프로필 사진이 있다면
-            FileList file = getFileList(fileList, user.getId());
+        if (imgFile != null) {  // 등록된 프로필 사진이 있다면
+            FileList file = getFileList(imgFile, user.getId());
             user.setProfile(file.getProfile());
             FDAO.insertFile(file.getFile());
         }
@@ -109,10 +111,10 @@ public class UserServiceImpl implements UserService {
     }
 
     // 프로필 파일 처리 메서드
-    public FileList getFileList(List<ProjectFileVO> fileList, String id) {
+    public FileList getFileList(ProjectFileVO imgFile, String id) {
 
         FileList fdto = new FileList();  // 1개의 객체와 1개의 스트링 값을 묶어서 전달하기 위함
-        ProjectFileVO file = fileList.get(0);
+        ProjectFileVO file = imgFile;
 
         fdto.setFile(file);
         fdto.setProfile(file.getUuid() + "_" + file.getFile_name());
@@ -123,7 +125,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean modify(UserVO user, List<ProjectFileVO> fileList) {
+    public boolean modify(UserVO user, ProjectFileVO imgFile) {
 
         if (user.getPwd() == null || user.getPwd().length() == 0) { // 기초적인 유효성 검사
             return false;
@@ -140,17 +142,17 @@ public class UserServiceImpl implements UserService {
 
         int isOk;
 
-        if (fileList.size() == 0) {  // 프로필 파일 수정이 일어나지 않았다면
+        if (imgFile == null) {  // 프로필 파일 수정이 일어나지 않았다면
             isOk = UDAO.modifyUser(user);
         } else if (FDAO.selectFileImage(user.getId()) == null) { // 기존에 프로필사진이 존재하지 않다면...
-            FileList file = getFileList(fileList, user.getId());
+            FileList file = getFileList(imgFile, user.getId());
             FDAO.insertFile(file.getFile());                  // 새로운 파일 저장
             CDAO.updateProfile(file.getProfile(), user.getId());  // 댓글 프로필 수정
             user.setProfile(file.getProfile());
             isOk = UDAO.modifyUser(user);
         } else {
             // 수정된 파일 정보를 저장
-            FileList file = getFileList(fileList, user.getId());
+            FileList file = getFileList(imgFile, user.getId());
             FDAO.profileFileModify(file.getFile());           // 파일 데이터베이스 수정
             CDAO.updateProfile(file.getProfile(), user.getId());  // 댓글 프로필 수정
             user.setProfile(file.getProfile());

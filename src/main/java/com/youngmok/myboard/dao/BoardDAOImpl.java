@@ -14,8 +14,12 @@ import java.util.List;
 @Repository
 public class BoardDAOImpl implements BoardDAO{
 
+    private final SqlSession session;
+
     @Autowired
-    private SqlSession session;
+    public BoardDAOImpl(SqlSession session) {
+        this.session = session;
+    }
     private static final String namespace = "com.youngmok.myboard.dao.BoardMapper.";
 
     @Override

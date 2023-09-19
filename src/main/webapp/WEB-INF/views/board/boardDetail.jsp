@@ -69,7 +69,7 @@ let listUrl = "${listUrl}";
       <img id="preview-image" style="height: 50px; width: 50px" src="https://myboard.blob.core.windows.net/youngmokboard/${imgFile.uuid}_${imgFile.file_name}" alt="미리보기">
 <%--      <img id="preview-image" style="height: 50px; width: 50px" src="/fileUpload/${fn:replace(fList[0].save_dir,'\\','/')}/${fList[0].uuid}_${fList[0].file_name}" alt="미리보기">--%>
     <label>이미지 첨부파일</label>
-    <input style="height: 100px"  type="file" id="files" name="files" accept="image/png, image/jpg, image/jpeg, image/gif" ><br>
+    <input style="height: 100px"  type="file" id="file" name="file" accept="image/png, image/jpg, image/jpeg, image/gif" ><br>
         <button type="submit" id="writeBtn" class="btn btn-write"><i class="fa fa-pencil"></i>게시글등록</button>
       </div>
 
@@ -128,6 +128,7 @@ let listUrl = "${listUrl}";
 
 <script type="text/javascript" src="<c:url value='/resources/js/boardDetail.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/resources/js/boardComment.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/resources/js/imgFile.js'/>"></script>
 
 <script>
   const bnoVal = '<c:out value="${Board.bno}" />';
@@ -145,48 +146,13 @@ let listUrl = "${listUrl}";
 
   let likeCount = ${Board.board_like}; // 값 설정을 위한 변수
 
-  function likeCnt() {
-    let spanElement = document.getElementById("likeCount");
-    spanElement.textContent = likeCount.toString(); // 값을 문자열로 변환하여 설정
-  }
-
   likeCnt();
 
-  // 중복 추천 여부를 확인하는 함수
-  function hasLiked() {
-    const liked = localStorage.getItem(localName); // 로컬 스토리지에서 해당 아이디의 추천 여부 가져오기
-
-    if (liked === null) {
-      return false;
-    }
-
-    return liked === "true" ;
-  }
-
-  // 좋아요 버튼 클릭 이벤트 핸들러
-  function Boardlike() {
-    if (hasLiked()) {
-      alert("이미 추천하셨습니다!");
-      return;
-    }
-
-    $.ajax({
-      url: "/board/like",
-      type: "GET",
-      data: {
-        like : bnoVal
-      },
-      success: function(response) {
-        console.log(response);
-        likeCount++;
-        likeCnt();
-      },
-      error: function(error) {
-        console.error(error);
-      }
-    });
-
-    localStorage.setItem(localName, "true");
+  // likeCount 값을 likeCount 에 표시
+  function likeCnt() {
+    // 제이쿼리로 span 요소를 선택하고 텍스트 내용을 설정
+    let spanElement = $("#likeCount"); // jQuery로 요소 선택
+    spanElement.text(likeCount.toString()); // 값을 문자열로 변환하여 설정
   }
 
 </script>

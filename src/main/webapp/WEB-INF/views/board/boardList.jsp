@@ -46,7 +46,6 @@
   let msg = "${msg}";
   let listUrl = "${listUrl}";
   console.log(listUrl);
-
 </script>
 <script src="<c:url value='/resources/js/msg.js'/>"></script>
 
@@ -55,6 +54,7 @@
     <table>
       <tr>
         <th class="no">번호</th>
+        <th class="img">이미지</th>
         <th class="title">제목</th>
         <th class="writer">아이디</th>
         <th class="regdate">등록일</th>
@@ -69,6 +69,7 @@
       <c:forEach var="noticeList" items="${noticeList}">
         <tr style="font-weight: bold;">
           <td class="no">공지사항</td>
+          <td> <img style="height: 30px; width: 30px" src="<c:url value='/resources/img/board_notice.png' />" alt="No Image"> </td>
           <td class="title"><a href="<c:url value="/board/read${ph.sc.queryString}&bno=${noticeList.bno}"/>"><c:out value="${noticeList.title}"/> &nbsp&nbsp
             <c:if test="${noticeList.comment_cnt ne 0}">
             [${noticeList.comment_cnt}]</a></td>
@@ -93,24 +94,34 @@
       <%-- 일반 게시글 --%>
       <c:forEach var="board" items="${list}">
         <tr>
-          <td class="no">${board.bno}</td>
-          <td class="title"><a href="<c:url value="/board/read${ph.sc.queryString}&bno=${board.bno}"/>"><c:out value="${board.title}"/> &nbsp&nbsp
-            <c:if test="${board.comment_cnt ne 0}">
-              [${board.comment_cnt}]</a></td>
+          <td class="no">${board.board.bno}</td>
+          <td>
+            <c:choose>
+              <c:when test="${empty board.uuid_file_name}">
+                <img style="height: 30px; width: 30px" src="<c:url value='/resources/img/board_file_empty.png' />" alt="No Image">
+              </c:when>
+              <c:otherwise>
+                <img style="height: 50px; width: 50px" src="https://myboard.blob.core.windows.net/youngmokboard/${board.uuid_file_name}" alt="Image">
+              </c:otherwise>
+            </c:choose>
+          </td>
+          <td class="title"><a href="<c:url value="/board/read${ph.sc.queryString}&bno=${board.board.bno}"/>"><c:out value="${board.board.title}"/> &nbsp&nbsp
+            <c:if test="${board.board.comment_cnt ne 0}">
+              [${board.board.comment_cnt}]</a></td>
             </c:if>
-          <td class="writer" style="text-align: center;">${board.writer}</td>
+          <td class="writer" style="text-align: center;">${board.board.writer}</td>
           <c:choose>
-            <c:when test="${board.reg_date.time >= startOfToday}">
-              <td class="regdate"><fmt:formatDate value="${board.reg_date}" pattern="HH:mm" type="time"/></td>
+            <c:when test="${board.board.reg_date.time >= startOfToday}">
+              <td class="regdate"><fmt:formatDate value="${board.board.reg_date}" pattern="HH:mm" type="time"/></td>
             </c:when>
             <c:otherwise>
-              <td class="regdate"><fmt:formatDate value="${board.reg_date}" pattern="yyyy-MM-dd" type="date"/></td>
+              <td class="regdate"><fmt:formatDate value="${board.board.reg_date}" pattern="yyyy-MM-dd" type="date"/></td>
             </c:otherwise>
           </c:choose>
-          <td class="viewcnt" style="text-align: center;">${board.cnt}</td>
-          <td class="like" style="text-align: center;">${board.board_like}</td>
+          <td class="viewcnt" style="text-align: center;">${board.board.cnt}</td>
+          <td class="like" style="text-align: center;">${board.board.board_like}</td>
           <c:if test="${authority eq 0}">
-            <td><input type="checkbox" name="check" value="${board.bno}" style="width: 30px; height: 30px;" ></td>
+            <td><input type="checkbox" name="check" value="${board.board.bno}" style="width: 30px; height: 30px;" ></td>
           </c:if>
         </tr>
       </c:forEach>
@@ -171,8 +182,6 @@
 </div>
 
 <jsp:include page="../layout/footer.jsp"/>
-
-
 
 <script>
   $("#loginBtn").on("click", function(){

@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,9 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 @RequestMapping("/register")
@@ -32,25 +29,29 @@ public class RegisterController {
 
     private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
 
-    @Autowired
-    private UserService US;
+    private final UserService US;
 
-    @Autowired
-    private FileDAO FDAO;
+    private final FileDAO FDAO;
 
-    @Autowired
-    private UserDAO UDAO;
+    private final UserDAO UDAO;
+
+    @Autowired // 생성자를 통하여 필드주입
+    public RegisterController(UserService userService, FileDAO FDAO, UserDAO UDAO) {
+        this.US = userService;
+        this.FDAO = FDAO;
+        this.UDAO = UDAO;
+    }
 
     // azure 파일관리
-    private static List<ProjectFileVO> userFile(UserVO user, BindingResult result, MultipartFile file) {
-        List<ProjectFileVO> fileList = new ArrayList<>();
+    private static ProjectFileVO userFile(UserVO user, BindingResult result, MultipartFile file) {
+        ProjectFileVO imgfile = null;
         if (file != null && !file.isEmpty()) {
             // Azure Blob Storage를 사용하도록 수정된 FileHandler 객체 생성
             AzureFileHandler azurefileHandler = new AzureFileHandler();
             // 파일 업로드
-            fileList = azurefileHandler.uploadFiles(new MultipartFile[]{file});
+            imgfile = azurefileHandler.uploadFiles(new MultipartFile[]{file});
         }
-        return fileList;
+        return imgfile;
     }
 
     // 회원가입시 받는 날짜를 DB형식에 맞게 바꿔줌
@@ -79,10 +80,16 @@ public class RegisterController {
     @PostMapping("/join")
     public String join(@Valid UserVO user, BindingResult result, Model m,
                        @RequestParam(name = "file", required = false) MultipartFile file, RedirectAttributes rattr) throws Exception {
-        List<ProjectFileVO> fileList = userFile(user, result, file);
+        ProjectFileVO imgFile = userFile(user, result, file);
+
+        // 데이터 검증이 실패했다면
+        if (result.hasErrors()) {
+            logger.warn("데이터 검증실패 에러남");
+            return "login&register/registerForm";
+        }
 
         try {
-            boolean isOk = US.join(user, fileList);
+            boolean isOk = US.join(user, imgFile);
             if (isOk) {
                logger.info("회원가입을 성공하였습니다.");
             } else {
@@ -92,11 +99,6 @@ public class RegisterController {
         } catch (Exception e) {
             rattr.addFlashAttribute("msg", "USER_JOIN_FAIL");
             logger.error("회원가입이 실패 하였습니다. : {}", e.getMessage(), e);
-        }
-        // 데이터 검증이 실패했다면
-        if (result.hasErrors()) {
-            logger.warn("데이터 검증실패 에러남");
-            return "login&register/registerForm";
         }
         // DB에 신규회원 정보를 저장하고 홈으로 이동
         return "redirect:/";
@@ -112,10 +114,10 @@ public class RegisterController {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String userBirth = sdf.format(user.getBirth());
             // 파일 수정을 위해서 UUID에서 해당 유저의 파일정보를 가져옴
-            ProjectFileVO file = FDAO.selectFileImage(id);
+            ProjectFileVO imgFile = FDAO.selectFileImage(id);
 //        String fileName = "/fileUpload/"+file.getSave_dir()+"/"+file.getUuid()+"_"+file.getFile_name();
 
-            m.addAttribute("file", file);
+            m.addAttribute("file", imgFile);
             m.addAttribute("userBirth", userBirth);
             m.addAttribute("user", user);
         } catch (Exception e) {
@@ -147,11 +149,11 @@ public class RegisterController {
         user.setId(id);
         logger.info("id : "+ id);
 
-        List<ProjectFileVO> fileList = userFile(user, result, file);
+        ProjectFileVO imgFile = userFile(user, result, file); // 따로 추출한 메서드의 결과값이 파일리스트로 들어감
         boolean isOk;
 
         try {
-            isOk = US.modify(user, fileList);
+            isOk = US.modify(user, imgFile);
             if (isOk) {
                 logger.info("회원정보수정을 성공하였습니다.");
             } else {

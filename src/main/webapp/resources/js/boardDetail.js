@@ -64,33 +64,39 @@ $(document).ready(function(){
 });
 
 
-$(document).on('change', '#files', function() {
-    let file = $("#files")[0].files[0];
-    let file_RE = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
-    if (!file_RE.exec(file.name)) {
-        alert("허용되지 않는 파일 형식입니다. (jpg, jpeg, png, gif 파일만 첨부 가능합니다.)");
-        $("#files").val("");
-        return false;
-    }
-    if (file.size > 2 * 1024 * 1024) {
-        alert("파일 크기는 최대 2MB까지 업로드 가능합니다.");
-        $("#files").val("");
+// 중복 추천 여부를 확인하는 함수
+function hasLiked() {
+    const liked = localStorage.getItem(localName); // 로컬 스토리지에서 해당 아이디의 추천 여부 가져오기
+
+    if (liked === null) {
         return false;
     }
 
-    previewImage(event);
+    return liked === "true" ;
+}
 
-});
+// 좋아요 버튼 클릭 이벤트 핸들러
+function Boardlike() {
+    if (hasLiked()) {
+        alert("이미 추천하셨습니다!");
+        return;
+    }
 
+    $.ajax({
+        url: "/board/like",
+        type: "GET",
+        data: { like : bnoVal },
+        success: function(response) {
+            console.log(response);
+            likeCount++;
+            likeCnt();
+        },
+        error: function(error) {
+            console.error(error);
+        }
+    });
 
-function previewImage(event) {
-    const input = event.target;
-    const reader = new FileReader();
-    reader.onload = function () {
-        const img = document.getElementById("preview-image");
-        img.src = reader.result;
-    };
-    reader.readAsDataURL(input.files[0]);
+    localStorage.setItem(localName, "true");
 }
 
 

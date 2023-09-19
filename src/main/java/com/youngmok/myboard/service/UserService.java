@@ -11,13 +11,13 @@ public interface UserService {
 
     int idChk(String id);
 
-    boolean join(UserVO user, List<ProjectFileVO> fileList);
+    boolean join(UserVO user, ProjectFileVO imgFile);
 
     int userUnregister(String id);
 
     UserVO login(String id, String pwd);
 
-    boolean modify(UserVO user, List<ProjectFileVO> fileList);
+    boolean modify(UserVO user, ProjectFileVO imgFile);
 
     UserVO pwdSearch(UserVO user);
 

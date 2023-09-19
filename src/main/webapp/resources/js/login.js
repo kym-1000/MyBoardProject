@@ -1,3 +1,4 @@
+// 로그인 아이디 비밀번호 입력확인
 function formCheck(frm) {
     if(frm.id.value.length===0) {
         setMessage('id를 입력해주세요.', frm.id);
@@ -10,8 +11,8 @@ function formCheck(frm) {
     return true;
 }
 
+// 에러메시지 표시
 function setMessage(msg, element){
-    // document.getElementById("msg").innerHTML = msg;
     $("#msg").html(msg);
     if(element) {
         element.select();
@@ -20,32 +21,25 @@ function setMessage(msg, element){
 
 // 비밀번호 찾기 창 자바스크립트
 
-// Get the modal
-let modal = document.getElementById("myModal");
+let modal = $("#myModal");
+let btn = $("#myBtn");
+let span = $(".close").eq(0);
 
-// Get the button that opens the modal
-let btn = document.getElementById("myBtn");
+btn.on("click", function () {
+    modal.css("display", "block");
+});
 
-// Get the <span> element that closes the modal
-let span = document.getElementsByClassName("close")[0];
+span.on("click", function () {
+    modal.css("display", "none");
+});
 
-// When the user clicks the button, open the modal
-btn.onclick = function() {
-    modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target === modal) {
-        modal.style.display = "none";
+$(window).on("click", function (event) {
+    if (event.target === modal[0]) {
+        modal.css("display", "none");
     }
-}
+});
 
+// 회원정보 전송하여 해당회원이 있는지 확인
 $(document).on('click', '#pwdSer', function () {
 
     let userInfo = {
@@ -80,6 +74,9 @@ $(document).on('click', '#pwdSer', function () {
         headers : { "content-type": "application/json"}, // 요청 헤더
         data : JSON.stringify(userInfo),  // 서버로 전송할 데이터. stringify()로 직렬화 필요.
         success : function(result){
+            // let result1 = JSON.parse(result);
+            // console.log(result1);
+            console.log(result);
             alert("계정정보 확인완료");
             let id = $(result).find('id').text();
             $("#reId").val(id);
@@ -90,9 +87,8 @@ $(document).on('click', '#pwdSer', function () {
             alert("해당되는 계정이 존재하지 않습니다.")
             init();
             $("#rePwdDiv").hide();
-        } // 에러가 발생했을 때, 호출될 함수
-    }); // $.ajax()
-
+        }
+    });
 });
 
 
@@ -120,9 +116,9 @@ $(document).on('click', '#rePwdSubmit', function () {
 
     console.log(userInfo);
 
-    let ID_RE = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,12}$/;
-    if(!(ID_RE.test(userInfo.pwd))) {
-        alert("패스워드는 6~12자리 영대소문자와 숫자와 특수문자 조합이어야합니다.")
+    const isValidPassword = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,12}$/.test(userInfo.pwd);
+    if (!isValidPassword) {
+        alert("패스워드는 6~12자리 영대소문자와 숫자와 특수문자 조합이어야합니다.");
         return false;
     }
 
@@ -149,7 +145,7 @@ $(document).on('click', '#rePwdSubmit', function () {
 
 });
 
-
+// 비밀번호 찾기창 초기화
 function init(){
     $('input').each(function() {
         $(this).val('');

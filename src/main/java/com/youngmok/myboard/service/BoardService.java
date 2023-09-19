@@ -14,7 +14,7 @@ public interface BoardService  {
 
     int getSearchResultCnt(SearchCondition sc);
 
-    List<BoardVO> getSearchResultPage(SearchCondition sc);
+    List<BoardDTO> getSearchResultPage(SearchCondition sc);
 
     BoardDTO boardread(Integer bno);
 
@@ -31,4 +31,5 @@ public interface BoardService  {
     int adBoardListDelete(ArrayList<Integer> deleteList);
 
     List<BoardVO> getNoticeList();
+
 }

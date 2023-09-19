@@ -37,11 +37,10 @@
     <div class="title" style="font-weight: bold">${mode=="new" ? "Sign up" : "Edit User"}</div>
     <div id="msg" class="msg"><form:errors path="id"/></div>
     <c:if test="${mode eq 'new'}">
-        <label ><b>아이디</b></label>
+        <label style="margin-bottom: 25px" ><b>아이디</b><button class="idChk"  type="button" id="idChk" value="N" onclick=fn_idChk()>check</button></label>
     <div class="flex-container">
         <input class="input-field" type="text" name="id" id="id" placeholder="5~12자리의 영대소문자와 숫자 조합" value="${user.id}">
         <span id="username-check" class="hidden"><i class="fas fa-check" style="color: black;"></i></span>
-        <button class="idChk"  type="button" id="idChk" value="N" onclick=fn_idChk()>check</button>
     </div>
     </c:if>
     <label><b>비밀번호</b></label>
@@ -68,23 +67,7 @@
 <jsp:include page="../layout/footer.jsp"/>
 
 <script type="text/javascript" src="<c:url value='/resources/js/registerForm.js'/>"></script>
-
-<script>
-        function getTodayDate() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const day = String(now.getDate()).padStart(2, '0');
-        console.log(year+'-'+month+'-'+day)
-        return year+'-'+month+'-'+day;
-    }
-
-        $(document).ready(function() {
-        const dateInput = $('#birth');
-        dateInput.attr('max', getTodayDate());
-    });
-</script>
-
+<script type="text/javascript" src="<c:url value='/resources/js/imgFile.js'/>"></script>
 
 </body>
 </html>

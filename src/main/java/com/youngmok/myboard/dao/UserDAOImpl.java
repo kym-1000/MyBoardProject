@@ -1,6 +1,5 @@
 package com.youngmok.myboard.dao;
 
-import com.youngmok.myboard.controller.RegisterController;
 import com.youngmok.myboard.domain.UserVO;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -15,13 +14,16 @@ public class UserDAOImpl implements UserDAO {
 
     private static final Logger logger = LoggerFactory.getLogger(UserDAOImpl.class);
 
+    private final SqlSession session;
+
     @Autowired
-    private SqlSession session;
+    public UserDAOImpl(SqlSession session) {
+        this.session = session;
+    }
     private static final String namespace = "com.youngmok.myboard.dao.UserMapper.";
 
     @Override
     public int insertUser(UserVO user) {
-        System.out.println("\"여기까지옴\" = " + " dao 여기까지옴");
         return session.insert(namespace+"insert",user);
     }
 

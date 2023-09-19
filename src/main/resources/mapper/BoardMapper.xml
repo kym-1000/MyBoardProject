@@ -80,15 +80,44 @@
         where bno = #{bno}
     </update>
 
-    <select id="searchSelectPage" parameterType="SearchCondition" resultType="Board">
-        SELECT *
-        FROM board
-        where true
+<!--    <select id="searchSelectPage" parameterType="SearchCondition" resultType="Board">-->
+<!--        SELECT b.*, CONCAT(bf.uuid, '_', bf.file_name) AS uuid_file_name-->
+<!--        FROM board as b-->
+<!--        LEFT JOIN board_file as bf-->
+<!--            ON b.bno = bf.bno-->
+<!--        WHERE true-->
+<!--        <include refid="searchCondition"/>-->
+<!--        AND b.notice = 1-->
+<!--        <include refid="ORDERBYCondition"/>-->
+<!--        LIMIT #{offset}, #{pageSize}-->
+<!--    </select>-->
+
+    <select id="searchSelectPage" parameterType="SearchCondition" resultMap="boardDTOResultMap">
+        SELECT b.*, CONCAT(bf.uuid, '_', bf.file_name) AS uuid_file_name
+        FROM board as b
+        LEFT JOIN board_file as bf
+        ON b.bno = bf.bno
+        WHERE true
         <include refid="searchCondition"/>
-        and notice = 1
+        AND b.notice = 1
         <include refid="ORDERBYCondition"/>
-        Limit #{offset}, #{pageSize}
+        LIMIT #{offset}, #{pageSize}
     </select>
+
+    <resultMap id="boardDTOResultMap" type="BoardDTO">
+        <result column="uuid_file_name" property="uuid_file_name"/>
+        <association property="board" javaType="Board">
+            <id column="bno" property="bno"/>
+            <result column="title" property="title"/>
+            <result column="content" property="content"/>
+            <result column="writer" property="writer"/>
+            <result column="cnt" property="cnt"/>
+            <result column="comment_cnt" property="comment_cnt"/>
+            <result column="reg_date" property="reg_date"/>
+            <result column="board_like" property="board_like"/>
+            <result column="notice" property="notice"/>
+        </association>
+    </resultMap>
 
     <select id="searchResultCnt" parameterType="SearchCondition" resultType="int">
         SELECT count(*) FROM board where true
@@ -154,6 +183,5 @@
     <select id="getCommentCnt" resultType="int">
         select comment_cnt from board where bno = #{bno}
     </select>
-
 
 </mapper>

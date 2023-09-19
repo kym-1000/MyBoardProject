@@ -16,13 +16,15 @@ public class CommentServiceImpl implements CommentService{
 
     private static final Logger logger = LoggerFactory.getLogger(CommentServiceImpl.class);
 
-    @Autowired
-    CommentDAO CDAO;
+    private final BoardDAO BDAO;
+    private final CommentDAO CDAO;
 
-    @Autowired
-    BoardDAO BDAO;
+    @Autowired  // 생성자를 통하여 필드주입
+    public CommentServiceImpl(BoardDAO BDAO, CommentDAO CDAO) {
+        this.BDAO = BDAO;
+        this.CDAO = CDAO;
+    }
 
-    
     // 댓글 등록
     @Override
     public int register(CommentDTO comment) {

@@ -115,7 +115,7 @@ public class BoardController {
 
     // 글로 쓴 내용을 db에 등록하는 메서드
     @PostMapping("/write")
-    public String boardwrite(String title, String content, HttpSession session, Model m, RedirectAttributes rattr, @RequestParam(name = "files", required = false) MultipartFile[] files) {
+    public String boardwrite(String title, String content, HttpSession session, Model m, RedirectAttributes rattr, @RequestParam(name = "file", required = false) MultipartFile[] file) {
         String writer = (String) session.getAttribute("id");
         int authority = (int) session.getAttribute("authority"); // 권환 확인
 
@@ -131,9 +131,9 @@ public class BoardController {
 
         try {
             ProjectFileVO imgFile = null;
-            if (files[0].getSize() > 0) { // 값이 있는지 체크
-                logger.info( "files : "+Arrays.toString(files));
-                imgFile = FH.uploadFiles(files); // 핸들러에 있는 메서드로 실제 파일들의 정보를 imgFile에 담아줌
+            if (file[0].getSize() > 0) { // 값이 있는지 체크
+                logger.info( "files : "+Arrays.toString(file));
+                imgFile = FH.uploadFiles(file); // 핸들러에 있는 메서드로 실제 파일들의 정보를 imgFile에 담아줌
                 isOk = BS.boardadd(new BoardDTO(board, imgFile));
             } else {
                 isOk = BS.boardadd(new BoardDTO(board));  // 파일이 존재하지 않을 경우 게시글만 등록

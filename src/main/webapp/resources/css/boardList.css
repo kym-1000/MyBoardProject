@@ -104,7 +104,8 @@ td {
     color: rgb(53, 53, 53);
 }
 .no      { width:10%;}
-.title   { width:45%;  }
+.img     {width: 7%;}
+.title   { width:35%;  }
 td.title   { text-align: left;  }
 td.writer  { text-align: left;  }
 td.viewcnt { text-align: right; }

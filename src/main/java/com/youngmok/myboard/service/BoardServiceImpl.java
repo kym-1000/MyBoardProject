@@ -5,7 +5,6 @@ import com.youngmok.myboard.dao.CommentDAO;
 import com.youngmok.myboard.dao.FileDAO;
 import com.youngmok.myboard.domain.BoardDTO;
 import com.youngmok.myboard.domain.BoardVO;
-import com.youngmok.myboard.domain.ProjectFileVO;
 import com.youngmok.myboard.domain.SearchCondition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,25 +19,25 @@ public class BoardServiceImpl implements BoardService {
 
     private static final Logger logger = LoggerFactory.getLogger(BoardServiceImpl.class);
 
-    @Autowired
-    private BoardDAO BDAO;
+    private final BoardDAO BDAO;
+    private final FileDAO FDAO;
+    private final CommentDAO CDAO;
 
-    @Autowired
-    private FileDAO FDAO;
-
-    @Autowired
-    private CommentDAO CDAO;
+    @Autowired  // 생성자를 통하여 필드주입
+    public BoardServiceImpl(BoardDAO BDAO, FileDAO FDAO,CommentDAO CDAO) {
+        this.BDAO = BDAO;
+        this.FDAO = FDAO;
+        this.CDAO = CDAO;
+    }
 
 
     // 파일처리
     public int insertFile(BoardDTO boardDTO, Integer bno) {
         int isOk = 1;
-        for (ProjectFileVO fvo : boardDTO.getFList()) {
-            fvo.setBno(bno);
-            fvo.setFile_type(1);
-            logger.info("fvo = " + fvo);
-            isOk *= FDAO.insertFile(fvo);
-        }
+        boardDTO.getFile().setBno(bno);
+        boardDTO.getFile().setFile_type(1);
+        logger.info("fvo = " + boardDTO.getFile());
+        isOk *= FDAO.insertFile(boardDTO.getFile());
         return isOk;
     }
 
@@ -46,10 +45,10 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public int boardadd(BoardDTO boardDTO) {
         logger.info("board : " + boardDTO.getBoard());
-        logger.info("getFList : " + boardDTO.getFList());
+        logger.info("getFList : " + boardDTO.getFile());
         int isOk = BDAO.insertBoard(boardDTO.getBoard());
         // 기존 게시글에 대한 내용을 DB에 저장
-        if (isOk > 0 && boardDTO.getFList() != null) { // 게시글이 성공적으로 등록이 되고 파일이 존재할경우
+        if (isOk > 0 && boardDTO.getFile() != null) { // 게시글이 성공적으로 등록이 되고 파일이 존재할경우
             int bno = BDAO.selectOneBno(); // 해당 bno
             isOk *= insertFile(boardDTO, bno);
         }
@@ -61,19 +60,17 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public int modifyBoard(BoardDTO boardDTO) {
 
-        int isOk = BDAO.boardUpdate(boardDTO.getBoard());
+        int isOk = BDAO.boardUpdate(boardDTO.getBoard());  // 게시글 수정
 
-        if (isOk > 0 && boardDTO.getFList().size() > 0) {
+        if (isOk > 0 && boardDTO.getFile() != null) { // 게시글 수정에 성공했고 수정해야할 파일이 존재한다면...
             int bno = boardDTO.getBoard().getBno(); // 해당 bno
             if (FDAO.fileCount(bno) == 0) {  // 기존 게시글에 파일이 존재하지 않다면...
                 isOk *= insertFile(boardDTO, bno);
             } else { // 기존 게시글에 파일이 존재한다면...
-                for (ProjectFileVO fvo : boardDTO.getFList()) {
-                    fvo.setBno(bno);
-                    fvo.setFile_type(1);
-                    logger.info("fvo nod : "+fvo);
-                    isOk *= FDAO.boardFileModify(fvo);
-                }
+                boardDTO.getFile().setBno(bno);
+                boardDTO.getFile().setFile_type(1);
+                logger.info("fvo nod : "+boardDTO.getFile());
+                isOk *= FDAO.boardFileModify(boardDTO.getFile());
             }
         }
         return isOk;
@@ -103,6 +100,7 @@ public class BoardServiceImpl implements BoardService {
         return BDAO.selectNotice();
     }
 
+
     @Override
     public BoardVO boardlist(int bno) {
         return BDAO.selectBoardOne(bno);
@@ -114,11 +112,10 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<BoardVO> getSearchResultPage(SearchCondition sc) {
+    public List<BoardDTO> getSearchResultPage(SearchCondition sc) {
         return BDAO.searchSelectPage(sc);
     }
 
-    // 게시글 클릭시 조회수 상승
     @Override
     public BoardDTO boardread(Integer bno) {
         int isOk = BDAO.increaseViewCntUp(bno);  // 게시글 조회수 상승
@@ -128,7 +125,7 @@ public class BoardServiceImpl implements BoardService {
             logger.warn("조회수 상승 실패");
         }
 
-        return new BoardDTO(BDAO.selectBoardOne(bno), FDAO.selectFileList(bno));
+        return new BoardDTO(BDAO.selectBoardOne(bno),FDAO.selectFileList(bno));
     }
 
     // 게시글 삭제

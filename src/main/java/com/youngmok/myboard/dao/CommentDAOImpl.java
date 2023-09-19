@@ -11,8 +11,12 @@ import java.util.List;
 @Repository
 public class CommentDAOImpl implements CommentDAO{
 
+    private final SqlSession session;
+
     @Autowired
-    private SqlSession session;
+    public CommentDAOImpl(SqlSession session) {
+        this.session = session;
+    }
 
     private static final String namespace = "com.youngmok.myboard.dao.CommentMapper.";
 
