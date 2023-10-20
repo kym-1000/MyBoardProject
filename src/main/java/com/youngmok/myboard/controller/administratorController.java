@@ -48,14 +48,18 @@ public class administratorController {
         return "administrator";
     }
 
+    // 세션에서 아이디 && 권한 체크
+    private boolean checkUserSession(HttpSession session) {
+        String sessionId = (String) session.getAttribute("id");
+        int authority = (int) session.getAttribute("authority");
+        return sessionId != null && authority != 1;
+    }
+
     // 회원을 삭제하는 메서드
     @DeleteMapping("/userDelete/{id}")
     public ResponseEntity<String> userDelete(@PathVariable String id, HttpSession session) {
         try {
-            int authority = (int) session.getAttribute("authority");
-            String sessionId = (String) session.getAttribute("id");
-            logger.info("authority : "+authority);
-            if (sessionId==null || authority == 1) { // 세션이 풀렸거나 일반회원일경우
+            if (!checkUserSession(session)) {
                 throw new Exception("session Failed");
             }
             int isOk = US.userUnregister(id); // 관리자 회원 삭제
@@ -72,13 +76,10 @@ public class administratorController {
     // 게시글들을 삭제하는 메서드
     @PostMapping("/boardDelete")
     public ResponseEntity<String> boardDelete(@RequestBody DeleteListDTO DeleteListDTO, HttpSession session) {
-        ArrayList<Integer> deleteList = DeleteListDTO.getDeleteList(); // 삭제할 게시물 목록
-        
+        ArrayList<Integer> deleteList = DeleteListDTO.getDeleteList();
+
         try {
-            int authority = (int) session.getAttribute("authority");
-            String sessionId = (String) session.getAttribute("id");
-            logger.info("authority : "+authority);
-            if (sessionId==null || authority == 1) { // 세션이 풀렸거나 일반회원일경우
+            if (!checkUserSession(session)) {
                 throw new Exception("session Failed");
             }
             int isOk = BS.adBoardListDelete(deleteList); // 게시물(들) 삭제
@@ -91,4 +92,5 @@ public class administratorController {
             return ResponseEntity.internalServerError().body("board delete fail");
         }
     }
+
 }
