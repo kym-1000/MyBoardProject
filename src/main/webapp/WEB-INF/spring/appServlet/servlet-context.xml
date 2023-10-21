@@ -36,7 +36,20 @@
 
 
 <!--	// azure 파일 핸들러-->
-<!--	<beans:bean id="azureFileHandler" class="com.youngmok.myboard.handler.AzureFileHandler" />-->
+	<beans:bean id="azureFileHandler" class="com.youngmok.myboard.handler.AzureFileHandler" />
 
+<!--  웹소켓 등록-->
+	<beans:bean id="webSocketHandler" class="com.youngmok.myboard.handler.WebSocketHandler" />
+
+
+	<!-- 인터셉터 설정 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/board/write/**" /> <!-- 게시판 글쓰기  board 들어간거 다 로그인이 필요해짐 바꿔야함 -->
+			<mvc:mapping path="/board/modify/**" />
+			<mvc:mapping path="/board/boardDelete/**" />
+			<beans:bean class="com.youngmok.myboard.interceptors.AuthenticationInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 </beans:beans>

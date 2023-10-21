@@ -119,10 +119,10 @@ public class BoardController {
         String writer = (String) session.getAttribute("id");
         int authority = (int) session.getAttribute("authority"); // 권환 확인
 
-        if (writer == null || writer.equals("")) { // 로그인이 풀렸을경우
-            m.addAttribute("msg", "SESSION_ERR");
-            return "redirect:/";
-        }
+//        if (writer == null || writer.equals("")) { // 로그인이 풀렸을경우
+//            m.addAttribute("msg", "SESSION_ERR");
+//            return "redirect:/";
+//        }
 
         BoardVO board = new BoardVO(title, content, writer);
         board.setNotice(authority);   // 관리자가 쓴 공지사항인지 아닌지
