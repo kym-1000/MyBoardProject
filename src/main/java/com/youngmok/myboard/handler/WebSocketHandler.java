@@ -41,8 +41,13 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     private void broadcastUserCount() throws IOException {
         int userCount = sessions.size();
-        
+
         String message = MessageType("userCount", String.valueOf(userCount)); // 사용자 수 메시지 생성
+        // MessageType 메서드를 통하여 json 객체가 생성
+        // {
+        //  "type" : "userCount"
+        //  "content" : 유저수
+        // }
 
         for (WebSocketSession session : sessions) { // 모든 세션에 메시지 전송
             session.sendMessage(new TextMessage(message));
@@ -51,6 +56,11 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     private void broadcastChatMessage(String content) throws IOException {
         String message = MessageType("chat", content); // 채팅 메시지 메시지 생성
+        // MessageType 메서드를 통하여 json 객체가 생성
+        // {
+        //  "type" : "chat"
+        //  "content" : 채팅메시지
+        // }
 
         for (WebSocketSession session : sessions) { // 모든 세션에 메시지 전송
             session.sendMessage(new TextMessage(message));
@@ -63,6 +73,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
         json.addProperty("content", content); // type 설정
         return json.toString();
     }
+
+
 
 }
 
