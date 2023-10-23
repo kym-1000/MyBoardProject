@@ -31,9 +31,6 @@
     #adBoardDeleteBtn:hover {
       background-color: #d32f2f;
     }
-
-
-
   </style>
 </head>
 <body>
@@ -44,6 +41,7 @@
 
 <script>
   let msg = "${msg}";
+  console.log(msg);
   let listUrl = "${listUrl}";
   console.log(listUrl);
 </script>

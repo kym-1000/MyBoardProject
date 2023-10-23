@@ -33,9 +33,7 @@
 			<version>1.16</version>
 		</dependency>
 
-
 		<!--	웹 소켓 설정	-->
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-websocket</artifactId>
@@ -168,6 +166,7 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- Log4j  의존성 제거-->
 		<dependency>
 			<groupId> org.apache.cassandra</groupId>
 			<artifactId>cassandra-all</artifactId>
@@ -183,9 +182,7 @@
 					<artifactId>log4j</artifactId>
 				</exclusion>
 			</exclusions>
-
 		</dependency>
-
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>

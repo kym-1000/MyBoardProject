@@ -35,17 +35,17 @@ public class loginController {
 
     // 로그인 페이지로 이동하는 메서드
     @GetMapping("/login")
-    public String loginform() {
+    public String loginForm(String interceptorMsg, RedirectAttributes rattr)  {
+        logger.info(interceptorMsg);
+        rattr.addAttribute("interceptorMsg",interceptorMsg);
         return "login&register/login";
     }
 
     // 로그아웃 메서드
     @GetMapping("/logout")
     public String logout(HttpSession session, RedirectAttributes rattr) {
-
         String id = (String) session.getAttribute("id");
         session.invalidate();
-
         rattr.addFlashAttribute("logout", id); // 채팅에 로그아웃한 아이디를 알리기 위하여..
         return "redirect:/";
     }

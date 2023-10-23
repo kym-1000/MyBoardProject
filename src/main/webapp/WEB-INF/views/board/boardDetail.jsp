@@ -37,6 +37,7 @@
 
 <script>
 let msg = "${msg}";
+console.log(msg);
 let modifyUrl = "${modifyUrl}";
 let deleteUrl = "${deleteUrl}";
 let listUrl = "${listUrl}";
@@ -151,7 +152,7 @@ let listUrl = "${listUrl}";
   // likeCount 값을 likeCount 에 표시
   function likeCnt() {
     // 제이쿼리로 span 요소를 선택하고 텍스트 내용을 설정
-    let spanElement = $("#likeCount"); // jQuery로 요소 선택
+    let spanElement = $("#likeCount");
     spanElement.text(likeCount.toString()); // 값을 문자열로 변환하여 설정
   }
 
