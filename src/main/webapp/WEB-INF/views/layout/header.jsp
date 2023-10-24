@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,10 +18,13 @@
                 <a class="active" href="<c:url value='/'/>"><i class="fa fa-fw fa-home"></i> 홈</a>
             </c:if>
             <c:if test="${id == null}">
-                <a href="<c:url value='/login/login'/>" ><i class="fa fa-fw fa-user"></i> 로그인</a>
+                <a href="<c:url value='/login/loginForm'/>" ><i class="fa fa-fw fa-user"></i> 로그인</a>
             </c:if>
             <c:if test="${id != null}">
-                <a href="<c:url value='/login/logout'/>" ><i class="fas fa-user-xmark"></i>로그아웃</a>
+                <a href="#" onclick="document.getElementById('logoutForm').submit();"><i class="fas fa-user-xmark"></i>로그아웃</a>
+                <form id="logoutForm" action="<c:url value='/login/logout'/>" method="post" style="display: none;">
+                    <sec:csrfInput/>
+                </form>
             </c:if>
             <a href="<c:url value='/register/add'/>"><i class="fas fa-user-pen"></i>회원가입</a>
             <a href="<c:url value='/board/list'/>"><i class="fas fa-clipboard-list"></i> 게시판</a>

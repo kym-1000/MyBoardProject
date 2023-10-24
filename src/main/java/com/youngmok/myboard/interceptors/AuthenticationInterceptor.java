@@ -17,12 +17,28 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-            if (isUserLoggedIn(request)) {
-                logger.info("로그인 정보 확인 계속진행");
-                return true; // 로그인된 사용자는 요청을 계속 진행
-            } else  {
-                return redirectIfSessionError(request,response);
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("id");
+        String requestURI = request.getRequestURI(); // 요청 URI를 가져옴
+
+        // 로그인/로그아웃
+        if(request.getRequestURI().startsWith("/login")){
+            String referer = request.getHeader("Referer");
+            String host = request.getHeader("host");
+            logger.info(referer +" : "+host);
+            if (referer == null || !referer.contains(host)) {
+                response.sendRedirect("/");
+                return false;
             }
+            return true;
+        }
+
+        if (isUserLoggedIn(request)) {
+            logger.info(username + " requested " + requestURI);
+            return true; // 로그인된 사용자는 요청을 계속 진행
+        } else {
+            return redirectIfSessionError(response);
+        }
     }
 
     private boolean isUserLoggedIn(HttpServletRequest request) {
@@ -30,10 +46,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         return session != null && session.getAttribute("id") != null;
     }
 
-    private boolean redirectIfSessionError(HttpServletRequest request,HttpServletResponse response) throws IOException {
+    private boolean redirectIfSessionError(HttpServletResponse response) throws IOException {
         // 로그인되지 않은 사용자에 대한 처리
-        logger.info("세션 풀림 혹은 에러");
-        response.sendRedirect("/login/login?interceptorMsg=INTERCEPTOR_SESSION_ERR");
+        logger.warn("세션 풀림 혹은 에러");
+        response.sendRedirect("/login/loginForm?interceptorMsg=INTERCEPTOR_SESSION_ERR");
         return false;
     }
 

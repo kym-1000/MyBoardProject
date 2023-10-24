@@ -53,6 +53,4 @@
         delete from board_file where user = #{id}
     </delete>
 
-
-
 </mapper>

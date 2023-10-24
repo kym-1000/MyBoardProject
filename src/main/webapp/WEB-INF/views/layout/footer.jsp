@@ -16,21 +16,7 @@
     <c:if test="${authority eq 0}" >
     <span><a href="<c:url value='/ad/userList'/>" class="footerA">회원목록</a></span>
     </c:if>
-
-    <c:if test="${authority eq 1}" >
-        <span><a href="#" class="footerA" onclick="return authoritychk()" >회원목록</a></span>
-    </c:if>
-
 </footer>
 
 </body>
-<script>
-    function authoritychk() {
-        alert("관리자만 접근 가능합니다.")
-        return false;
-    }
-
-</script>
-
-
 </html>

@@ -64,6 +64,7 @@ let listUrl = "${listUrl}";
       <img id="image" src="https://myboard.blob.core.windows.net/youngmokboard/${imgFile.uuid}_${imgFile.file_name}" alt="" style="display:none; width: 300px; height: 250px;">
 <%--      <img id="image" src="/fileUpload/${fn:replace(fList[0].save_dir,'\\','/')}/${fList[0].uuid}_${fList[0].file_name}" alt="" style="display:none; width: 300px; height: 250px;">--%>
       </c:if>
+      <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}" />
     </div>
 
       <div id="modeDiv" ${mode eq 'new' ? '' : 'style="display: none;"'}>
