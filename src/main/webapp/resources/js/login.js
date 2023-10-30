@@ -80,11 +80,17 @@ $(document).on('click', '#pwdSer', function () {
             alert("계정정보 확인완료");
             let id = $(result).find('id').text();
             $("#reId").val(id);
-            modal.style.display = "block";
+            modal.css("display", "block");
+            $(".modal-content").css("height", "600px");
             $("#rePwdDiv").show();
         },
-        error   : function(){
-            alert("해당되는 계정이 존재하지 않습니다.")
+        error   : function(result){
+            console.log(result.status);
+            if(result.status === 401){
+                alert("관리자 계정입니다 비밀번호 변경이 불가능합니다.");
+            } else {
+                alert("해당되는 계정이 존재하지 않습니다.");
+            }
             init();
             $("#rePwdDiv").hide();
         }
@@ -114,8 +120,6 @@ $(document).on('click', '#rePwdSubmit', function () {
         id : $("#reId").val()
     };
 
-    console.log(userInfo);
-
     const isValidPassword = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,12}$/.test(userInfo.pwd);
     if (!isValidPassword) {
         alert("패스워드는 6~12자리 영대소문자와 숫자와 특수문자 조합이어야합니다.");
@@ -137,7 +141,7 @@ $(document).on('click', '#rePwdSubmit', function () {
         success : function(){
             alert("비밀번호 변경에 성공했습니다!");
             $("#rePwdDiv").hide();
-            modal.style.display = "none";
+            modal.css("display", "none");
             init();
         },
         error   : function(){ alert("비밀번호 변경에 실패하였습니다.") } // 에러가 발생했을 때, 호출될 함수

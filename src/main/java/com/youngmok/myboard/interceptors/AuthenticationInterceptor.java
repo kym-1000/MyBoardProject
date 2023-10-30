@@ -21,12 +21,13 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         String username = (String) session.getAttribute("id");
         String requestURI = request.getRequestURI(); // 요청 URI를 가져옴
 
-        // 로그인/로그아웃
-        if(request.getRequestURI().startsWith("/login")){
+        // 로그인&로그아웃 referer 확인
+        if(requestURI.startsWith("/login")){
             String referer = request.getHeader("Referer");
             String host = request.getHeader("host");
             logger.info(referer +" : "+host);
             if (referer == null || !referer.contains(host)) {
+                logger.warn("referer 불일치");
                 response.sendRedirect("/");
                 return false;
             }

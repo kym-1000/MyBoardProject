@@ -7,7 +7,6 @@ import com.youngmok.myboard.domain.SearchCondition;
 import com.youngmok.myboard.handler.AzureFileHandler;
 import com.youngmok.myboard.handler.PageHandler;
 import com.youngmok.myboard.service.BoardService;
-import com.youngmok.myboard.service.CommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,18 +36,14 @@ public class BoardController {
 
     private final BoardService BS;
 
-//    private final CommentService CS;
-
     private final AzureFileHandler FH;
 
-//    @Autowired
 //    private final FileHandler FH;
 
     @Autowired // 생성자를 통하여 필드주입
-    public BoardController(BoardService boardService,CommentService commentService,AzureFileHandler azureFileHandler) {
+    public BoardController(BoardService boardService,AzureFileHandler azureFileHandler) {
         this.BS = boardService;
         this.FH = azureFileHandler;
-//        this.CS = commentService;
     }
 
     // 보드 리스트를 불러오는 메서드
@@ -184,7 +179,7 @@ public class BoardController {
 
     // 게시글을 수정하는 메서드
     @PostMapping("modify")
-    public String boardModify(BoardVO board, SearchCondition sc, Model m, HttpSession session, @RequestParam(name = "files", required = false) MultipartFile[] files, RedirectAttributes rattr) {
+    public String boardModify(BoardVO board, SearchCondition sc, Model m, HttpSession session, @RequestParam(name = "file", required = false) MultipartFile[] file, RedirectAttributes rattr) {
         String id = (String) session.getAttribute("id"); 
         board.setWriter(id); // 세션에 있는 id를 글쓴이로 등록
 
@@ -194,8 +189,8 @@ public class BoardController {
         int isOk;
         try {
             ProjectFileVO imgFile = null;
-            if (files[0].getSize() > 0) { // 값이 있는지 체크
-                imgFile = FH.uploadFiles(files); // 핸들러에 있는 메서드로 실제 파일들의 정보를 imgFile에 담아줌
+            if (file[0].getSize() > 0) { // 값이 있는지 체크
+                imgFile = FH.uploadFiles(file); // 핸들러에 있는 메서드로 실제 파일들의 정보를 imgFile에 담아줌
                 logger.info("imgFile :"+imgFile);
                 isOk = BS.modifyBoard(new BoardDTO(board, imgFile));
             } else {

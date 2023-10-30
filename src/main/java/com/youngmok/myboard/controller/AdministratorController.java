@@ -20,16 +20,16 @@ import java.util.List;
 
 @Controller
 @RequestMapping("ad")
-public class administratorController {
+public class AdministratorController {
 
-    private static final Logger logger = LoggerFactory.getLogger(administratorController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AdministratorController.class);
 
     private final UserService US;
 
     private final BoardService BS;
 
     @Autowired  // 생성자를 통하여 필드주입
-    public administratorController(UserService userService, BoardService boardService) {
+    public AdministratorController(UserService userService, BoardService boardService) {
         this.US = userService;
         this.BS = boardService;
     }
