@@ -10,7 +10,7 @@
 
 <footer>
     <span>Copyright © 2023</span> &nbsp;&nbsp;
-    <span><a href="<c:url value='/version'/>" class="footerA">버전 1.05</a></span> &nbsp;&nbsp;
+    <span><a href="<c:url value='/version'/>" class="footerA">버전 1.06</a></span> &nbsp;&nbsp;
     <span>Java Spring 게시판</span> &nbsp;&nbsp;
     <span>Azure 배포</span> &nbsp;&nbsp;
     <c:if test="${authority eq 0}" >

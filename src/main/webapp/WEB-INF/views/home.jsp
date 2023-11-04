@@ -68,7 +68,7 @@
 	</form>
 	</c:if>
 	<c:if test="${id == null}">
-		<a href="<c:url value='/login/login'/>" style="color: black">로그인이 필요합니다.</a>
+		<a href="<c:url value='/login/loginForm'/>" style="color: black">로그인이 필요합니다.</a>
 	</c:if>
 </div>
 
@@ -96,9 +96,7 @@
 				}
 
 				socket.onmessage = function (event) {  // 소켓 메시지 처리
-
 					const message = JSON.parse(event.data);
-
 					if (message.type === 'userCount') {
 						$('#userCount').text(message.content + "명"); // 사용자 수 업데이트
 					} else if (message.type === 'chat' && logoutId ==='') {
@@ -123,6 +121,7 @@
 			});
 		});
 	}
+
 </script>
 
 
