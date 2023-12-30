@@ -9,6 +9,8 @@ import com.youngmok.myboard.domain.SearchCondition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ public class BoardServiceImpl implements BoardService {
 
     // 게시글 쓰기
     @Override
+    @CacheEvict(value = "boardCache", allEntries = true)
     public int boardadd(BoardDTO boardDTO) {
         logger.info("board : " + boardDTO.getBoard());
         logger.info("getFList : " + boardDTO.getFile());
@@ -58,6 +61,7 @@ public class BoardServiceImpl implements BoardService {
 
     // 게시글 수정
     @Override
+    @CacheEvict(value = "boardCache", allEntries = true)
     public int modifyBoard(BoardDTO boardDTO) {
 
         int isOk = BDAO.boardUpdate(boardDTO.getBoard());  // 게시글 수정
@@ -85,6 +89,7 @@ public class BoardServiceImpl implements BoardService {
 
     // 관리자 게시글 다중 삭제
     @Override
+    @CacheEvict(value = "boardCache", allEntries = true)
     public int adBoardListDelete(ArrayList<Integer> deleteList) {
 
         for (Integer bno : deleteList) {
@@ -96,22 +101,26 @@ public class BoardServiceImpl implements BoardService {
 
     // 공지사항들 불러오기
     @Override
+    @Cacheable(value = "boardCache")
     public List<BoardVO> getNoticeList() {
+        logger.info("캐싱확인용");
         return BDAO.selectNotice();
     }
 
-
     @Override
+    @Cacheable(value = "boardCache", key = "#bno")
     public BoardVO boardlist(int bno) {
         return BDAO.selectBoardOne(bno);
     }
 
     @Override
+    @CacheEvict(value = "boardCache", key = "#sc.keyword")
     public int getSearchResultCnt(SearchCondition sc) {
         return BDAO.searchResultCnt(sc);
     }
 
     @Override
+    @Cacheable(value = "boardCache", key = "#sc.keyword")
     public List<BoardDTO> getSearchResultPage(SearchCondition sc) {
         return BDAO.searchSelectPage(sc);
     }
@@ -130,6 +139,7 @@ public class BoardServiceImpl implements BoardService {
 
     // 게시글 삭제
     @Override
+    @CacheEvict(value = "boardCache", allEntries = true)
     public int deleteOne(Integer bno, String writer) {
 
         boardFileCommentDelete(bno); // 파일 댓글 삭제 메서드 호출
@@ -138,6 +148,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @CacheEvict(value = "boardCache", allEntries = true)
     public int modifyOne(BoardVO board) {
         return BDAO.boardUpdate(board);
     }

@@ -57,7 +57,7 @@
         <th class="writer">아이디</th>
         <th class="regdate">등록일</th>
         <th class="viewcnt">조회수</th>
-        <th class="like">추천수</th>
+        <th class="like">추천</th>
         <c:if test="${authority eq 0}">
         <th>삭제</th>
         </c:if>
